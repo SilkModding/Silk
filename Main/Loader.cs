@@ -6,6 +6,7 @@ using Mono.Cecil;
 
 namespace Silk
 {
+    
     public static class Loader
     {
         private static readonly string ModsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Silk", "Mods");
@@ -92,5 +93,48 @@ namespace Silk
                 }
             }
         }
+
+        public static void LoadBepInEx()
+        {
+            string path = @"BepInEx\core\BepInEx.Preloader.dll";
+
+            if (!File.Exists(path))
+            {
+                Logger.LogError($"BepInEx.Preloader.dll not found at {path}");
+                return;
+            }
+
+            // Trick BepInEx to think it was invoked with doorstop
+            string actualInvokePath = Environment.GetEnvironmentVariable("DOORSTOP_INVOKE_DLL_PATH");
+            Environment.SetEnvironmentVariable("DOORSTOP_INVOKE_DLL_PATH", Path.Combine(Directory.GetCurrentDirectory(), path));
+
+            try
+            {
+                Assembly bepInExPreloader = Assembly.LoadFrom(path);
+                if (bepInExPreloader != null)
+                {
+                    Logger.Log("Successfully loaded BepInEx.Preloader.dll");
+
+                    MethodInfo entrypointMethod = bepInExPreloader.GetType("BepInEx.Preloader.Entrypoint", true)
+                        .GetMethod("Main");
+
+                    entrypointMethod.Invoke(null, null);
+                }
+                else
+                {
+                    Logger.LogError("Failed to load BepInEx.Preloader.dll.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError($"Exception while loading BepInEx.Preloader.dll: {ex.Message}");
+                Logger.LogError(ex.StackTrace);
+            }
+            finally
+            {
+                Environment.SetEnvironmentVariable("DOORSTOP_INVOKE_DLL_PATH", actualInvokePath);
+            }
+        }
+
     }
 }
