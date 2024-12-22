@@ -65,6 +65,17 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "label": "Development Build",
+      "type": "shell",
+      "command": "cp -r ./Build/* /run/media/kyles/Storage/SteamLibrary/steamapps/common/SpiderHeck/ && xdg-open steam://launch/1329500",
+      "problemMatcher": [],
+      "dependsOn": ["Full Build"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }

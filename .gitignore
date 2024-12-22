@@ -397,3 +397,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Unity
+*.unitypackage
+
+# Testing libraries
+/Testing/Lib

@@ -9,7 +9,7 @@ namespace Silk
     
     public static class Loader
     {
-        private static readonly string ModsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Silk", "Mods");
+        private static readonly string ModsFolder = Utils.GetModsFolder();
 
         public static void Initialize()
         {

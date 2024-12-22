@@ -21,11 +21,11 @@ namespace Silk
                 Directory.CreateDirectory(logDirectory);
 
             // Allocate console for Windows, or open terminal for Linux
-            if (IsWindows())
+            if (Utils.IsWindows())
             {
                 AllocConsole(); // Windows-specific console allocation
             }
-            else if (IsLinux())
+            else if (Utils.IsLinux())
             {
                 OpenLinuxConsole(); // Linux-specific console handling
             }
@@ -42,17 +42,30 @@ namespace Silk
                     Console.WriteLine($"Error deleting previous log file: {ex.Message}");
                 }
             }
+
+            // Improve the console appearance
+            Console.Title = "Silk Mod Manager";
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Clear();
         }
 
         // General log method
+        /// <summary>
+        /// Logs a message with the current timestamp and the caller class.
+        /// </summary>
+        /// <param name="message">The message to log.</param>
         public static void Log(string message)
         {
-            var logMessage = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}";
+            var logMessage = $"[{DateTime.Now:HH:mm:ss}] [{Utils.GetCallingClass()}] {message}";
             Console.WriteLine(logMessage); // Write to console (works for both Windows and Linux)
             File.AppendAllText(LogFile, logMessage + Environment.NewLine); // Write to file
         }
 
-        // Log an informational message with cyan color
+        /// <summary>
+        /// Logs an informational message with cyan color.
+        /// </summary>
+        /// <param name="message">The message to log.</param>
         public static void LogInfo(string message)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -60,7 +73,10 @@ namespace Silk
             Console.ResetColor();
         }
 
-        // Log a warning message with yellow color
+        /// <summary>
+        /// Logs a warning message with yellow color.
+        /// </summary>
+        /// <param name="message">The message to log.</param>
         public static void LogWarning(string message)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -68,19 +84,16 @@ namespace Silk
             Console.ResetColor();
         }
 
-        // Log an error message with red color
+        /// <summary>
+        /// Logs an error message with red color.
+        /// </summary>
+        /// <param name="message">The message to log.</param>
         public static void LogError(string message)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Log($"[ERROR] {message}");
             Console.ResetColor();
         }
-
-        // Check if the OS is Windows
-        private static bool IsWindows() => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-
-        // Check if the OS is Linux
-        private static bool IsLinux() => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
         // Open a terminal for Linux
         private static void OpenLinuxConsole()
@@ -129,3 +142,5 @@ namespace Silk
         }
     }
 }
+
+
