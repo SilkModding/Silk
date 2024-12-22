@@ -1,13 +1,14 @@
-﻿using System;
-using System.IO;
+﻿using Silk;
 
-namespace ExampleMod
+namespace SilkMod
 {
-    public class ModEntryPoint
+    [SilkMod("SilkMod", "Abstractmelon", "StartMod")]
+    public class SilkModMain
     {
-        public static void Initialize()
+        public static void StartMod()
         {
-            File.WriteAllText("plugin.log", "Hello from ExampleMod!");
+            // Mod initialization logic here
+            Logger.Log("SilkMod initialized!");
         }
     }
 }

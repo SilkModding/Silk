@@ -3,4 +3,11 @@
     <OutputType>library</OutputType>
     <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Silk">
+      <HintPath>./lib/Silk.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
 </Project>
