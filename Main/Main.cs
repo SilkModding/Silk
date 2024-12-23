@@ -1,17 +1,25 @@
 using System;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 namespace Silk
 {
     public static class Main
     {
         public static bool BepInExPresent { get { return Directory.Exists(@"BepInEx\core\"); } }
+
+        // Flag to make sure we only hook into the scene loading once
+        private static bool hooked = false;
+
         public static void Run()
         {
+            
             Logger.Log("Starting Silk...");
-            Loader.Initialize();
+            
+            // Hook into Unity's scene loading process after Unity has loaded
+            HookIntoSceneLoading();
 
-            // Logger test
+            // Test logging
             Logger.Log("This is a log message");
             Logger.LogInfo("This is an info message");
             Logger.LogWarning("This is a warning message");
@@ -35,6 +43,36 @@ namespace Silk
             {
                 Logger.LogWarning("BepInEx was not found, skipping...");
             }
+        }
+
+        private static void HookIntoSceneLoading()
+        {
+            if (!hooked)
+            {
+                SceneManager.sceneLoaded += OnSceneLoaded;
+                hooked = true;
+            }
+        }
+
+        private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            // Only execute mod loading code once the scene is fully loaded
+            Logger.Log("Unity scene loaded. Starting mod initialization...");
+
+            // Call the mod loader after Unity finishes its scene loading process
+            Load();
+
+            // Steal logs
+            UnityLogSniper.Initialize();
+
+            // Unsubscribe from the event to prevent it from firing again
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        public static void Load()
+        {
+            Logger.Log("Initializing the mod loader...");
+            Loader.Initialize();
         }
     }
 }
