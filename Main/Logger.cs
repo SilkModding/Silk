@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Silk
 {
@@ -9,7 +10,7 @@ namespace Silk
     {
         // Import AllocConsole function from kernel32.dll for Windows
         [DllImport("kernel32.dll")]
-        private static extern bool AllocConsole();
+        private static extern bool AttachConsole(uint dwProcessId);
 
         private static readonly string LogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Silk", "Logs", "mod_manager.log");
 
@@ -20,15 +21,29 @@ namespace Silk
             if (!Directory.Exists(logDirectory))
                 Directory.CreateDirectory(logDirectory);
 
-            // Allocate console for Windows, or open terminal for Linux
-            if (Utils.IsWindows())
-            {
-                AllocConsole(); // Windows-specific console allocation
-            }
-            else if (Utils.IsLinux())
-            {
-                OpenLinuxConsole(); // Linux-specific console handling
-            }
+            // Create a new process
+            Process process = new Process();
+
+            // Set the process start info
+            process.StartInfo.FileName = "cmd.exe";
+
+            // Redirect the standard input, output, and error streams
+            process.StartInfo.RedirectStandardInput = true;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.UseShellExecute = false;
+
+            // Start the process
+            process.Start();
+
+            // It breaks if this isn't here
+            Thread.Sleep(1000);
+
+            // Connects the console window to spiderheck
+            AttachConsole((uint)process.Id);
+
+            // Sets the output to the console window thing
+            StreamWriter streamWriter = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true };
+            Console.SetOut(streamWriter);
 
             // Delete the previous log file
             if (File.Exists(LogFile))
