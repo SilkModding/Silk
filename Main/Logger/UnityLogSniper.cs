@@ -7,9 +7,9 @@ namespace Silk {
         public static event System.Action<string, string, LogType> OnLogReceived;
 
         public static void Initialize() {
-            Logger.Log("Initializing UnityLogSniper...");
+            Logger.LogInfo("Initializing UnityLogSniper...");
             Application.logMessageReceived += HandleLog;
-            Logger.Log("UnityLogSniper initialized and listening for logs.");
+            Logger.LogInfo("UnityLogSniper initialized and listening for logs.");
         }
 
         public static void RedirectUnityLogs(string logMessage, string stackTrace, LogType type)
@@ -24,7 +24,7 @@ namespace Silk {
                 logOutput = $"[ERROR] {logOutput}";
             }
             
-            Logger.Log(logOutput); 
+            Logger.UnityLog(logOutput); 
         }
 
         private static void HandleLog(string logString, string stackTrace, LogType type)

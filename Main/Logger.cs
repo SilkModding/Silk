@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Threading;
+using Epic.OnlineServices.Stats;
 
 namespace Silk
 {
@@ -11,6 +12,10 @@ namespace Silk
         // Import AllocConsole function from kernel32.dll for Windows
         [DllImport("kernel32.dll")]
         private static extern bool AttachConsole(uint dwProcessId);
+
+        // Import FreeConsole function from kernel32.dll for Windows
+        [DllImport("kernel32.dll")]
+        private static extern void FreeConsole();
 
         private static readonly string LogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Silk", "Logs", "mod_manager.log");
 
@@ -64,6 +69,15 @@ namespace Silk
             Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
         }
+        
+        public static void StealConsoleBack() {
+            // Re-attach the console to the process
+            AttachConsole((uint)Process.GetCurrentProcess().Id);
+
+            // Set the output to the console
+            StreamWriter streamWriter = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true };
+            Console.SetOut(streamWriter);
+        }
 
         // General log method
         /// <summary>
@@ -73,6 +87,18 @@ namespace Silk
         public static void Log(string message)
         {
             var logMessage = $"[{DateTime.Now:HH:mm:ss}] [{Utils.GetCallingClass()}] {message}";
+            Console.WriteLine(logMessage); // Write to console (works for both Windows and Linux)
+            File.AppendAllText(LogFile, logMessage + Environment.NewLine); // Write to file
+        }
+
+        // General log method
+        /// <summary>
+        /// Logs a message with the current timestamp and the caller class.
+        /// </summary>
+        /// <param name="message">The message to log.</param>
+        public static void UnityLog(string message)
+        {
+            var logMessage = $"[{DateTime.Now:HH:mm:ss}] {message}";
             Console.WriteLine(logMessage); // Write to console (works for both Windows and Linux)
             File.AppendAllText(LogFile, logMessage + Environment.NewLine); // Write to file
         }
@@ -140,7 +166,6 @@ namespace Silk
                         UseShellExecute = true
                     }) != null;
                 }
-
                 if (success)
                 {
                     Console.WriteLine("Console opened for Linux.");

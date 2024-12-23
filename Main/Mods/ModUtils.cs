@@ -14,7 +14,7 @@ namespace Silk
             // Unity ensures at least one scene is loaded, so check if it's valid
             if (currentScene.IsValid())
             {
-                Logger.Log($"Current Active Scene: {currentScene.name} is loaded.");
+                Logger.LogInfo($"Current Active Scene: {currentScene.name} is loaded.");
                 return true;
             }
             else

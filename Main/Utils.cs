@@ -33,7 +33,6 @@ namespace Silk {
             {
                 // This should never happen, but if it does here it is.
                 return "n/a";
-                Logger.Log("Unable to determine calling class.");
             }
         }
 

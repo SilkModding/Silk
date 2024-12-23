@@ -14,7 +14,7 @@ namespace Silk
         public static void Run()
         {
             
-            Logger.Log("Starting Silk...");
+            Logger.LogInfo("Starting Silk...");
             
             // Hook into Unity's scene loading process after Unity has loaded
             HookIntoSceneLoading();
@@ -27,7 +27,7 @@ namespace Silk
 
             if (BepInExPresent)
             {
-                Logger.Log("BepInEx was found, attempting to load it...");
+                Logger.LogInfo("BepInEx was found, attempting to load it...");
                 try
                 {
                     Loader.LoadBepInEx();
@@ -57,7 +57,7 @@ namespace Silk
         private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             // Only execute mod loading code once the scene is fully loaded
-            Logger.Log("Unity scene loaded. Starting mod initialization...");
+            Logger.LogInfo("Unity scene loaded. Starting mod initialization...");
 
             // Call the mod loader after Unity finishes its scene loading process
             Load();
@@ -71,7 +71,12 @@ namespace Silk
 
         public static void Load()
         {
-            Logger.Log("Initializing the mod loader...");
+            // Steal the console back
+            Logger.LogInfo("Stealing the console back...");
+            Logger.StealConsoleBack();
+
+            // Initialize the mod loader
+            Logger.LogInfo("Initializing the mod loader...");
             Loader.Initialize();
         }
     }
