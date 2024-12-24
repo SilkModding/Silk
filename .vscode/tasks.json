@@ -2,74 +2,9 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Clean Build Folder",
+      "label": "Release Build - Linux",
       "type": "shell",
-      "command": "rm -rf ./Build",
-      "problemMatcher": []
-    },
-    {
-      "label": "Build Projects",
-      "type": "shell",
-      "command": "dotnet build ./Main/Silk.csproj -c Debug && dotnet build ./Testing/SilkTestMod.csproj -c Debug",
-      "problemMatcher": [],
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      },
-      "dependsOn": ["Clean Build Folder"]
-    },
-    {
-      "label": "Create Build Directories",
-      "type": "shell",
-      "command": "mkdir -p ./Build/Silk/Library && mkdir -p ./Build/Silk/Mods && mkdir -p ./Testing/lib",
-      "problemMatcher": [],
-      "group": "build",
-      "dependsOn": ["Build Projects"]
-    },
-    {
-      "label": "Copy DLLs to Library",
-      "type": "shell",
-      "command": "cp ./Main/bin/Debug/net472/*.dll ./Build/Silk/Library/",
-      "problemMatcher": [],
-      "group": "build",
-      "dependsOn": ["Create Build Directories"]
-    },
-    {
-      "label": "Copy SilkTestMod.dll to Mods",
-      "type": "shell",
-      "command": "cp ./Testing/bin/Debug/net472/SilkTestMod.dll ./Build/Silk/Mods/",
-      "problemMatcher": [],
-      "group": "build",
-      "dependsOn": ["Copy DLLs to Library"]
-    },
-    {
-      "label": "Copy Silk.dll to Testing/lib",
-      "type": "shell",
-      "command": "cp ./Build/Silk/Library/Silk.dll ./Testing/lib/",
-      "problemMatcher": [],
-      "group": "build",
-      "dependsOn": ["Copy SilkTestMod.dll to Mods"]
-    },
-    {
-      "label": "Copy Doorstop Files",
-      "type": "shell",
-      "command": "cp -r ./doorstop/* ./Build/",
-      "problemMatcher": [],
-      "group": "build",
-      "dependsOn": ["Copy Silk.dll to Testing/lib"]
-    },
-    {
-      "label": "Full Build",
-      "dependsOn": ["Copy Doorstop Files"],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
-    },
-    {
-      "label": "Development Build",
-      "type": "shell",
-      "command": "cp -r ./Build/* /run/media/kyles/Storage/SteamLibrary/steamapps/common/SpiderHeck/ && xdg-open steam://launch/1329500",
+      "command": "./scripts/release-build-linux.sh",
       "problemMatcher": [],
       "dependsOn": ["Full Build"],
       "group": {
@@ -78,10 +13,55 @@
       }
     },
     {
-      "label": "Update Test Mod",
+      "label": "Release Build - Windows",
       "type": "shell",
-      "command": "dotnet build ./Main/Silk.csproj -c Debug && cp ./Main/bin/Debug/net472/Silk.dll ./Testing/lib/",
+      "command": "./scripts/release-build-windows.sh",
       "problemMatcher": [],
+      "dependsOn": ["Full Build"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Development Build - Linux",
+      "type": "shell",
+      "command": "./scripts/development-build-linux.sh",
+      "problemMatcher": [],
+      "dependsOn": ["Full Build"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Development Build - Windows",
+      "type": "shell",
+      "command": "./scripts/development-build-windows.sh",
+      "problemMatcher": [],
+      "dependsOn": ["Full Build"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Update Test Mod - Linux",
+      "type": "shell",
+      "command": "./scripts/update-test-mod-linux.sh",
+      "problemMatcher": [],
+      "dependsOn": ["Full Build"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Update Test Mod - Windows",
+      "type": "shell",
+      "command": "./scripts/update-test-mod-windows.sh",
+      "problemMatcher": [],
+      "dependsOn": ["Full Build"],
       "group": {
         "kind": "build",
         "isDefault": true
