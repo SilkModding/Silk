@@ -4,8 +4,6 @@ using LogType = UnityEngine.LogType;
 namespace Silk {
     public static class UnityLogSniper {
 
-        public static event System.Action<string, string, LogType> OnLogReceived;
-
         public static void Initialize() {
             Logger.LogInfo("Initializing UnityLogSniper...");
             Application.logMessageReceived += HandleLog;

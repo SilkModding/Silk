@@ -80,5 +80,10 @@ namespace Silk {
             var modAttribute = assembly.GetCustomAttributes(typeof(SilkModAttribute), false).FirstOrDefault() as SilkModAttribute;
             return modAttribute != null;
         }
+
+        public static void Announce(string text, int colorR, int colorG, int colorB, Type gameTypeRef) {
+            var color = new UnityEngine.Color(colorR, colorG, colorB);
+            Announcer.instance.Announce(text, color, true);
+        }
     }
 }

@@ -16,5 +16,20 @@ namespace TestMod
         {
             Logger.LogInfo("Doin cool stuff");
         }
+
+        void SilkMod.RegisterMod()
+        {
+            
+        }
+
+        void SilkMod.Unload()
+        {
+            
+        }
+
+        void SilkMod.Update()
+        {
+            
+        }
     }
 }

@@ -76,6 +76,16 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "label": "Update Test Mod",
+      "type": "shell",
+      "command": "dotnet build ./Main/Silk.csproj -c Debug && cp ./Main/bin/Debug/net472/Silk.dll ./Testing/lib/",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }

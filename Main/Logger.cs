@@ -13,12 +13,15 @@ namespace Silk
         [DllImport("kernel32.dll")]
         private static extern bool AttachConsole(uint dwProcessId);
 
-        // Import FreeConsole function from kernel32.dll for Windows
-        [DllImport("kernel32.dll")]
-        private static extern void FreeConsole();
-
         private static readonly string LogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Silk", "Logs", "mod_manager.log");
 
+        /// <summary>
+        /// Static constructor for Logger class.
+        /// 
+        /// This class is a utility for logging messages to a file.
+        /// It creates a new process with a console window and redirects the standard output and error streams to the console window.
+        /// It also deletes the previous log file if it exists.
+        /// </summary>
         static Logger()
         {
             // Ensure the log directory exists
@@ -70,6 +73,9 @@ namespace Silk
             Console.Clear();
         }
         
+        /// <summary>
+        /// Re-attaches the console to the process and sets the output to the console.
+        /// </summary>
         public static void StealConsoleBack() {
             // Re-attach the console to the process
             AttachConsole((uint)Process.GetCurrentProcess().Id);
@@ -134,51 +140,6 @@ namespace Silk
             Console.ForegroundColor = ConsoleColor.Red;
             Log($"[ERROR] {message}");
             Console.ResetColor();
-        }
-
-        // Open a terminal for Linux
-        private static void OpenLinuxConsole()
-        {
-            try
-            {
-                // Try opening the terminal using common terminal emulators
-                bool success = false;
-                success = Process.Start(new ProcessStartInfo
-                {
-                    FileName = "gnome-terminal", // For GNOME-based desktops
-                    UseShellExecute = true
-                }) != null;
-
-                if (!success)
-                {
-                    success = Process.Start(new ProcessStartInfo
-                    {
-                        FileName = "xterm", // Fallback to Xterm
-                        UseShellExecute = true
-                    }) != null;
-                }
-
-                if (!success)
-                {
-                    success = Process.Start(new ProcessStartInfo
-                    {
-                        FileName = "konsole", // For KDE-based desktops
-                        UseShellExecute = true
-                    }) != null;
-                }
-                if (success)
-                {
-                    Console.WriteLine("Console opened for Linux.");
-                }
-                else
-                {
-                    Console.WriteLine("Error opening terminal.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error opening terminal: {ex.Message}");
-            }
         }
     }
 }

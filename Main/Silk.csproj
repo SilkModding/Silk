@@ -4,6 +4,7 @@
     <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
 
+  <!-- Widerwy da wibs-->
   <ItemGroup>
     <Reference Include="Mono.Cecil">
       <HintPath>./lib/Mono.Cecil.dll</HintPath>
@@ -45,6 +46,14 @@
       <HintPath>./lib/MonoMod.Utils.dll</HintPath>
       <Private>true</Private>
     </Reference>
+    <Reference Include="Harmony">
+      <HintPath>./lib/0Harmony.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <!-- <Reference Include="HarmonyLib">
+      <HintPath>./lib/0Harmony20.dll</HintPath>
+      <Private>true</Private>
+    </Reference> -->
   </ItemGroup>
 
   <!-- Unity References--> 

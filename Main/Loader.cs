@@ -24,10 +24,15 @@ public static class Loader
 
             LoadMods();
         }
-
         private static void LoadMods()
         {
             var modFiles = Directory.GetFiles(ModsFolder, "*.dll");
+
+            var modsToLoad = modFiles.Length;
+            var modsLoaded = 0;
+            var modsFailed = 0;
+
+            Logger.LogInfo($"Found {modsToLoad} mods to load");
 
             foreach (var modFile in modFiles)
             {
@@ -57,6 +62,7 @@ public static class Loader
                             if (modClass == null)
                             {
                                 Logger.LogError($"Failed to load type: {type.FullName}");
+                                modsFailed++;
                                 continue;
                             }
 
@@ -77,8 +83,11 @@ public static class Loader
                                 else
                                 {
                                     Logger.LogError($"Entry point method {modEntryPoint} not found in {modClass.FullName}");
+                                    modsFailed++;
                                 }
                             }
+
+                            modsLoaded++;
                         }
                     }
                 }
@@ -86,8 +95,12 @@ public static class Loader
                 {
                     Logger.LogError($"Failed to load mod {Path.GetFileName(modFile)}: {ex.Message}");
                     Logger.LogError(ex.StackTrace);
+                    modsFailed++;
                 }
             }
+
+            Logger.LogInfo($"Mods loaded: {modsLoaded}");
+            Logger.LogInfo($"Mods failed to load: {modsFailed}");
         }
 
         public static void LoadBepInEx()
