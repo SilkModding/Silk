@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the version for the release 
-VERSION="1.0.0" 
+VERSION="0.1.0" 
 
 # Clean Build Folder
 echo "Cleaning up previous build..."
