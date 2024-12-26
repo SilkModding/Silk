@@ -1,11 +1,11 @@
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Silk.Api.Player {
+namespace Silk.API {
     /// <summary>
     /// Provides player-related utilities.
     /// </summary>
-    public static class PlayerUtils {
+    public static class Player {
         /// <summary>
         /// Checks if the local player is spawned.
         /// </summary>

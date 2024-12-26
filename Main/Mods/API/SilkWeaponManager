@@ -6,10 +6,10 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine.UI;
 using UnityEngine;
-using static Silk.Api.Weapons.SilkWeaponManager;
+using static Silk.API.Weapons;
 
-namespace Silk.Api.Weapons {
-    public static class SilkWeaponManager {
+namespace Silk.API {
+    public static class Weapons {
         // 
         private static uint _prefabHandlerId = 7777;
         public static List<Weapon> NewWeapons = new List<Weapon>();

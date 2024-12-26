@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using Mono.Cecil;
 using Logger = Silk.Logger;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Silk
 {
@@ -87,6 +89,7 @@ public static class Loader
                                 }
                             }
 
+                            Logger.LogInfo("Adding mod to UI");
                             modsLoaded++;
                         }
                     }
@@ -137,3 +140,4 @@ public static class Loader
         }
     }
 }
+

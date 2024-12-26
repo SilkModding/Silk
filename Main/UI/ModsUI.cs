@@ -1,12 +1,14 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Silk
 {
     public class ModsUI
     {
-        public static void Initialize()
+        public static async Task Initialize()
         {
-            Logger.LogInfo("Mods UI Initialized");
+            // Wait for 2.5 seconds before initialization
+            await Task.Delay(2500); // Fix this to just be a harmony patch instead
 
             // Check if UI is already enabled to prevent redundant calls
             if (HudController.instance != null && !HudController.instance.modsButton.activeSelf)
@@ -23,7 +25,7 @@ namespace Silk
 
             var modList = new List<(string title, string[] authors, string version, string gameVersion, string id)>
             {
-                ("Test Mod", new[] {"Abstractmelon"}, "1.0.0", "1.6a - QOL", "testmod"),
+                ("Silk", new[] {"Abstractmelon"}, "1.0.0", "1.6a - QOL", "silk"),
             };
 
             foreach (var mod in modList)
@@ -40,3 +42,4 @@ namespace Silk
         }
     }
 }
+

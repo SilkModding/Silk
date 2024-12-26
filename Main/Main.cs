@@ -86,18 +86,19 @@ namespace Silk
         /// <summary>
         /// Loads the mods by initializing the mod loader and stealing the console back from Unity.
         /// </summary>
-        public static void Load()
+        public static async void Load()
         {
             // Steal the console back
             Logger.LogInfo("Stealing the console back...");
             Logger.StealConsoleBack();
+
 
             // Initialize the mod loader
             Logger.LogInfo("Initializing the mod loader...");
             Loader.Initialize();
 
             // Create mods UI
-            Logger.LogInfo("Creating mods UI...");
+            Logger.LogInfo("Starting mods UI Task...");
             ModsUI.Initialize();
 
             Logger.LogInfo("Silk initialization complete.");
