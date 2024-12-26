@@ -22,6 +22,10 @@ namespace Silk.Api.Weapons {
 
 
         // Add weapon function, mods will call this to add their weapons
+        /// <summary>
+        /// Adds a new custom weapon to the list of weapons
+        /// </summary>
+        /// <param name="weapon">The custom weapon to be added.</param>
         public static void AddNewWeapon(CustomWeapon weapon) {
             Logger.LogInfo($"Adding new weapon: {weapon.Name}");
             _newUserWeapons.Add(weapon);

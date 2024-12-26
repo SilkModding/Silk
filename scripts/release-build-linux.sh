@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Define the version for the release 
 VERSION="0.1.0" 
 
@@ -49,4 +51,5 @@ mv ./Build/Silk-v${VERSION}.zip ./Releases/
 
 # Finished
 echo "Release build completed: Silk-v${VERSION}.zip"
+
 

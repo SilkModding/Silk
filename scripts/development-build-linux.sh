@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Clean Build Folder
 rm -rf ./Build
 
