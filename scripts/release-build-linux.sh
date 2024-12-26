@@ -3,7 +3,7 @@
 set -e
 
 # Define the version for the release 
-VERSION="0.1.0" 
+VERSION="0.2.0" 
 
 # Clean Build Folder
 echo "Cleaning up previous build..."
@@ -34,7 +34,7 @@ cp ./Build/Silk/Library/Silk.dll ./Testing/lib/
 
 # Copy Doorstop Files
 echo "Copying Doorstop files..."
-cp -r ./doorstop/* ./Build/
+cp -r ./doorstop/release/* ./Build/
 
 # Copy Changelog and README
 echo "Copying README and CHANGELOG files..."

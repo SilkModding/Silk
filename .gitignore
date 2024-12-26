@@ -400,5 +400,8 @@ FodyWeavers.xsd
 # Unity
 *.unitypackage
 
+# Specific directories not to ignore
+!doorstop/release
+
 # Testing libraries
 /Testing/Lib

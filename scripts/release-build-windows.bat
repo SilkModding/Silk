@@ -35,7 +35,7 @@ xcopy .\Build\Silk\Library\Silk.dll .\Testing\lib\ /Y /S
 
 :: Copy Doorstop Files
 echo Copying Doorstop files...
-xcopy .\doorstop\* .\Build\ /Y /S
+xcopy .\doorstop\release\* .\Build\ /Y /S
 
 :: Copy Changelog and README
 echo Copying README and CHANGELOG files...

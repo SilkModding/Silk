@@ -24,7 +24,7 @@ cp ./Testing/bin/Debug/net472/SilkTestMod.dll ./Build/Silk/Mods/
 cp ./Build/Silk/Library/Silk.dll ./Testing/lib/
 
 # Copy Doorstop Files
-cp -r ./doorstop/* ./Build/
+cp -r ./doorstop/development/* ./Build/
 
 # Move files are start Spiderheck
 cp -r ./Build/* /run/media/kyles/Storage/SteamLibrary/steamapps/common/SpiderHeck/ && \

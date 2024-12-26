@@ -22,7 +22,7 @@ copy .\Testing\bin\Debug\net472\SilkTestMod.dll .\Build\Silk\Mods\
 copy .\Build\Silk\Library\Silk.dll .\Testing\lib\
 
 :: Copy Doorstop Files
-xcopy /e /i .\doorstop\* .\Build\
+xcopy /e /i .\doorstop\development\* .\Build\
 
 :: Move files and start Spiderheck
 xcopy /e /i .\Build\* "C:\Storage\SteamLibrary\steamapps\common\SpiderHeck\" && ^
