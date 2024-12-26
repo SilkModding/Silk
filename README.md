@@ -1,7 +1,7 @@
 [![Logo](./assets/banner.png)](https://silkmodding.com)
 
 [![Build Status](https://travis-ci.org/SilkModding/Silk.svg?branch=master)](https://travis-ci.org/SilkModding/Silk)
-[![Discord](https://img.shields.io/discord/552844453143926275.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/GGv92crcx3)
+![Discord](https://img.shields.io/discord/1314422173082845204?label=Join%20the%20discord!&link=https%3A%2F%2Fdiscord.gg%2FGGv92crcx3)
 [![GitHub All Releases](https://img.shields.io/github/downloads/SilkModding/Silk/total.svg)](https://github.com/SilkModding/Silk/releases)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/SilkModding/Silk)](https://github.com/SilkModding/Silk/releases/latest)
 
