@@ -31,7 +31,7 @@ namespace Silk.API {
             _newUserWeapons.Add(weapon);
         }
 
-        /// Create the new weapons list
+        // Create the new weapons list
         [HarmonyPatch(typeof(SelectedCustomTierScreen), nameof(SelectedCustomTierScreen.Awake))] // TODO: make it dynamicly fit screen
         public static class FixWeaponsVisualPatch {
             [HarmonyPostfix]
@@ -133,47 +133,14 @@ namespace Silk.API {
 
         // Weapon types
         public enum WeaponType {
-            BigGrenade, // Nuke bomb
-            BigParticleBlade, // Large particle blade
-            BurstLauncher, // Multi Rocket Launcher
-            DeathRay, // Laser Cannon
-            DoubleParticleBlade, // Two particle blades
-            DoubleRailvolver, // Two railvolvers
-            GrenadeLauncher, // Grenade Launcher
-            GrenadeParkour, // Grenade Parkour Editon (Nothing special?)
-            Grenade, // Grenade normal editor
-            HeckSaw, // Sawblade
-            KhepriStaff, // Heat seaking ball gun
-            LaserCannonParkour, // Laser Cannon Parkour Editon (Nothing Special?)
-            LaserCannon, // Laser Cannon
-            LaserCube, // Cube that shoots lasers
-            Mine, // Mine
-            MineParkour, // Mine parkour editor (Nothing Special?)
-            MiniShotgun, // Mini yellow shotgun
-            BeachBall, // ????
-            FireworkLauncherParkour, // Firework Launcher
-            FireworkLauncher, // Firework Launcher
-            Flare, // ????
-            Flashlight, // Lobby Flashlight
-            ParticleBladeLauncher,
-            ParticleBladeParkour,
-            ParticleBlade,
-            ParticleSpearParkour,
-            ParticleSpearVariant,
-            PreArmedGrenade,
-            PreArmedParticleBlade,
-            Railvolver,
-            RailvolverParkour,
-            RocketLauncher,
-            RocketLauncherParkour,
-            Shotgun,
-            ShotgunParkour,
-            AutoShotgun,
-            GravityGrenade,
-            GravitySaw,
-            BoomStick,
-            DeathCube,
-            Snowball,
+            BigGrenade, BigParticleBlade, BurstLauncher, DeathRay, DoubleParticleBlade,
+            DoubleRailvolver, GrenadeLauncher, GrenadeParkour, Grenade, HeckSaw, KhepriStaff,
+            LaserCannonParkour, LaserCannon, LaserCube, Mine, MineParkour, MiniShotgun,
+            BeachBall, FireworkLauncherParkour, FireworkLauncher, Flare, Flashlight,
+            ParticleBladeLauncher, ParticleBladeParkour, ParticleBlade, ParticleSpearParkour,
+            ParticleSpearVariant, PreArmedGrenade, PreArmedParticleBlade, Railvolver,
+            RailvolverParkour, RocketLauncher, RocketLauncherParkour, Shotgun, ShotgunParkour,
+            AutoShotgun, GravityGrenade, GravitySaw, BoomStick, DeathCube, Snowball,
         }
     }
 
