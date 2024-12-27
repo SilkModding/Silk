@@ -8,9 +8,6 @@ namespace Silk
         // Update the mod      
         void Update();
 
-        // Register the mod
-        void RegisterMod();
-
         // Unload the mod
         void Unload();
     }
