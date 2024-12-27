@@ -102,11 +102,27 @@ namespace Silk
         /// Logs a message with the current timestamp and the caller class.
         /// </summary>
         /// <param name="message">The message to log.</param>
-        public static void UnityLog(string message)
+        public static void UnityLog(string message, string logType = "None")
         {
-            var logMessage = $"[{DateTime.Now:HH:mm:ss}] {message}";
-            Console.WriteLine(logMessage); // Write to console (works for both Windows and Linux)
-            File.AppendAllText(LogFile, logMessage + Environment.NewLine); // Write to file
+            switch (logType)
+            {
+                case "Error":
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+                case "Warning":
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+                case "Info":
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    break;
+                default:
+                    Console.ResetColor();
+                    break;
+            }
+
+            Console.WriteLine(message); // Write to console (works for both Windows and Linux)
+            File.AppendAllText(LogFile, message + Environment.NewLine); // Write to file
+            Console.ResetColor();
         }
 
         /// <summary>

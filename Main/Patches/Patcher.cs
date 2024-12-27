@@ -6,7 +6,12 @@ namespace Silk {
     public static class Patches {
         static Harmony harmony = new Harmony("com.Silk.Patcher");
         public static void Patch() {
-            harmony.PatchAll();
+            try {
+                harmony.PatchAll();
+            } catch (Exception e) {
+                Logger.LogError(e.Message);
+                Logger.LogError(e.StackTrace);
+            }
         }
     }
 
