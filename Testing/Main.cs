@@ -7,6 +7,7 @@ using System;
 using Logger = Silk.Logger;
 using Object = UnityEngine.Object;
 using HarmonyLib;
+using System.Reflection;
 
 namespace TestMod
 {
@@ -19,9 +20,25 @@ namespace TestMod
             // Log that your mod loaded
             Logger.LogInfo("Doin cool stuff");
             Harmony harmony = new Harmony("com.SilkModding.SilkExampleMod");
+            //MethodInfo original;
+            //MethodInfo patch;
+            //original = AccessTools.Method(typeof(PlayerHandler), "HasAliveTeammate");
+            //patch = AccessTools.Method(typeof(MyPatches), "HasAliveTeammate");
+            //harmony.Patch(original, new HarmonyMethod(patch));
+            harmony.PatchAll();
         }
 
-        
+        [HarmonyPatch(typeof(CustomTiersScreen), "Start")]
+        public static class AddModMenu
+        {
+            [HarmonyPostfix]
+            public static void Postfix()
+            {
+                Logger.LogError("sigma!!!");
+                ModsUI.Initialize();
+            }
+        }
+
         // This is called every frame
         public void Update()
         {

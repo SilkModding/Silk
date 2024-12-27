@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Silk", "Main\Silk.csproj", "{7084A707-0032-4175-B89C-903948132FB3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SilkTestMod", "Testing\SilkTestMod.csproj", "{AD5523A4-1AAD-4C88-8796-F2C54350408C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7084A707-0032-4175-B89C-903948132FB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7084A707-0032-4175-B89C-903948132FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7084A707-0032-4175-B89C-903948132FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7084A707-0032-4175-B89C-903948132FB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD5523A4-1AAD-4C88-8796-F2C54350408C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD5523A4-1AAD-4C88-8796-F2C54350408C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD5523A4-1AAD-4C88-8796-F2C54350408C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD5523A4-1AAD-4C88-8796-F2C54350408C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {132E9B07-E843-4FB9-BB47-ADA3C1B023CE}
+	EndGlobalSection
+EndGlobal

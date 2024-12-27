@@ -6,6 +6,9 @@
 
   <!-- Reference all the DLLs in the ./lib directory -->
   <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>lib\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="Accessibility">
       <HintPath>./lib/Accessibility.dll</HintPath>
       <Private>false</Private>
@@ -13,6 +16,18 @@
     <Reference Include="GdkUtilities">
       <HintPath>./lib/GdkUtilities.dll</HintPath>
       <Private>false</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>lib\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>lib\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>lib\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>lib\Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
     <Reference Include="Steamworks.NET">
       <HintPath>./lib/Steamworks.NET.dll</HintPath>
