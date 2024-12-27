@@ -14,23 +14,36 @@ namespace Silk {
         /// <summary>
         /// The author of the mod.
         /// </summary>
-        public string ModAuthor { get; }
+        public string[] ModAuthors { get; }
         /// <summary>
-        /// The entry point method of the mod.
+        /// The version of the mod.
         /// </summary>
-        public string ModEntryPoint { get; }
+        public string ModVersion { get; }
+        /// <summary>
+        /// The version of the game that the mod supports.
+        /// </summary>
+        public string ModGameVersion { get; }
+        /// <summary>
+        /// The id of the mod.
+        /// </summary>
+        public string ModId { get; }
 
         /// <summary>
-        /// The constructor to pass the mod name, author, and entry point method.
+        /// The constructor to pass the mod name, authors, version, game version, and id.
         /// </summary>
         /// <param name="modName">The name of the mod.</param>
-        /// <param name="modAuthor">The author of the mod.</param>
-        /// <param name="modEntryPoint">The entry point method of the mod. Defaults to "Initialize".</param>
-        public SilkModAttribute(string modName, string modAuthor, string modEntryPoint = "Initialize")
+        /// <param name="modAuthors">The authors of the mod.</param>
+        /// <param name="modVersion">The version of the mod.</param>
+        /// <param name="modGameVersion">The version of the game that the mod supports.</param>
+        /// <param name="modId">The id of the mod. Defaults to the mod name.</param>
+        public SilkModAttribute(string modName, string[] modAuthors, string modVersion, string modGameVersion, string modId = null)
         {
             ModName = modName;
-            ModAuthor = modAuthor;
-            ModEntryPoint = modEntryPoint;
+            ModAuthors = modAuthors;
+            ModVersion = modVersion;
+            ModGameVersion = modGameVersion;
+            ModId = modId ?? modName;
         }
     }
 }
+

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -9,10 +10,10 @@ using UnityEngine.UI;
 
 namespace Silk
 {
-    
-public static class Loader
+    public static class Loader
     {
         private static readonly string ModsFolder = Utils.GetModsFolder();
+        public static List<LoadedMod> LoadedMods { get; } = new List<LoadedMod>();
 
         public static void Initialize()
         {
@@ -26,6 +27,7 @@ public static class Loader
 
             LoadMods();
         }
+
         private static void LoadMods()
         {
             var modFiles = Directory.GetFiles(ModsFolder, "*.dll");
@@ -51,12 +53,20 @@ public static class Loader
                             var silkModAttribute = type.CustomAttributes.First(attr => attr.AttributeType.FullName == typeof(SilkModAttribute).FullName);
 
                             var modName = silkModAttribute.ConstructorArguments[0].Value.ToString();
-                            var modAuthor = silkModAttribute.ConstructorArguments[1].Value.ToString();
-                            var modEntryPoint = silkModAttribute.ConstructorArguments.Count > 2
-                                ? silkModAttribute.ConstructorArguments[2].Value.ToString()
+                            var modAuthors = silkModAttribute.ConstructorArguments[1].Value as CustomAttributeArgument[];
+                            var authors = modAuthors?.Select(a => a.Value.ToString()).ToArray();
+                            var modVersion = silkModAttribute.ConstructorArguments[2].Value.ToString();
+                            var modGameVersion = silkModAttribute.ConstructorArguments[3].Value.ToString();
+                            var modId = silkModAttribute.ConstructorArguments[4].Value.ToString();
+                            var modEntryPoint = silkModAttribute.ConstructorArguments.Count > 5
+                                ? silkModAttribute.ConstructorArguments[5].Value.ToString()
                                 : "Initialize";
 
-                            Logger.LogInfo($"Found Mod: {modName} by {modAuthor}");
+                            Logger.LogInfo($"Found Mod: {modName} by {string.Join(", ", authors ?? new string[0])}");
+                            Logger.LogInfo($"Mod Version: {modVersion}");
+                            Logger.LogInfo($"Mod Game Version: {modGameVersion}");
+                            Logger.LogInfo($"Mod Id: {modId}");
+                            Logger.LogInfo($"Mod EntryPoint: {modEntryPoint}");
 
                             var assembly = Assembly.LoadFrom(modFile);
                             var modClass = assembly.GetType(type.FullName);
@@ -89,6 +99,7 @@ public static class Loader
                                 }
                             }
 
+                            LoadedMods.Add(new LoadedMod(modName, authors, modVersion, modGameVersion, modId));
                             Logger.LogInfo("Adding mod to UI");
                             modsLoaded++;
                         }
@@ -137,6 +148,24 @@ public static class Loader
             {
                 Environment.SetEnvironmentVariable("DOORSTOP_INVOKE_DLL_PATH", actualInvokePath);
             }
+        }
+    }
+
+    public class LoadedMod
+    {
+        public string ModName { get; }
+        public string[] ModAuthors { get; }
+        public string ModVersion { get; }
+        public string ModGameVersion { get; }
+        public string ModId { get; }
+
+        public LoadedMod(string modName, string[] modAuthors, string modVersion, string modGameVersion, string modId)
+        {
+            ModName = modName;
+            ModAuthors = modAuthors;
+            ModVersion = modVersion;
+            ModGameVersion = modGameVersion;
+            ModId = modId;
         }
     }
 }

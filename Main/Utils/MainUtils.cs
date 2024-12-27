@@ -13,7 +13,7 @@ namespace Silk {
 
         // Check if the OS is Linux
         public static bool IsLinux() => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-        
+
         /// <summary>
         /// It gets the function that called the function thats happening rn.
         /// Basically if A() calls B() then B() calls this, then this will tell you
@@ -85,5 +85,36 @@ namespace Silk {
             var color = new UnityEngine.Color(colorR, colorG, colorB);
             Announcer.instance.Announce(text, color, true);
         }
+
+        public static string GetRelativePath(string path) {
+            return path.Substring(Directory.GetCurrentDirectory().Length + 1);
+        }
+
+        public static string GetPathSafe(string path) {
+            return path.Replace('\\', '/').Replace(" ", "_");
+        }
+
+        public static void DeleteDirectory(string path) {
+            if (Directory.Exists(path)) {
+                Directory.Delete(path, true);
+            }
+        }
+
+        public static void CopyDirectory(string source, string destination) {
+            if (!Directory.Exists(destination)) {
+                Directory.CreateDirectory(destination);
+            }
+
+            foreach (string file in Directory.GetFiles(source)) {
+                string destPath = Path.Combine(destination, Path.GetFileName(file));
+                File.Copy(file, destPath, true);
+            }
+
+            foreach (string folder in Directory.GetDirectories(source)) {
+                string destPath = Path.Combine(destination, Path.GetFileName(folder));
+                CopyDirectory(folder, destPath);
+            }
+        }
     }
 }
+

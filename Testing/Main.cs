@@ -1,17 +1,10 @@
-using UnityEngine;
-using System.IO;
-using System.Text;
-using System;
-using Silk;
-using System;
+﻿using Silk;
 using Logger = Silk.Logger;
-using Object = UnityEngine.Object;
 using HarmonyLib;
-using System.Reflection;
 
 namespace TestMod
 {
-    [SilkMod("SilkMod", "Abstractmelon")]
+    [SilkMod("Silk Example Mod", new[] { "Abstractmelon", "Wackymoder" }, "1.0.0", "1.6a", "silk-example-mod")]
     public class TestMod : SilkMod
     {   
         // This is called when your mod is loaded
@@ -19,25 +12,21 @@ namespace TestMod
         {   
             // Log that your mod loaded
             Logger.LogInfo("Doin cool stuff");
-            Harmony harmony = new Harmony("com.SilkModding.SilkExampleMod");
-            //MethodInfo original;
-            //MethodInfo patch;
-            //original = AccessTools.Method(typeof(PlayerHandler), "HasAliveTeammate");
-            //patch = AccessTools.Method(typeof(MyPatches), "HasAliveTeammate");
-            //harmony.Patch(original, new HarmonyMethod(patch));
-            harmony.PatchAll();
+
+            // Harmony harmony = new Harmony("com.SilkModding.SilkExampleMod");
+            // harmony.PatchAll();
         }
 
-        [HarmonyPatch(typeof(CustomTiersScreen), "Start")]
-        public static class AddModMenu
-        {
-            [HarmonyPostfix]
-            public static void Postfix()
-            {
-                Logger.LogError("sigma!!!");
-                ModsUI.Initialize();
-            }
-        }
+        // [HarmonyPatch(typeof(CustomTiersScreen), "Start")]
+        // public static class AddModMenu
+        // {
+        //     [HarmonyPostfix]
+        //     public static void Postfix()
+        //     {
+        //         Logger.LogError("sigma!!!");
+        //         ModsUI.Initialize();
+        //     }
+        // }
 
         // This is called every frame
         public void Update()

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Silk
 {
@@ -27,6 +28,11 @@ namespace Silk
             {
                 ("Silk", new[] {"Abstractmelon"}, "1.0.0", "1.6a - QOL", "silk"),
             };
+
+            foreach (var mod in Loader.LoadedMods)
+            {
+                modList.Add((mod.ModName, mod.ModAuthors, mod.ModVersion, mod.ModGameVersion, mod.ModId));
+            }
 
             foreach (var mod in modList)
             {
