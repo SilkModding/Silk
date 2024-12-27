@@ -1,7 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
+using System.IO;
+using System.Text;
+using System;
 using Silk;
 using System;
 using Logger = Silk.Logger;
+using Object = UnityEngine.Object;
+using HarmonyLib;
 
 namespace TestMod
 {
@@ -13,7 +18,8 @@ namespace TestMod
         {   
             // Log that your mod loaded
             Logger.LogInfo("Doin cool stuff");
-        }   
+            Harmony harmony = new Harmony("com.SilkModding.SilkExampleMod");
+        }
 
         
         // This is called every frame
