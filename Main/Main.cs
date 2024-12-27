@@ -101,6 +101,9 @@ namespace Silk
             Logger.LogInfo("Starting mods UI Task...");
             ModsUI.Initialize();
 
+            Logger.LogInfo("Starting Patches... ");
+            Patches.Patch();
+
             Logger.LogInfo("Silk initialization complete.");
         }
     }

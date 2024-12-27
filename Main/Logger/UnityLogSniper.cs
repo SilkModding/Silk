@@ -12,17 +12,8 @@ namespace Silk {
 
         public static void RedirectUnityLogs(string logMessage, string stackTrace, LogType type)
         {
-            string logOutput = $"[{System.DateTime.Now:HH:mm:ss}] [Unity] {logMessage}";
-            if (type == LogType.Warning)
-            {
-                logOutput = $"[WARNING] {logOutput}";
-            }
-            else if (type == LogType.Error || type == LogType.Exception)
-            {
-                logOutput = $"[ERROR] {logOutput}";
-            }
-            
-            Logger.UnityLog(logOutput); 
+            string logOutput = $"{System.DateTime.Now:HH:mm:ss} [Unity] [{type.ToString().ToUpper()}] {logMessage}";
+            Logger.UnityLog(logOutput, type.ToString());
         }
 
         private static void HandleLog(string logString, string stackTrace, LogType type)

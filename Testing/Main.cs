@@ -13,6 +13,7 @@ namespace TestMod
         {   
             // Log that your mod loaded
             Logger.LogInfo("Doin cool stuff");
+
         }   
 
         
