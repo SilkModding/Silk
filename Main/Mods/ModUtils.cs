@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Silk
+namespace Silk.Mods
 {
-    public static class ModUtils
+    public static class Utils
     {
         // This method checks if Unity has loaded a scene and if the scene is not the default one
         public static bool IsUnityLoaded()

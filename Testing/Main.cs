@@ -1,33 +1,28 @@
 ﻿using UnityEngine;
-using System.IO;
-using System.Text;
-using System;
 using Silk;
-using System.Collections;
+using System;
 using Logger = Silk.Logger;
-using Object = UnityEngine.Object;
 
 namespace TestMod
 {
     [SilkMod("SilkMod", "Abstractmelon")]
     public class TestMod : SilkMod
-    {
+    {   
+        // This is called when your mod is loaded
         public void Initialize()
-        {
+        {   
+            // Log that your mod loaded
             Logger.LogInfo("Doin cool stuff");
-        }
+        }   
 
-        void SilkMod.RegisterMod()
+        
+        // This is called every frame
+        public void Update()
         {
             
         }
 
-        void SilkMod.Unload()
-        {
-            
-        }
-
-        void SilkMod.Update()
+        public void Unload()
         {
             
         }
