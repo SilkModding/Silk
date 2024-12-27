@@ -1,6 +1,7 @@
 [![Logo](./assets/banner.png)](https://silkmodding.com)
 
-[![Build Status](https://travis-ci.org/SilkModding/Silk.svg?branch=master)](https://travis-ci.org/SilkModding/Silk)
+[![GitHub stars](https://img.shields.io/github/stars/SilkModding/Silk?style=flat)](https://github.com/SilkModding/Silk/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/SilkModding/Silk)](https://github.com/SilkModding/Silk/issues)
 ![Discord](https://img.shields.io/discord/1314422173082845204?label=Join%20the%20discord!&link=https%3A%2F%2Fdiscord.gg%2FGGv92crcx3)
 [![GitHub All Releases](https://img.shields.io/github/downloads/SilkModding/Silk/total.svg)](https://github.com/SilkModding/Silk/releases)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/SilkModding/Silk)](https://github.com/SilkModding/Silk/releases/latest)
@@ -38,5 +39,3 @@ To install Silk, follow these steps:
 2. Extract the contents of the release to a directory of your choice.
 3. Start Spiderheck.
 4. Place your mods in the `Silk/Mods` directory to load them.
-
-
