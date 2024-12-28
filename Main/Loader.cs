@@ -13,7 +13,8 @@ namespace Silk
     public static class Loader
     {
         private static readonly string ModsFolder = Utils.GetModsFolder();
-        public static List<LoadedMod> LoadedMods { get; } = new List<LoadedMod>();
+        public static List<SilkModData> LoadedMods { get; } = new List<SilkModData>();
+        public static List<SilkModData> FailedMods { get; } = new List<SilkModData>();
 
         public static void Initialize()
         {
@@ -74,6 +75,7 @@ namespace Silk
                             if (modClass == null)
                             {
                                 Logger.LogError($"Failed to load type: {type.FullName}");
+                                FailedMods.Add(new SilkModData(modName, authors, modVersion, modGameVersion, modId));
                                 modsFailed++;
                                 continue;
                             }
@@ -95,11 +97,14 @@ namespace Silk
                                 else
                                 {
                                     Logger.LogError($"Entry point method {modEntryPoint} not found in {modClass.FullName}");
+                                    FailedMods.Add(new SilkModData(modName, authors, modVersion, modGameVersion, modId));
                                     modsFailed++;
+                                    continue;
                                 }
                             }
 
-                            LoadedMods.Add(new LoadedMod(modName, authors, modVersion, modGameVersion, modId));
+                            LoadedMods.Add(new SilkModData(modName, authors, modVersion, modGameVersion, modId));
+
                             Logger.LogInfo("Adding mod to UI");
                             modsLoaded++;
                         }
@@ -109,6 +114,8 @@ namespace Silk
                 {
                     Logger.LogError($"Failed to load mod {Path.GetFileName(modFile)}: {ex.Message}");
                     Logger.LogError(ex.StackTrace);
+                    var modName = Path.GetFileNameWithoutExtension(modFile);
+                    FailedMods.Add(new SilkModData(modName, new string[0], "Unknown", "Unknown", modName));
                     modsFailed++;
                 }
             }
@@ -151,7 +158,7 @@ namespace Silk
         }
     }
 
-    public class LoadedMod
+    public class SilkModData
     {
         public string ModName { get; }
         public string[] ModAuthors { get; }
@@ -159,7 +166,7 @@ namespace Silk
         public string ModGameVersion { get; }
         public string ModId { get; }
 
-        public LoadedMod(string modName, string[] modAuthors, string modVersion, string modGameVersion, string modId)
+        public SilkModData(string modName, string[] modAuthors, string modVersion, string modGameVersion, string modId)
         {
             ModName = modName;
             ModAuthors = modAuthors;
