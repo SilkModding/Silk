@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>library</OutputType>
     <TargetFramework>net472</TargetFramework>
@@ -166,5 +166,8 @@
       <HintPath>./lib/MonoMod.Utils.dll</HintPath>
       <Private>true</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="HarmonyX" Version="2.13.0" />
   </ItemGroup>
 </Project>

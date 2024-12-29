@@ -13,20 +13,19 @@ namespace TestMod
             // Log that your mod loaded
             Logger.LogInfo("Doin cool stuff");
 
-            // Harmony harmony = new Harmony("com.SilkModding.SilkExampleMod");
-            // harmony.PatchAll();
+            Harmony harmony = new Harmony("com.SilkModding.SilkExampleMod");
+            harmony.PatchAll();
         }
 
-        // [HarmonyPatch(typeof(CustomTiersScreen), "Start")]
-        // public static class AddModMenu
-        // {
-        //     [HarmonyPostfix]
-        //     public static void Postfix()
-        //     {
-        //         Logger.LogError("sigma!!!");
-        //         ModsUI.Initialize();
-        //     }
-        // }
+        [HarmonyPatch(typeof(CustomTiersScreen), "Start")]
+        public static class Log
+        {
+            [HarmonyPostfix]
+            public static void Postfix()
+            {
+                Logger.Log("sigma!!!");
+            }
+        }
 
         // This is called every frame
         public void Update()

@@ -1,16 +1,12 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Silk
 {
     public class ModsUI
     {
-        public static async Task Initialize()
+        public static void Initialize()
         {
-            // Wait for 2.5 seconds before initialization
-            await Task.Delay(2500); // Fix this to just be a harmony patch instead
-
             // Check if UI is already enabled to prevent redundant calls
             if (HudController.instance != null && !HudController.instance.modsButton.activeSelf)
             {

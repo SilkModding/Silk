@@ -97,10 +97,7 @@ namespace Silk
             Logger.LogInfo("Initializing the mod loader...");
             Loader.Initialize();
 
-            // Create mods UI
-            Logger.LogInfo("Starting mods UI Task...");
-            ModsUI.Initialize();
-
+            // Start the patches
             Logger.LogInfo("Starting Patches... ");
             Patches.Patch();
 

@@ -46,14 +46,6 @@
       <HintPath>./lib/MonoMod.Utils.dll</HintPath>
       <Private>true</Private>
     </Reference>
-    <Reference Include="Harmony">
-      <HintPath>./lib/0Harmony.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <!-- <Reference Include="HarmonyLib">
-      <HintPath>./lib/0Harmony20.dll</HintPath>
-      <Private>true</Private>
-    </Reference> -->
   </ItemGroup>
 
   <!-- Unity References--> 
@@ -191,4 +183,7 @@
       <Private>false</Private>
     </Reference>
   </ItemGroup>
+   <ItemGroup>
+      <PackageReference Include="HarmonyX" Version="2.13.0" />
+   </ItemGroup>
 </Project>

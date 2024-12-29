@@ -8,6 +8,7 @@ namespace Silk {
         public static void Patch() {
             try {
                 harmony.PatchAll();
+                Logger.LogInfo("Patching complete.");
             } catch (Exception e) {
                 Logger.LogError(e.Message);
                 Logger.LogError(e.StackTrace);
