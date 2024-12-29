@@ -3,7 +3,7 @@
 set -e
 
 # Define the version for the release 
-VERSION="0.2.0" 
+VERSION="0.3.0" 
 
 # Clean Build Folder
 echo "Cleaning up previous build..."

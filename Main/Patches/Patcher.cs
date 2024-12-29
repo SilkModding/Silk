@@ -7,7 +7,12 @@ namespace Silk {
         static Harmony harmony = new Harmony("com.Silk.Patcher");
         public static void Patch() {
             try {
+                Logger.LogInfo("Patching Silk...");
                 harmony.PatchAll();
+
+                Logger.LogInfo("Patching Silk API...");
+                harmony.PatchAll(typeof(API.Weapons));
+
                 Logger.LogInfo("Patching complete.");
             } catch (Exception e) {
                 Logger.LogError(e.Message);
