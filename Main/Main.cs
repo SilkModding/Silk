@@ -17,9 +17,9 @@ namespace Silk
         /// </summary>
         public static void Run()
         {
-            
+            // Initialize - This also starts the logger
             Logger.LogInfo("Starting Silk...");
-            
+
             // Hook into Unity's scene loading process after Unity has loaded -- https://harmony.pardeike.net/articles/patching-edgecases.html#patching-too-early-missingmethodexception-in-unity
             HookIntoSceneLoading();
 
@@ -28,6 +28,9 @@ namespace Silk
             Logger.LogInfo("This is an info message");
             Logger.LogWarning("This is a warning message");
             Logger.LogError("This is an error message");
+
+            // Configuration
+            Config.LoadConfig();
 
             if (BepInExPresent)
             {
@@ -86,7 +89,7 @@ namespace Silk
         /// <summary>
         /// Loads the mods by initializing the mod loader and stealing the console back from Unity.
         /// </summary>
-        public static async void Load()
+        public static void Load()
         {
             // Steal the console back
             Logger.LogInfo("Stealing the console back...");
@@ -105,3 +108,5 @@ namespace Silk
         }
     }
 }
+
+

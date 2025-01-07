@@ -7,6 +7,7 @@ using Mono.Cecil;
 using Logger = Silk.Logger;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 namespace Silk
 {
@@ -62,16 +63,19 @@ namespace Silk
                             var modEntryPoint = silkModAttribute.ConstructorArguments.Count > 5
                                 ? silkModAttribute.ConstructorArguments[5].Value.ToString()
                                 : "Initialize";
-
+                            
+                            // Print mod info
                             Logger.LogInfo($"Found Mod: {modName} by {string.Join(", ", authors ?? new string[0])}");
                             Logger.LogInfo($"Mod Version: {modVersion}");
                             Logger.LogInfo($"Mod Game Version: {modGameVersion}");
                             Logger.LogInfo($"Mod Id: {modId}");
                             Logger.LogInfo($"Mod EntryPoint: {modEntryPoint}");
 
+                            // Load the actual mod
                             var assembly = Assembly.LoadFrom(modFile);
                             var modClass = assembly.GetType(type.FullName);
 
+                            // Check if the mod is a mod
                             if (modClass == null)
                             {
                                 Logger.LogError($"Failed to load type: {type.FullName}");
@@ -80,6 +84,7 @@ namespace Silk
                                 continue;
                             }
 
+                            // Check if the mod is a mod
                             if (typeof(SilkMod).IsAssignableFrom(modClass))
                             {
                                 var modInstance = Activator.CreateInstance(modClass) as SilkMod;
@@ -104,8 +109,6 @@ namespace Silk
                             }
 
                             LoadedMods.Add(new SilkModData(modName, authors, modVersion, modGameVersion, modId));
-
-                            Logger.LogInfo("Adding mod to UI");
                             modsLoaded++;
                         }
                     }
@@ -120,8 +123,56 @@ namespace Silk
                 }
             }
 
+            Logger.LogInfo($"Finished loading mods");
+
+            // Mods loaded and mods fialed  
             Logger.LogInfo($"Mods loaded: {modsLoaded}");
             Logger.LogInfo($"Mods failed to load: {modsFailed}");
+
+            // Announce mods that failed
+            if (modsFailed > 0)
+            {
+                Logger.LogInfo("Mods failed to load:");
+                foreach (var failedMod in FailedMods)
+                {
+                    Logger.LogInfo($"  {failedMod.ModName} by {string.Join(", ", failedMod.ModAuthors ?? new string[0])}");
+                    Utils.Announce($"Failed to load mod: {failedMod.ModName}", 255, 0, 0, typeof(Loader));
+                }
+            }
+        }
+
+        private static bool updateRunning = false;
+
+        public static void Update()
+        {
+            if (!updateRunning)
+            {
+                updateRunning = true;
+                UpdateMods();
+            }
+        }
+
+        private static async void UpdateMods()
+        {
+            var modInstances = LoadedMods
+                .Select(modData =>
+                {
+                    var modType = Type.GetType($"{modData.ModName}.{modData.ModName}");
+                    if (modType == null)
+                    {
+                        Logger.LogError($"Failed to find mod type: {modData.ModName}");
+                        return null;
+                    }
+                    return Activator.CreateInstance(modType) as SilkMod;
+                })
+                .Where(instance => instance != null)
+                .ToList();
+
+            while (true)
+            {
+                Parallel.ForEach(modInstances, modInstance => modInstance.Update());
+                await Task.Delay(20);
+            }
         }
 
         public static void LoadBepInEx()

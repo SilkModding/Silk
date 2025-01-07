@@ -92,7 +92,7 @@ namespace Silk
         /// <param name="message">The message to log.</param>
         public static void Log(string message)
         {
-            var logMessage = $"[{DateTime.Now:HH:mm:ss}] [{Utils.GetCallingClass()}] {message}";
+            var logMessage = $"[{DateTime.Now:HH:mm:ss}] [{Utils.GetCallingStack()}] {message}";
             Console.WriteLine(logMessage); // Write to console (works for both Windows and Linux)
             File.AppendAllText(LogFile, logMessage + Environment.NewLine); // Write to file
         }

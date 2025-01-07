@@ -37,6 +37,25 @@ namespace Silk {
         }
 
         /// <summary>
+        /// Retrieves the class name that is three levels up in the call stack.
+        /// If A() calls B(), B() calls C(), and C() calls this, it will return the class of A().
+        /// </summary>
+        /// <returns>The class name that is three levels up in the call stack.</returns>
+        public static string GetCallingStack()
+        {
+            StackTrace stackTrace = new StackTrace();
+            if (stackTrace.FrameCount >= 4)
+            {
+                Type callingClass = stackTrace.GetFrame(3).GetMethod().DeclaringType;
+                return callingClass?.Name;
+            }
+            else
+            {
+                return "n/a";
+            }
+        }
+
+        /// <summary>
         /// Gets the path of the assembly where the calling class is from.
         /// </summary>
         /// <returns>The path of the assembly of the calling class</returns>
@@ -114,6 +133,14 @@ namespace Silk {
                 string destPath = Path.Combine(destination, Path.GetFileName(folder));
                 CopyDirectory(folder, destPath);
             }
+        }
+
+        public static string GetConfigPath() {
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Silk", "Config");
+        }
+
+        public static string GetConfigFile(string fileName) {
+            return Path.Combine(GetConfigPath(), fileName);
         }
     }
 }
