@@ -75,11 +75,9 @@ namespace Silk
 
         public static void CreateConfigFile(string ConfigFile, string ConfigPath)
         {
-            // Make sure the directory exists
-            string configDir = Path.GetDirectoryName(ConfigPath);
-            if (!Directory.Exists(configDir))
+            if (!Directory.Exists(ConfigPath))
             {
-                Directory.CreateDirectory(configDir);
+                Directory.CreateDirectory(ConfigPath);
             }
 
             // Make sure the file exists
