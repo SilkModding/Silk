@@ -14,6 +14,7 @@ namespace Silk
     public static class Loader
     {
         private static readonly string ModsFolder = Utils.GetModsFolder();
+
         public static List<SilkModData> LoadedMods { get; } = new List<SilkModData>();
         public static List<SilkModData> FailedMods { get; } = new List<SilkModData>();
 
@@ -89,6 +90,7 @@ namespace Silk
                             {
                                 var modInstance = Activator.CreateInstance(modClass) as SilkMod;
                                 modInstance?.Initialize();
+                                Mods.Manager.AddMod(modInstance);
                                 Logger.LogInfo($"Initialized mod: {modName}");
                             }
                             else
@@ -129,6 +131,10 @@ namespace Silk
             Logger.LogInfo($"Mods loaded: {modsLoaded}");
             Logger.LogInfo($"Mods failed to load: {modsFailed}");
 
+            // Setup mods
+            Logger.LogInfo("Setting up mods...");
+            Mods.Manager.SetupMods();
+
             // Announce mods that failed
             if (modsFailed > 0)
             {
@@ -138,40 +144,6 @@ namespace Silk
                     Logger.LogInfo($"  {failedMod.ModName} by {string.Join(", ", failedMod.ModAuthors ?? new string[0])}");
                     Utils.Announce($"Failed to load mod: {failedMod.ModName}", 255, 0, 0, typeof(Loader));
                 }
-            }
-        }
-
-        private static bool updateRunning = false;
-
-        public static void Update()
-        {
-            if (!updateRunning)
-            {
-                updateRunning = true;
-                UpdateMods();
-            }
-        }
-
-        private static async void UpdateMods()
-        {
-            var modInstances = LoadedMods
-                .Select(modData =>
-                {
-                    var modType = Type.GetType($"{modData.ModName}.{modData.ModName}");
-                    if (modType == null)
-                    {
-                        Logger.LogError($"Failed to find mod type: {modData.ModName}");
-                        return null;
-                    }
-                    return Activator.CreateInstance(modType) as SilkMod;
-                })
-                .Where(instance => instance != null)
-                .ToList();
-
-            while (true)
-            {
-                Parallel.ForEach(modInstances, modInstance => modInstance.Update());
-                await Task.Delay(20);
             }
         }
 
