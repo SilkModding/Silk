@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Silk", "Main\Silk.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SilkTestMod", "Testing\SilkTestMod.csproj", "{AD5523A4-1AAD-4C88-8796-F2C54350408C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SilkUpdateRestarter", "SilkUpdateRestarter\SilkUpdateRestarter.csproj", "{34974440-50F9-45C7-92A2-D165E3BB217E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AD5523A4-1AAD-4C88-8796-F2C54350408C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD5523A4-1AAD-4C88-8796-F2C54350408C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD5523A4-1AAD-4C88-8796-F2C54350408C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34974440-50F9-45C7-92A2-D165E3BB217E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34974440-50F9-45C7-92A2-D165E3BB217E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34974440-50F9-45C7-92A2-D165E3BB217E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34974440-50F9-45C7-92A2-D165E3BB217E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

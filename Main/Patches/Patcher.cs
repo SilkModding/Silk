@@ -25,6 +25,7 @@ namespace Silk {
     public static class AddModMenu {
         [HarmonyPostfix]
         public static void Postfix() {
+            Updater.CheckForUpdates();
             ModsUI.Initialize();
         }
     }
