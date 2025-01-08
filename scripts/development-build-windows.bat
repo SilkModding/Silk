@@ -5,7 +5,9 @@ rmdir /s /q ..\Build
 
 :: Build Projects
 dotnet build ..\Main\Silk.csproj -c Debug && ^
-dotnet build ..\Testing\SilkTestMod.csproj -c Debug
+dotnet build ..\Testing\SilkTestMod.csproj -c Debug && ^
+dotnet build ..\SilkUpdateRestarter\SilkUpdateRestarter.csproj -c Debug
+
 
 :: Create Build Directories
 mkdir ..\Build\Silk\Library
@@ -23,6 +25,11 @@ copy ..\Build\Silk\Library\Silk.dll ..\Testing\lib\
 
 :: Copy Doorstop Files
 xcopy /e /i ..\doorstop\development\* ..\Build\
+
+:: Copy updater
+copy ..\SilkUpdateRestarter\bin\Debug\net6.0\SilkUpdateRestarter.exe ..\Build\Silk\
+copy ..\SilkUpdateRestarter\bin\Debug\net6.0\SilkUpdateRestarter.dll ..\Build\Silk\
+copy ..\SilkUpdateRestarter\bin\Debug\net6.0\SilkUpdateRestarter.runtimeconfig.json ..\Build\Silk\
 
 :: Move files and start Spiderheck
 xcopy /e /i ..\Build\* "C:\Program Files (x86)\Steam\steamapps\common\SpiderHeck"
