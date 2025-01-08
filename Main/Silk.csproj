@@ -188,5 +188,6 @@
   </ItemGroup>
    <ItemGroup>
       <PackageReference Include="HarmonyX" Version="2.13.0" />
+      <PackageReference Include="System.IO.Compression" Version="4.3.0" />
    </ItemGroup>
 </Project>

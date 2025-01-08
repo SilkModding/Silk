@@ -1,14 +1,16 @@
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+using System.IO.Compression;
+
 namespace Silk
 {
-    using System;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Net;
-    using System.Net.Http;
-    using System.Runtime.InteropServices;
-    using System.Threading.Tasks;
-    using UnityEngine;
-
     public static class Updater
     {
         private const string LatestVersionUrl = "https://raw.githubusercontent.com/SilkModding/Silk/master/version";
@@ -41,7 +43,7 @@ namespace Silk
         }
 
         // updater entrypoint
-        public static async Task CheckForUpdates()
+        public static async void CheckForUpdates()
         {
             var latestVersion = await GetLatestVersion();
             if (VersionHandler.IsOlderThan(latestVersion))
@@ -84,10 +86,49 @@ namespace Silk
 
         private static void ExtractAndInstallUpdate(string zipPath)
         {
-            System.IO.Compression.ZipFile.ExtractToDirectory(zipPath, AppDomain.CurrentDomain.BaseDirectory);
+            Logger.LogInfo("Installing update...");
+
+            string tempPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            Directory.CreateDirectory(tempPath);
+
+            using (ZipArchive archive = ZipFile.OpenRead(zipPath))
+            {
+                foreach (ZipArchiveEntry entry in archive.Entries)
+                {
+                    string destinationPath = Path.Combine(tempPath, entry.FullName);
+
+                    // Ensure the directory exists
+                    Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
+
+                    // Overwrite files if they already exist
+                    if (File.Exists(destinationPath))
+                    {
+                        File.Delete(destinationPath);
+                    }
+
+                    entry.ExtractToFile(destinationPath, overwrite: true);
+                }
+            }
+
+            // Copy the files from the temp folder to the actual folder
+            foreach (var file in Directory.GetFiles(tempPath, "*", SearchOption.AllDirectories))
+            {
+                string destinationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, file.Substring(tempPath.Length));
+                string destinationDir = Path.GetDirectoryName(destinationPath);
+                if (!Directory.Exists(destinationDir))
+                {
+                    Directory.CreateDirectory(destinationDir);
+                }
+                File.Copy(file, destinationPath, overwrite: true);
+            }
+
+            Directory.Delete(tempPath, true);
             File.Delete(zipPath);
             Logger.LogInfo("Update installed successfully.");
         }
+
     }
 }
+
+
 
