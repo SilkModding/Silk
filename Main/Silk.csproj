@@ -1,8 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>library</OutputType>
+    <!-- Version -->   
+    <Version>0.2.0</Version>
     <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
+
 
   <!-- Widerwy da wibs-->
   <ItemGroup>
