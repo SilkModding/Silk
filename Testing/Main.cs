@@ -11,13 +11,19 @@ namespace TestMod
     {
         private float timer = 0;
 
-        // This is called when your mod is loaded
-        public void Initialize()
+        // This is called when unity loads
+        public override void Initialize()
         {
             Logger.LogInfo("Initializing Silk Example Mod...");
             Harmony harmony = new Harmony("com.SilkModding.SilkExampleMod");
             harmony.PatchAll();
             Logger.LogInfo("Harmony patches applied.");
+        }
+
+        // This is called when unity is ready
+        public void Awake()
+        {
+            Logger.LogInfo("Awake called.");
         }
 
         // This is called every frame
@@ -40,7 +46,7 @@ namespace TestMod
             }
         }
 
-        public void Unload()
+        public override void Unload()
         {
             Logger.LogInfo("Unloading Silk Example Mod...");
         }

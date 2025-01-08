@@ -1,18 +1,13 @@
+using UnityEngine;
+
 namespace Silk
 {
-    public interface SilkMod
+    public abstract class SilkMod : MonoBehaviour
     {
         // Initialize the mod
-        void Initialize();
-
-        // Update the mod      
-        void Update();
+        public abstract void Initialize();
 
         // Unload the mod
-        void Unload();
+        public abstract void Unload();
     }
 }
-
-
-
-
