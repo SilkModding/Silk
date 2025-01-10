@@ -8,7 +8,6 @@ dotnet build ..\Main\Silk.csproj -c Debug && ^
 dotnet build ..\Testing\SilkTestMod.csproj -c Debug && ^
 dotnet build ..\SilkUpdateRestarter\SilkUpdateRestarter.csproj -c Debug
 
-
 :: Create Build Directories
 mkdir ..\Build\Silk\Library
 mkdir ..\Build\Silk\Mods
