@@ -24,11 +24,12 @@ namespace Silk
         // It *does* restart the game, but Silk is not started along with it.
         public static async Task RestartAfterUpdate()
         {
+            Logger.LogInfo("RestartAfterUpdate called");
             await Task.Delay(5000);
 
             string path = AppDomain.CurrentDomain.BaseDirectory + "/Silk/SilkUpdateRestarter.exe";
             
-            Console.WriteLine(path);
+            Logger.LogInfo($"path: {path}");
             string currentPID = Process.GetCurrentProcess().Id.ToString();
 
             ProcessStartInfo startInfo = new ProcessStartInfo(path);
@@ -44,9 +45,10 @@ namespace Silk
 
         public static void runUpdateExtractor()
         {
+            Logger.LogInfo("runUpdateExtractor called");
             string path = AppDomain.CurrentDomain.BaseDirectory + "/SilkUpdateRestarter.exe";
 
-            Console.WriteLine(path);
+            Logger.LogInfo($"path: {path}");
             string currentPID = Process.GetCurrentProcess().Id.ToString();
 
             ProcessStartInfo startInfo = new ProcessStartInfo(path);
@@ -61,28 +63,43 @@ namespace Silk
         // updater entrypoint
         public static async void CheckForUpdates()
         {
+            Logger.LogInfo("Checking for updates...");
             var latestVersion = await GetLatestVersion();
+            Logger.LogInfo($"Latest version: {latestVersion}");
             if (VersionHandler.IsOlderThan(latestVersion))
             {
-                //var downloadUrl = string.Format(DownloadUrl, latestVersion);
-                var downloadUrl = DownloadUrl;
-                Logger.LogInfo($"A new version of Silk is available: {latestVersion}");
+                Logger.LogInfo("A new version of Silk is available!");
+                var downloadUrl = string.Format(DownloadUrl, latestVersion);
                 Logger.LogInfo($"Download: {downloadUrl}");
 
                 Announcer.TwoOptionsPopup(
                     "A new Silk version is available! Do you want to update?\nNote: you will need to restart the game to apply the update",
                     "Yes", "No",
                     async () => {
-                        Announcer.InformationPopup($"Downloading and installing Silk version {latestVersion}...\nDo not close your game...");
-                        DownloadAndInstallUpdate(downloadUrl);
-                        Announcer.InformationPopup($"Download Finished! You must restart the game manually for this update to apply\n(We know its not ideal, but we are working on something to do this automatically.)");
+                        try
+                        {
+                            Announcer.InformationPopup($"Downloading and installing Silk version {latestVersion}...\nDo not close your game...");
+                            DownloadAndInstallUpdate(downloadUrl);
+                            Announcer.InformationPopup($"Download Finished! You must restart the game manually for this update to apply\n(We know it's not ideal, but we are working on something to do this automatically.)");
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.LogError("An error occurred during the update process.");
+                            Logger.LogError(ex.Message);
+                            Announcer.InformationPopup("An error occurred while downloading the update. Please try again later.");
+                        }
                     }, () => { },
                 null);
+            }
+            else
+            {
+                Logger.LogInfo("No updates available.");
             }
         }
 
         private static async Task<string> GetLatestVersion()
         {
+            Logger.LogInfo("Checking for latest version...");
             using (WebClient client = new WebClient())
             {
                 var resp = client.DownloadString(LatestVersionUrl);
@@ -92,7 +109,7 @@ namespace Silk
 
         private static void DownloadAndInstallUpdate(string downloadUrl)
         {
-            Logger.LogInfo("starting dowljaldsfjaldsf");
+            Logger.LogInfo("Starting download...");
             Logger.Log(TempDownloadPath);
             Logger.Log(downloadUrl);
             using (WebClient client = new WebClient())
@@ -100,7 +117,6 @@ namespace Silk
                 client.DownloadFile(new Uri(downloadUrl), TempDownloadPath);
             }
             Logger.LogInfo($"downloaded to {TempDownloadPath}");
-
 
             runUpdateExtractor();
 
@@ -152,6 +168,3 @@ namespace Silk
 
     }
 }
-
-
-
