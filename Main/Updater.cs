@@ -14,7 +14,7 @@ namespace Silk
     public static class Updater
     {
         private const string LatestVersionUrl = "https://raw.githubusercontent.com/SilkModding/Silk/master/version";
-        private const string DownloadUrl = "https://github.com/SilkModding/Silk/releases/download/v{0}/Silk-v{0}.zip";
+        private const string DownloadUrl = "https://github.com/SilkModding/Silk/releases/download/v0.3.0/Silk-v0.3.0.zip";//"https://github.com/SilkModding/Silk/releases/download/v{0}/Silk-v{0}.zip";
         private const string TempDownloadPath = "SilkUpdate.zip";
 
         [DllImport("kernel32.dll")]
@@ -42,14 +42,30 @@ namespace Silk
             Application.Quit(0);
         }
 
+        public static void runUpdateExtractor()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory + "/SilkUpdateRestarter.exe";
+
+            Console.WriteLine(path);
+            string currentPID = Process.GetCurrentProcess().Id.ToString();
+
+            ProcessStartInfo startInfo = new ProcessStartInfo(path);
+            startInfo.Arguments = currentPID;
+            startInfo.UseShellExecute = true;
+            startInfo.CreateNoWindow = false;
+            //FreeConsole();
+            Process.Start(startInfo);
+            Application.Quit(0);
+        }
+
         // updater entrypoint
         public static async void CheckForUpdates()
         {
             var latestVersion = await GetLatestVersion();
             if (VersionHandler.IsOlderThan(latestVersion))
             {
-                var downloadUrl = string.Format(DownloadUrl, latestVersion);
-
+                //var downloadUrl = string.Format(DownloadUrl, latestVersion);
+                var downloadUrl = DownloadUrl;
                 Logger.LogInfo($"A new version of Silk is available: {latestVersion}");
                 Logger.LogInfo($"Download: {downloadUrl}");
 
@@ -58,7 +74,7 @@ namespace Silk
                     "Yes", "No",
                     async () => {
                         Announcer.InformationPopup($"Downloading and installing Silk version {latestVersion}...\nDo not close your game...");
-                        await DownloadAndInstallUpdate(downloadUrl);
+                        DownloadAndInstallUpdate(downloadUrl);
                         Announcer.InformationPopup($"Download Finished! You must restart the game manually for this update to apply\n(We know its not ideal, but we are working on something to do this automatically.)");
                     }, () => { },
                 null);
@@ -74,14 +90,21 @@ namespace Silk
             }
         }
 
-        private static async Task DownloadAndInstallUpdate(string downloadUrl)
+        private static void DownloadAndInstallUpdate(string downloadUrl)
         {
+            Logger.LogInfo("starting dowljaldsfjaldsf");
+            Logger.Log(TempDownloadPath);
+            Logger.Log(downloadUrl);
             using (WebClient client = new WebClient())
             {
                 client.DownloadFile(new Uri(downloadUrl), TempDownloadPath);
             }
+            Logger.LogInfo($"downloaded to {TempDownloadPath}");
 
-            ExtractAndInstallUpdate(TempDownloadPath);
+
+            runUpdateExtractor();
+
+            //ExtractAndInstallUpdate(TempDownloadPath);
         }
 
         private static void ExtractAndInstallUpdate(string zipPath)
