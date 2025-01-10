@@ -1,6 +1,7 @@
 
 using System;
 using System.Diagnostics;
+using System.IO.Compression;
 
 class SilkUpdateRestarter
 {
@@ -20,13 +21,10 @@ class SilkUpdateRestarter
     static void Main(string[] args)
     {
 
-        Console.WriteLine("This program is a WIP, it does not work in its current state as winhttp.dll/doorstop does not seem to cooperate.");
-        return;
-
         Console.WriteLine("eep");
         try
         {
-            string filePath = AppDomain.CurrentDomain.BaseDirectory+@"..\SpiderHeckApp.exe";
+            //string filePath = AppDomain.CurrentDomain.BaseDirectory+@"\SpiderHeckApp.exe";
 
             try
             {
@@ -38,6 +36,34 @@ class SilkUpdateRestarter
                 Console.WriteLine("process didn't exist, proceeding anyways");
             }
 
+            Console.WriteLine("Extracting and installing update...");
+
+            //Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + "/SilkUpdate.zip", true );
+
+            using (ZipArchive archive = ZipFile.OpenRead(AppDomain.CurrentDomain.BaseDirectory + "/SilkUpdate.zip"))
+            {
+                foreach (ZipArchiveEntry entry in archive.Entries)
+                {
+                    string destinationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, entry.FullName);
+
+                    // Ensure the directory exists
+                    Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
+
+                    // Overwrite files if they already exist
+                    if (File.Exists(destinationPath))
+                    {
+                        File.Delete(destinationPath);
+                    }
+                }
+            }
+
+            System.IO.Compression.ZipFile.ExtractToDirectory(AppDomain.CurrentDomain.BaseDirectory+"/SilkUpdate.zip", AppDomain.CurrentDomain.BaseDirectory);
+
+            File.Delete(AppDomain.CurrentDomain.BaseDirectory + "/SilkUpdate.zip");
+            Console.WriteLine("Update package fully installed!");
+            
+            Task.Delay(5000);
+            /*
             Task.Delay(2000);
             Console.WriteLine("Restarting game");
             Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
@@ -60,7 +86,7 @@ class SilkUpdateRestarter
             else
             {
                 Console.WriteLine("The specified file does not exist.");
-            }
+            }*/
         }
         catch (Exception ex) {
             Console.WriteLine(ex);
