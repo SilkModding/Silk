@@ -3,7 +3,7 @@
 set -e
 
 # Define the version for the release 
-VERSION="0.3.0" 
+VERSION="0.4.0"
 
 # Clean Build Folder
 echo "Cleaning up previous build..."
@@ -12,7 +12,8 @@ rm -rf ./Build
 # Build Projects in Release Mode
 echo "Building projects in Release mode..."
 dotnet build ./Main/Silk.csproj -c Release && \
-dotnet build ./Testing/SilkTestMod.csproj -c Release
+dotnet build ./Testing/SilkTestMod.csproj -c Release && \
+dotnet build ./SilkUpdateRestarter/SilkUpdateRestarter.csproj -c Release
 
 # Create Build Directories
 echo "Creating build directories..."
@@ -25,8 +26,8 @@ echo "Copying main DLLs to Library..."
 cp ./Main/bin/Release/net472/*.dll ./Build/Silk/Library/
 
 # Copy SilkTestMod.dll to Mods
-# echo "Copying test mod DLL to Mods..."
-# cp ./Testing/bin/Release/net472/SilkTestMod.dll ./Build/Silk/Mods/
+echo "Copying test mod DLL to Mods..."
+cp ./Testing/bin/Release/net472/SilkTestMod.dll ./Build/Silk/Mods/
 
 # Copy Silk.dll to Testing/lib
 echo "Copying Silk.dll to Testing/lib..."
@@ -35,6 +36,10 @@ cp ./Build/Silk/Library/Silk.dll ./Testing/lib/
 # Copy Doorstop Files
 echo "Copying Doorstop files..."
 cp -r ./doorstop/release/* ./Build/
+
+# Copy Updater
+echo "Copying updater files..."
+cp -r ./SilkUpdateRestarter/bin/Release/net6.0/* ./Build/
 
 # Copy Changelog and README
 echo "Copying README and CHANGELOG files..."
@@ -51,5 +56,4 @@ mv ./Build/Silk-v${VERSION}.zip ./Releases/
 
 # Finished
 echo "Release build completed: Silk-v${VERSION}.zip"
-
 

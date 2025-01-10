@@ -14,7 +14,7 @@ namespace Silk
     public static class Updater
     {
         private const string LatestVersionUrl = "https://raw.githubusercontent.com/SilkModding/Silk/master/version";
-        private const string DownloadUrl = "https://github.com/SilkModding/Silk/releases/download/v0.3.0/Silk-v0.3.0.zip";//"https://github.com/SilkModding/Silk/releases/download/v{0}/Silk-v{0}.zip";
+        private const string DownloadUrl = "https://github.com/SilkModding/Silk/releases/download/v{0}/Silk-v{0}.zip"; 
         private const string TempDownloadPath = "SilkUpdate.zip";
 
         [DllImport("kernel32.dll")]

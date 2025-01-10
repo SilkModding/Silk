@@ -29,7 +29,6 @@ xcopy /e /i ..\doorstop\development\* ..\Build\
 :: Copy updater
 xcopy /e /i ..\SilkUpdateRestarter\bin\Debug\net6.0\* ..\Build\
 
-
 :: Move files and start Spiderheck
 xcopy /e /i ..\Build\* "C:\Program Files (x86)\Steam\steamapps\common\SpiderHeck"
 pause
