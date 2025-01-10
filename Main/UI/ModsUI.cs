@@ -27,7 +27,7 @@ namespace Silk
 
             foreach (var mod in Loader.LoadedMods)
             {
-                modList.Add((mod.ModName, mod.ModAuthors, mod.ModVersion, mod.ModGameVersion, mod.ModId));
+                modList.Add((mod.ModName, mod.ModAuthors, mod.ModVersion, mod.ModSilkVersion, mod.ModId));
             }
 
             foreach (var mod in modList)

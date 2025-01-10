@@ -26,7 +26,6 @@ namespace Silk.Mods
                 Logger.LogInfo($"Initializing mod: {mod.GetType().Name}");
                 GameObject modGameObject = new GameObject(mod.GetType().Name);
                 modGameObject.transform.SetParent(modsParent.transform);
-                Object.DontDestroyOnLoad(modGameObject);
                 try
                 {
                     modGameObject.AddComponent(mod.GetType());

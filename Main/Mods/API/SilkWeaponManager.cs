@@ -11,10 +11,10 @@ using static Silk.API.Weapons;
 namespace Silk.API {
     public static class Weapons {
         // 
-        private static uint _prefabHandlerId = 7777;
-        public static List<Weapon> NewWeapons = new List<Weapon>();
-        private static List<CustomWeapon> _newUserWeapons = new List<CustomWeapon>();
-        private static bool _weaponsAdded = false;
+        private static uint prefabHandlerId = 7777; // TODO: This can cause possible collission
+        public static List<Weapon> newWeapons = new List<Weapon>();
+        private static List<CustomWeapon> newUserWeapons = new List<CustomWeapon>();
+        private static bool weaponsAdded = false;
 
         // Events
         public delegate void CallbackDelegate();
@@ -27,8 +27,12 @@ namespace Silk.API {
         /// </summary>
         /// <param name="weapon">The custom weapon to be added.</param>
         public static void AddNewWeapon(CustomWeapon weapon) {
+            if (weapon == null) {
+                throw new ArgumentNullException(nameof(weapon), "The custom weapon to be added cannot be null.");
+            }
+
             Logger.LogInfo($"Adding new weapon: {weapon.Name}");
-            _newUserWeapons.Add(weapon);
+            newUserWeapons.Add(weapon);
         }
 
         // Create the new weapons list
@@ -60,7 +64,7 @@ namespace Silk.API {
             [HarmonyPostfix]
             public static void Postfix(ref VersusMode __instance) {
                 AddWeapons();
-                __instance.weapons.AddRange(NewWeapons.Select(x => new SpawnableWeapon(x, 3)));
+                __instance.weapons.AddRange(newWeapons.Select(x => new SpawnableWeapon(x, 3)));
             }
         }
 
@@ -73,22 +77,21 @@ namespace Silk.API {
             }
         }
 
-
         // Function to actually add the weapons
         static void AddWeapons() {
             var tmp = Resources.FindObjectsOfTypeAll<ElementLists>();
 
-            if (tmp.Length == 0 || _weaponsAdded) {
+            if (tmp.Length == 0 || weaponsAdded) {
                 return;
             }
 
             ElementLists list = tmp[0];
             SerializationWeaponName maxName = (SerializationWeaponName)Enum.GetValues(typeof(SerializationWeaponName)).Cast<int>().Max();
-            NewWeapons.AddRange(list.allWeapons);
+            newWeapons.AddRange(list.allWeapons);
             List<Weapon> tmpList = new List<Weapon>();
 
-            foreach (var weapon in _newUserWeapons) {
-                Weapon newWeapon = NewWeapons[(int)weapon.Type];
+            foreach (var weapon in newUserWeapons) {
+                Weapon newWeapon = newWeapons[(int)weapon.Type];
                 GameObject copiedWeapon = UnityEngine.Object.Instantiate(newWeapon.gameObject);
                 GameObject.DontDestroyOnLoad(copiedWeapon.gameObject);
                 copiedWeapon.SetActive(false);
@@ -101,17 +104,17 @@ namespace Silk.API {
 
             }
             OnInitCompleted?.Invoke();
-            foreach (var weapon in _newUserWeapons) {
+            foreach (var weapon in newUserWeapons) {
                 var no = weapon.WeaponObject.GetComponent<NetworkObject>();
-                var handler = new WeaponNetworkPrefabInstanceHandler(_prefabHandlerId++, no);
+                var handler = new WeaponNetworkPrefabInstanceHandler(prefabHandlerId++, no);
                 NetworkManager.Singleton.PrefabHandler.AddHandler(handler.Id, handler);
 
                 weapon.WeaponObject.transform.TransformPoint(9999 + tmpList.Count * 1000, 9999, 9999);
                 tmpList.Add(weapon.WeaponObject.GetComponent<Weapon>());
             }
-            NewWeapons = tmpList;
-            list.allWeapons.AddRange(NewWeapons);
-            _weaponsAdded = true;
+            newWeapons = tmpList;
+            list.allWeapons.AddRange(newWeapons);
+            weaponsAdded = true;
         }
 
         [HarmonyPatch(typeof(WeaponSpawner), nameof(WeaponSpawner.SpawnWeapon))]
@@ -119,13 +122,13 @@ namespace Silk.API {
 
             [HarmonyPrefix]
             public static void Prefix(ref WeaponSpawner __instance) {
-                foreach (var w in NewWeapons) {
+                foreach (var w in newWeapons) {
                     w.gameObject.SetActive(true);
                 }
             }
             [HarmonyPostfix]
             public static void Postfix(ref WeaponSpawner __instance) {
-                foreach (var w in NewWeapons) {
+                foreach (var w in newWeapons) {
                     w.gameObject.SetActive(false);
                 }
             }
@@ -157,3 +160,4 @@ namespace Silk.API {
 
     }
 }
+

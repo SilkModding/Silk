@@ -2,12 +2,20 @@ using UnityEngine;
 
 namespace Silk
 {
+    /// <summary>
+    /// The base class for all mods.
+    /// </summary>
     public abstract class SilkMod : MonoBehaviour
     {
-        // Initialize the mod
+        /// <summary>
+        /// Initializes the mod.
+        /// </summary>
         public abstract void Initialize();
 
-        // Unload the mod
+        /// <summary>
+        /// Unloads the mod.
+        /// </summary>
         public abstract void Unload();
     }
 }
+

@@ -29,13 +29,4 @@ namespace Silk {
             ModsUI.Initialize();
         }
     }
-
-    [HarmonyPatch(typeof(GameController), "Start")]
-    public static class CheckUpdates {
-        public static void Postfix() {
-            // Check for updates
-            // Updater.CheckForUpdates();
-        }
-        
-    }
 }

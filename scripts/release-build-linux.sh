@@ -25,8 +25,8 @@ echo "Copying main DLLs to Library..."
 cp ./Main/bin/Release/net472/*.dll ./Build/Silk/Library/
 
 # Copy SilkTestMod.dll to Mods
-echo "Copying test mod DLL to Mods..."
-cp ./Testing/bin/Release/net472/SilkTestMod.dll ./Build/Silk/Mods/
+# echo "Copying test mod DLL to Mods..."
+# cp ./Testing/bin/Release/net472/SilkTestMod.dll ./Build/Silk/Mods/
 
 # Copy Silk.dll to Testing/lib
 echo "Copying Silk.dll to Testing/lib..."

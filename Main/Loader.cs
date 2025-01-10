@@ -33,7 +33,9 @@ namespace Silk
 
         private static void LoadMods()
         {
-            var modFiles = Directory.GetFiles(ModsFolder, "*.dll");
+            var modFiles = Directory.GetFiles(ModsFolder, "*.dll", SearchOption.AllDirectories)
+                .Where(file => !file.Contains("Disabled") && !file.Contains("disabled"))
+                .ToArray();
 
             var modsToLoad = modFiles.Length;
             var modsLoaded = 0;
@@ -59,7 +61,7 @@ namespace Silk
                             var modAuthors = silkModAttribute.ConstructorArguments[1].Value as CustomAttributeArgument[];
                             var authors = modAuthors?.Select(a => a.Value.ToString()).ToArray();
                             var modVersion = silkModAttribute.ConstructorArguments[2].Value.ToString();
-                            var modGameVersion = silkModAttribute.ConstructorArguments[3].Value.ToString();
+                            var modSilkVersion = silkModAttribute.ConstructorArguments[3].Value.ToString();
                             var modId = silkModAttribute.ConstructorArguments[4].Value.ToString();
                             var modEntryPoint = silkModAttribute.ConstructorArguments.Count > 5
                                 ? silkModAttribute.ConstructorArguments[5].Value.ToString()
@@ -68,7 +70,7 @@ namespace Silk
                             // Print mod info
                             Logger.LogInfo($"Found Mod: {modName} by {string.Join(", ", authors ?? new string[0])}");
                             Logger.LogInfo($"Mod Version: {modVersion}");
-                            Logger.LogInfo($"Mod Game Version: {modGameVersion}");
+                            Logger.LogInfo($"Mod Silk Version: {modSilkVersion}");
                             Logger.LogInfo($"Mod Id: {modId}");
                             Logger.LogInfo($"Mod EntryPoint: {modEntryPoint}");
 
@@ -80,7 +82,7 @@ namespace Silk
                             if (modClass == null)
                             {
                                 Logger.LogError($"Failed to load type: {type.FullName}");
-                                FailedMods.Add(new SilkModData(modName, authors, modVersion, modGameVersion, modId));
+                                FailedMods.Add(new SilkModData(modName, authors, modVersion, modSilkVersion, modId));
                                 modsFailed++;
                                 continue;
                             }
@@ -104,13 +106,13 @@ namespace Silk
                                 else
                                 {
                                     Logger.LogError($"Entry point method {modEntryPoint} not found in {modClass.FullName}");
-                                    FailedMods.Add(new SilkModData(modName, authors, modVersion, modGameVersion, modId));
+                                    FailedMods.Add(new SilkModData(modName, authors, modVersion, modSilkVersion, modId));
                                     modsFailed++;
                                     continue;
                                 }
                             }
 
-                            LoadedMods.Add(new SilkModData(modName, authors, modVersion, modGameVersion, modId));
+                            LoadedMods.Add(new SilkModData(modName, authors, modVersion, modSilkVersion, modId));
                             modsLoaded++;
                         }
                     }
@@ -186,17 +188,18 @@ namespace Silk
         public string ModName { get; }
         public string[] ModAuthors { get; }
         public string ModVersion { get; }
-        public string ModGameVersion { get; }
+        public string ModSilkVersion { get; }
         public string ModId { get; }
 
-        public SilkModData(string modName, string[] modAuthors, string modVersion, string modGameVersion, string modId)
+        public SilkModData(string modName, string[] modAuthors, string modVersion, string modSilkVersion, string modId)
         {
             ModName = modName;
             ModAuthors = modAuthors;
             ModVersion = modVersion;
-            ModGameVersion = modGameVersion;
+            ModSilkVersion = modSilkVersion;
             ModId = modId;
         }
     }
 }
+
 

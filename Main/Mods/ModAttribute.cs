@@ -22,7 +22,7 @@ namespace Silk {
         /// <summary>
         /// The version of the game that the mod supports.
         /// </summary>
-        public string ModGameVersion { get; }
+        public string ModSilkVersion { get; }
         /// <summary>
         /// The id of the mod.
         /// </summary>
@@ -34,14 +34,14 @@ namespace Silk {
         /// <param name="modName">The name of the mod.</param>
         /// <param name="modAuthors">The authors of the mod.</param>
         /// <param name="modVersion">The version of the mod.</param>
-        /// <param name="modGameVersion">The version of the game that the mod supports.</param>
+        /// <param name="modSilkVersion">The version of the game that the mod supports.</param>
         /// <param name="modId">The id of the mod. Defaults to the mod name.</param>
-        public SilkModAttribute(string modName, string[] modAuthors, string modVersion, string modGameVersion, string modId = null)
+        public SilkModAttribute(string modName, string[] modAuthors, string modVersion, string modSilkVersion, string modId = null)
         {
             ModName = modName;
             ModAuthors = modAuthors;
             ModVersion = modVersion;
-            ModGameVersion = modGameVersion;
+            ModSilkVersion = modSilkVersion;
             ModId = modId ?? modName;
         }
     }
