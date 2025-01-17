@@ -37,7 +37,7 @@
         {
             "label": "Development Build - Windows",
             "type": "shell",
-            "command": "./scripts/development-build-windows.sh",
+            "command": "./scripts/development-build-windows.bat",
             "problemMatcher": [],
             "dependsOn": ["Full Build"],
             "group": {
