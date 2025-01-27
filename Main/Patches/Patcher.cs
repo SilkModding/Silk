@@ -8,7 +8,7 @@ namespace Silk {
         public static void Patch() {
             try {
                 Logger.LogInfo("Patching Silk...");
-                harmony.PatchAll();
+                harmony.PatchAll(typeof(Patches));
 
                 Logger.LogInfo("Patching Silk API...");
                 harmony.PatchAll(typeof(API.Weapons));
@@ -19,14 +19,21 @@ namespace Silk {
                 Logger.LogError(e.StackTrace);
             }
         }
-    }
-
-    [HarmonyPatch(typeof(CustomTiersScreen), "Start")]
-    public static class AddModMenu {
-        [HarmonyPostfix]
-        public static void Postfix() {
-            Updater.CheckForUpdates();
-            ModsUI.Initialize();
+        [HarmonyPatch(typeof(CustomTiersScreen), "Start")]
+        public static class AddModMenu {
+            [HarmonyPostfix]
+            public static void Postfix() {
+                Updater.CheckForUpdates();
+                ModsUI.Initialize();
+            }
         }
+
+        // [HarmonyPatch(typeof(SeasonChecker), nameof(SeasonChecker.IsItChristmas))]
+        // [HarmonyPrefix]
+        // public static bool MakeItChristmas(ref bool __result)
+        // {
+        //     __result = true;
+        //     return false;
+        // }
     }
 }

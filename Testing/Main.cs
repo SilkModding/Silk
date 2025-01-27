@@ -12,15 +12,11 @@ namespace TestMod
     public class TestMod : SilkMod
     {
         private float timer = 0;
-        CustomWeapon longsword;
 
         // This is called when unity loads
         public override void Initialize()
         {
             Logger.LogInfo("Initializing Silk Example Mod...");
-            Harmony harmony = new Harmony("com.SilkModding.SilkExampleMod");
-            harmony.PatchAll();
-            Logger.LogInfo("Harmony patches applied.");
 
             CustomWeapon longSwordWeapon = new CustomWeapon("Long Sword", Weapons.WeaponType.ParticleBlade);
             Weapons.AddNewWeapon(longSwordWeapon);
@@ -35,6 +31,12 @@ namespace TestMod
         public void Awake()
         {
             Logger.LogInfo("Awake called.");
+            
+            // Apply Harmony patches
+            Logger.LogInfo("Applying Harmony patches...");
+             Harmony harmony = new Harmony("com.SilkModding.SilkExampleMod");
+            harmony.PatchAll();
+            Logger.LogInfo("Harmony patches applied.");
         }
 
         private bool timerStarted = false;
@@ -96,6 +98,13 @@ namespace TestMod
 
             return texture;
         }
+
+        [HarmonyPatch(typeof(SeasonChecker), nameof(SeasonChecker.IsItChristmas))]
+        [HarmonyPrefix]
+        private static bool MakeItChristmas(ref bool __result)
+        {
+            __result = true;
+            return false;
+        }
     }
 }
-

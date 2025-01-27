@@ -57,18 +57,18 @@ namespace Silk
                         {
                             var silkModAttribute = type.CustomAttributes.First(attr => attr.AttributeType.FullName == typeof(SilkModAttribute).FullName);
 
-                            var modName = silkModAttribute.ConstructorArguments[0].Value.ToString();
+                            var modName = silkModAttribute.ConstructorArguments[0].Value?.ToString() ?? "Unnamed";
                             var modAuthors = silkModAttribute.ConstructorArguments[1].Value as CustomAttributeArgument[];
-                            var authors = modAuthors?.Select(a => a.Value.ToString()).ToArray();
-                            var modVersion = silkModAttribute.ConstructorArguments[2].Value.ToString();
-                            var modSilkVersion = silkModAttribute.ConstructorArguments[3].Value.ToString();
-                            var modId = silkModAttribute.ConstructorArguments[4].Value.ToString();
+                            var authors = modAuthors?.Select(a => a.Value?.ToString() ?? "Unknown").ToArray() ?? Array.Empty<string>();
+                            var modVersion = silkModAttribute.ConstructorArguments[2].Value?.ToString() ?? "Unknown";
+                            var modSilkVersion = silkModAttribute.ConstructorArguments[3].Value?.ToString() ?? "Unknown";
+                            var modId = silkModAttribute.ConstructorArguments[4].Value?.ToString() ?? modName;
                             var modEntryPoint = silkModAttribute.ConstructorArguments.Count > 5
-                                ? silkModAttribute.ConstructorArguments[5].Value.ToString()
+                                ? silkModAttribute.ConstructorArguments[5].Value?.ToString() ?? "Initialize"
                                 : "Initialize";
                             
                             // Print mod info
-                            Logger.LogInfo($"Found Mod: {modName} by {string.Join(", ", authors ?? new string[0])}");
+                            Logger.LogInfo($"Found Mod: {modName} by {string.Join(", ", authors)}");
                             Logger.LogInfo($"Mod Version: {modVersion}");
                             Logger.LogInfo($"Mod Silk Version: {modSilkVersion}");
                             Logger.LogInfo($"Mod Id: {modId}");
@@ -78,7 +78,6 @@ namespace Silk
                             var assembly = Assembly.LoadFrom(modFile);
                             var modClass = assembly.GetType(type.FullName);
 
-                            // Check if the mod is a mod
                             if (modClass == null)
                             {
                                 Logger.LogError($"Failed to load type: {type.FullName}");
@@ -87,12 +86,14 @@ namespace Silk
                                 continue;
                             }
 
-                            // Check if the mod is a mod
                             if (typeof(SilkMod).IsAssignableFrom(modClass))
                             {
                                 var modInstance = Activator.CreateInstance(modClass) as SilkMod;
                                 modInstance?.Initialize();
+
                                 Mods.Manager.AddMod(modInstance);
+                                Logger.LogInfo($"Added mod: {modName}");
+
                                 Logger.LogInfo($"Initialized mod: {modName}");
                             }
                             else
@@ -122,28 +123,24 @@ namespace Silk
                     Logger.LogError($"Failed to load mod {Path.GetFileName(modFile)}: {ex.Message}");
                     Logger.LogError(ex.StackTrace);
                     var modName = Path.GetFileNameWithoutExtension(modFile);
-                    FailedMods.Add(new SilkModData(modName, new string[0], "Unknown", "Unknown", modName));
+                    FailedMods.Add(new SilkModData(modName, Array.Empty<string>(), "Unknown", "Unknown", modName));
                     modsFailed++;
                 }
             }
 
             Logger.LogInfo($"Finished loading mods");
-
-            // Mods loaded and mods fialed  
             Logger.LogInfo($"Mods loaded: {modsLoaded}");
             Logger.LogInfo($"Mods failed to load: {modsFailed}");
 
-            // Setup mods
             Logger.LogInfo("Setting up mods...");
             Mods.Manager.SetupMods();
 
-            // Announce mods that failed
             if (modsFailed > 0)
             {
                 Logger.LogInfo("Mods failed to load:");
                 foreach (var failedMod in FailedMods)
                 {
-                    Logger.LogInfo($"  {failedMod.ModName} by {string.Join(", ", failedMod.ModAuthors ?? new string[0])}");
+                    Logger.LogInfo($"  {failedMod.ModName} by {string.Join(", ", failedMod.ModAuthors)}");
                     Utils.Announce($"Failed to load mod: {failedMod.ModName}", 255, 0, 0, typeof(Loader));
                 }
             }
@@ -201,5 +198,3 @@ namespace Silk
         }
     }
 }
-
-

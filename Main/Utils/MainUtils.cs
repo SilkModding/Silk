@@ -20,7 +20,7 @@ namespace Silk {
         /// what class A() is from
         /// </summary>
         /// <returns>The class that called your function</returns>
-        public static string GetCallingClass()
+        public static string? GetCallingClass()
         {
             // Basically its meant for errors but it also logs every function that is called!
             StackTrace stackTrace = new StackTrace();
@@ -41,9 +41,9 @@ namespace Silk {
         /// If A() calls B(), B() calls C(), and C() calls this, it will return the class of A().
         /// </summary>
         /// <returns>The class name that is three levels up in the call stack.</returns>
-        public static string GetCallingStack()
+        public static string? GetCallingStack()
         {
-            StackTrace stackTrace = new StackTrace();
+            StackTrace stackTrace = new();
             if (stackTrace.FrameCount >= 4)
             {
                 Type callingClass = stackTrace.GetFrame(3).GetMethod().DeclaringType;
@@ -59,7 +59,7 @@ namespace Silk {
         /// Gets the path of the assembly where the calling class is from.
         /// </summary>
         /// <returns>The path of the assembly of the calling class</returns>
-        public static string GetCallingAssemblyPath()
+        public static string? GetCallingAssemblyPath()
         {
             StackFrame stackFrame = new StackFrame(2, false);
             Assembly callingAssembly = Assembly.GetAssembly(stackFrame.GetMethod().DeclaringType);
@@ -72,9 +72,9 @@ namespace Silk {
         /// <returns>The path of the assembly of the calling class</returns>
         public static string GetCallingModPath()
         {
-            StackFrame stackFrame = new StackFrame(2, false);
+            StackFrame stackFrame = new(2, false);
             Assembly callingAssembly = Assembly.GetAssembly(stackFrame.GetMethod().DeclaringType);
-            string assemblyPath = callingAssembly?.Location;
+            string? assemblyPath = callingAssembly?.Location;
             string modsFolder = GetModsFolder();
             string modPath = Path.Combine(modsFolder, assemblyPath);
             return modPath;

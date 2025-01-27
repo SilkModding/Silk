@@ -36,7 +36,7 @@ namespace Silk {
         /// <param name="modVersion">The version of the mod.</param>
         /// <param name="modSilkVersion">The version of the game that the mod supports.</param>
         /// <param name="modId">The id of the mod. Defaults to the mod name.</param>
-        public SilkModAttribute(string modName, string[] modAuthors, string modVersion, string modSilkVersion, string modId = null)
+        public SilkModAttribute(string modName, string[] modAuthors, string modVersion, string modSilkVersion, string modId)
         {
             ModName = modName;
             ModAuthors = modAuthors;

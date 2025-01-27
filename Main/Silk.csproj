@@ -1,9 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>library</OutputType>
+    
     <!-- Version -->   
     <Version>0.4.0</Version>
     <TargetFramework>net472</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+
+     <!-- see sharp wanted these-->
+     <ImplicitUsings>enable</ImplicitUsings>
+     <Nullable>enable</Nullable>
   </PropertyGroup>
 
 
@@ -191,3 +197,4 @@
       <PackageReference Include="System.IO.Compression" Version="4.3.0" />
    </ItemGroup>
 </Project>
+

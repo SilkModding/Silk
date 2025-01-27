@@ -19,6 +19,7 @@ dotnet build ./SilkUpdateRestarter/SilkUpdateRestarter.csproj -c Release
 echo "Creating build directories..."
 mkdir -p ./Build/Silk/Library && \
 mkdir -p ./Build/Silk/Mods && \
+mkdir -p ./Build/Silk/Updater && \
 mkdir -p ./Testing/lib
 
 # Copy DLLs to Library
@@ -39,7 +40,7 @@ cp -r ./doorstop/release/* ./Build/
 
 # Copy Updater
 echo "Copying updater files..."
-cp -r ./SilkUpdateRestarter/bin/Release/net6.0/* ./Build/
+cp -r ./SilkUpdateRestarter/bin/Release/net6.0/* ./Build/Silk/Updater/
 
 # Copy Changelog and README
 echo "Copying README and CHANGELOG files..."

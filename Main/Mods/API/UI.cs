@@ -11,7 +11,7 @@ namespace Silk.API {
         /// <summary>
         /// The singleton instance of the UI helper.
         /// </summary>
-        public static UI instance;
+        public static UI? instance;
 
         /// <summary>
         /// Initializes the UI helper.

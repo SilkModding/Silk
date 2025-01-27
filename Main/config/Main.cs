@@ -24,8 +24,8 @@ namespace Silk
             Logger.LogInfo("Loading config...");
 
             // Log Paths
-            Logger.LogInfo($"Config file: {ConfigFile}");
-            Logger.LogInfo($"Config path: {ConfigPath}");
+            // Logger.LogInfo($"Config file: {ConfigFile}");
+            // Logger.LogInfo($"Config path: {ConfigPath}");
     
             // Check if config file exists
             if (!File.Exists(ConfigFile))
@@ -101,7 +101,7 @@ namespace Silk
             File.WriteAllText(ConfigFile, sb.ToString());
         }
 
-        public static string GetConfigValue(string key)
+        public static string? GetConfigValue(string key)
         {
             if (config.ContainsKey(key))
             {

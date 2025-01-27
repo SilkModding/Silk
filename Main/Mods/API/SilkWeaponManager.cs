@@ -18,8 +18,7 @@ namespace Silk.API {
 
         // Events
         public delegate void CallbackDelegate();
-        public static event CallbackDelegate OnInitCompleted;
-
+        public static event CallbackDelegate? OnInitCompleted;
 
         // Add weapon function, mods will call this to add their weapons
         /// <summary>
@@ -105,12 +104,17 @@ namespace Silk.API {
             }
             OnInitCompleted?.Invoke();
             foreach (var weapon in newUserWeapons) {
-                var no = weapon.WeaponObject.GetComponent<NetworkObject>();
-                var handler = new WeaponNetworkPrefabInstanceHandler(prefabHandlerId++, no);
-                NetworkManager.Singleton.PrefabHandler.AddHandler(handler.Id, handler);
+                var networkObject = weapon.WeaponObject?.GetComponent<NetworkObject>();
+                if (networkObject != null) {
+                    var handler = new WeaponNetworkPrefabInstanceHandler(prefabHandlerId++, networkObject);
+                    NetworkManager.Singleton.PrefabHandler.AddHandler(handler.Id, handler);
 
-                weapon.WeaponObject.transform.TransformPoint(9999 + tmpList.Count * 1000, 9999, 9999);
-                tmpList.Add(weapon.WeaponObject.GetComponent<Weapon>());
+                    var weaponObject = weapon.WeaponObject;
+                    if (weaponObject != null) {
+                        weaponObject.transform.position = new Vector3(9999 + tmpList.Count * 1000, 9999, 9999);
+                        tmpList.Add(weaponObject.GetComponent<Weapon>());
+                    }
+                }
             }
             newWeapons = tmpList;
             list.allWeapons.AddRange(newWeapons);
@@ -150,14 +154,15 @@ namespace Silk.API {
     // Custom weapon class
     public class CustomWeapon {
 
-        public WeaponType Type;
-        public GameObject WeaponObject;
-        public string Name;
+        public WeaponType Type { get; set; }
+        public GameObject? WeaponObject { get; set; }
+        public string Name { get; set; }
+
         public CustomWeapon(string name, WeaponType inheritFrom) {
             Name = name;
             Type = inheritFrom;
         }
-
     }
 }
+
 

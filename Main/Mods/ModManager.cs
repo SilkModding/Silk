@@ -21,6 +21,9 @@ namespace Silk.Mods
                 Object.DontDestroyOnLoad(modsParent);
             }
 
+            Logger.LogInfo("Initializing mods...");
+            Logger.LogInfo($"Found {Mods.Count} mods");
+            Logger.LogInfo(string.Join(", ", Mods.Select(m => m.GetType().Name)));
             foreach (var mod in Mods)
             {
                 Logger.LogInfo($"Initializing mod: {mod.GetType().Name}");
@@ -29,6 +32,7 @@ namespace Silk.Mods
                 try
                 {
                     modGameObject.AddComponent(mod.GetType());
+                    Logger.LogInfo($"Mod {mod.GetType().Name} initialized successfully");
                 }
                 catch (Exception ex)
                 {
@@ -37,12 +41,15 @@ namespace Silk.Mods
                     Logger.LogError(ex.StackTrace);
                 }
             }
+            Logger.LogInfo("Mods initialized");
+            Logger.LogInfo("Mods loaded: " + string.Join(", ", Mods.Select(m => m.GetType().Name)));
         }
 
         public static void AddMod(SilkMod mod)
         {
             Logger.LogInfo($"Adding mod: {mod.GetType().Name}");
             Mods.Add(mod);
+            Logger.LogInfo($"Mod {mod.GetType().Name} added");
         }
     }
 }

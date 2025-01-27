@@ -24,38 +24,43 @@ namespace Silk
         // It *does* restart the game, but Silk is not started along with it.
         public static async Task RestartAfterUpdate()
         {
-            Logger.LogInfo("RestartAfterUpdate called");
+            Logger.LogInfo("Restarting game after update...");
             await Task.Delay(5000);
 
-            string path = AppDomain.CurrentDomain.BaseDirectory + "/Silk/SilkUpdateRestarter.exe";
-            
-            Logger.LogInfo($"path: {path}");
-            string currentPID = Process.GetCurrentProcess().Id.ToString();
+            var exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Silk", "SilkUpdateRestarter.exe");
+            var startInfo = new ProcessStartInfo(exePath, Process.GetCurrentProcess().Id.ToString())
+            {
+                UseShellExecute = true,
+                CreateNoWindow = false
+            };
 
-            ProcessStartInfo startInfo = new ProcessStartInfo(path);
-            startInfo.Arguments = currentPID;
-            startInfo.UseShellExecute = true;
-            startInfo.CreateNoWindow = false;
             FreeConsole();
             Process.Start(startInfo);
-
-            Logger.LogWarning("adfadsfas");
             Application.Quit(0);
         }
 
-        public static void runUpdateExtractor()
+        public static void RunUpdateExtractor()
         {
-            Logger.LogInfo("runUpdateExtractor called");
-            string path = AppDomain.CurrentDomain.BaseDirectory + "/SilkUpdateRestarter.exe";
+            var updateDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Silk", "Updater");
+            var updaterDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Updater");
 
-            Logger.LogInfo($"path: {path}");
-            string currentPID = Process.GetCurrentProcess().Id.ToString();
+            // Move the update extractor from /Silk/Updates/* to /Updater/
+            foreach (var file in Directory.GetFiles(updateDir))
+            {
+                var newFile = Path.Combine(updaterDir, Path.GetFileName(file));
+                File.Move(file, newFile);
+            }
+            Directory.Delete(updateDir);
 
-            ProcessStartInfo startInfo = new ProcessStartInfo(path);
-            startInfo.Arguments = currentPID;
-            startInfo.UseShellExecute = true;
-            startInfo.CreateNoWindow = false;
-            //FreeConsole();
+            var path = Path.Combine(updaterDir, "SilkUpdateRestarter.exe");
+            var currentProcessId = Process.GetCurrentProcess().Id;
+
+            var startInfo = new ProcessStartInfo(path, currentProcessId.ToString())
+            {
+                UseShellExecute = true,
+                CreateNoWindow = false
+            };
+
             Process.Start(startInfo);
             Application.Quit(0);
         }
@@ -75,7 +80,8 @@ namespace Silk
                 Announcer.TwoOptionsPopup(
                     "A new Silk version is available! Do you want to update?\nNote: you will need to restart the game to apply the update",
                     "Yes", "No",
-                    async () => {
+                    () =>
+                    {
                         try
                         {
                             Announcer.InformationPopup($"Downloading and installing Silk version {latestVersion}...\nDo not close your game...");
@@ -88,7 +94,9 @@ namespace Silk
                             Logger.LogError(ex.Message);
                             Announcer.InformationPopup("An error occurred while downloading the update. Please try again later.");
                         }
-                    }, () => { },
+                    }, () => {
+                        Logger.LogInfo("Update declined, continuing with current version.");
+                    },
                 null);
             }
             else
@@ -97,14 +105,12 @@ namespace Silk
             }
         }
 
-        private static async Task<string> GetLatestVersion()
+        private static Task<string> GetLatestVersion()
         {
             Logger.LogInfo("Checking for latest version...");
-            using (WebClient client = new WebClient())
-            {
-                var resp = client.DownloadString(LatestVersionUrl);
-                return resp.Trim();
-            }
+            using WebClient client = new();
+            var resp = client.DownloadString(LatestVersionUrl);
+            return Task.FromResult(resp.Trim());
         }
 
         private static void DownloadAndInstallUpdate(string downloadUrl)
@@ -112,59 +118,13 @@ namespace Silk
             Logger.LogInfo("Starting download...");
             Logger.Log(TempDownloadPath);
             Logger.Log(downloadUrl);
-            using (WebClient client = new WebClient())
+            using (WebClient client = new())
             {
                 client.DownloadFile(new Uri(downloadUrl), TempDownloadPath);
             }
             Logger.LogInfo($"downloaded to {TempDownloadPath}");
 
-            runUpdateExtractor();
-
-            //ExtractAndInstallUpdate(TempDownloadPath);
+            RunUpdateExtractor();
         }
-
-        private static void ExtractAndInstallUpdate(string zipPath)
-        {
-            Logger.LogInfo("Installing update...");
-
-            string tempPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-            Directory.CreateDirectory(tempPath);
-
-            using (ZipArchive archive = ZipFile.OpenRead(zipPath))
-            {
-                foreach (ZipArchiveEntry entry in archive.Entries)
-                {
-                    string destinationPath = Path.Combine(tempPath, entry.FullName);
-
-                    // Ensure the directory exists
-                    Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
-
-                    // Overwrite files if they already exist
-                    if (File.Exists(destinationPath))
-                    {
-                        File.Delete(destinationPath);
-                    }
-
-                    entry.ExtractToFile(destinationPath, overwrite: true);
-                }
-            }
-
-            // Copy the files from the temp folder to the actual folder
-            foreach (var file in Directory.GetFiles(tempPath, "*", SearchOption.AllDirectories))
-            {
-                string destinationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, file.Substring(tempPath.Length));
-                string destinationDir = Path.GetDirectoryName(destinationPath);
-                if (!Directory.Exists(destinationDir))
-                {
-                    Directory.CreateDirectory(destinationDir);
-                }
-                File.Copy(file, destinationPath, overwrite: true);
-            }
-
-            Directory.Delete(tempPath, true);
-            File.Delete(zipPath);
-            Logger.LogInfo("Update installed successfully.");
-        }
-
     }
 }
