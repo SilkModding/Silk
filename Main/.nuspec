@@ -7,11 +7,13 @@
     <description>Mod loader for spiderheck.</description>
     <repository type="git" url="https://github.com/SilkModding/Slk" />
     <license type="expression">MIT</license>
+    <readme>README.md</readme>
     <dependencies>
-      <!-- Add any dependencies here -->
+      <dependency id="HarmonyX" version="2.13.0" />
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\net472\Silk.dll" target="lib\net472\Silk.dll" />
+    <file src="bin/Release/net472/Silk.dll" target="lib/net472/Silk.dll" />
+    <file src="assets/README.md" target="README.md" />
   </files>
 </package>

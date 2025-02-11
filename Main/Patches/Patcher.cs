@@ -19,7 +19,7 @@ namespace Silk {
                 Logger.LogError(e.StackTrace);
             }
         }
-        [HarmonyPatch(typeof(CustomTiersScreen), "Start")]
+        [HarmonyPatch(typeof(CustomTiersScreen), nameof(CustomTiersScreen.Start))]
         public static class AddModMenu {
             [HarmonyPostfix]
             public static void Postfix() {
@@ -27,13 +27,6 @@ namespace Silk {
                 ModsUI.Initialize();
             }
         }
-
-        // [HarmonyPatch(typeof(SeasonChecker), nameof(SeasonChecker.IsItChristmas))]
-        // [HarmonyPrefix]
-        // public static bool MakeItChristmas(ref bool __result)
-        // {
-        //     __result = true;
-        //     return false;
-        // }
     }
 }
+

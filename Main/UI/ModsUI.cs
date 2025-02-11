@@ -7,6 +7,9 @@ namespace Silk
     {
         public static void Initialize()
         {
+            // Create mods UI
+            Logger.LogInfo("Loading mods UI...");
+            
             // Check if UI is already enabled to prevent redundant calls
             if (HudController.instance != null && !HudController.instance.modsButton.activeSelf)
             {

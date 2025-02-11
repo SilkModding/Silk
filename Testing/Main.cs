@@ -6,7 +6,7 @@ using UnityEngine;
 using Silk.API;
 using UnityEngine.InputSystem;
 
-namespace TestMod
+namespace SilkTestMod
 {
     [SilkMod("Silk Example Mod", new[] { "Abstractmelon", "Wackymoder" }, "1.0.0", "1.6a", "silk-example-mod")]
     public class TestMod : SilkMod
@@ -20,7 +20,7 @@ namespace TestMod
 
             CustomWeapon longSwordWeapon = new CustomWeapon("Long Sword", Weapons.WeaponType.ParticleBlade);
             Weapons.AddNewWeapon(longSwordWeapon);
-            Weapons.OnInitCompleted += () => 
+            Weapons.OnInitCompleted += () =>
             {
                 ParticleBlade particleBladeComponent = longSwordWeapon.WeaponObject.GetComponent<ParticleBlade>();
                 particleBladeComponent.baseSize = new Vector2(10, 100);
@@ -30,12 +30,17 @@ namespace TestMod
         // This is called when unity is ready
         public void Awake()
         {
+            // This is called when unity is ready
             Logger.LogInfo("Awake called.");
-            
+
             // Apply Harmony patches
             Logger.LogInfo("Applying Harmony patches...");
-             Harmony harmony = new Harmony("com.SilkModding.SilkExampleMod");
-            harmony.PatchAll();
+
+            // Initialize Harmony
+            Harmony harmony = new Harmony("com.SilkModding.SilkExampleMod");
+            harmony.PatchAll(typeof(Patches));
+
+            // Apply Harmony patches
             Logger.LogInfo("Harmony patches applied.");
         }
 
@@ -46,7 +51,7 @@ namespace TestMod
         public void Update()
         {
             if (Keyboard.current.xKey.wasPressedThisFrame && !timerStarted)
-            {   
+            {
                 Logger.LogInfo("Auto-kill enabled.");
                 timerStarted = true;
                 autoKillEnabled = true;
@@ -77,7 +82,7 @@ namespace TestMod
 
         private void KillEnemies()
         {
-            EnemyHealthSystem[] array = UnityEngine.Object.FindObjectsOfType<EnemyHealthSystem>();
+            EnemyHealthSystem[] array = FindObjectsOfType<EnemyHealthSystem>();
             for (int i = 0; i < array.Length; i++)
             {
                 array[i].Disintegrate();
@@ -98,10 +103,13 @@ namespace TestMod
 
             return texture;
         }
+    }
 
+    public static class Patches
+    {
         [HarmonyPatch(typeof(SeasonChecker), nameof(SeasonChecker.IsItChristmas))]
         [HarmonyPrefix]
-        private static bool MakeItChristmas(ref bool __result)
+        public static bool MakeItChristmas(ref bool __result)
         {
             __result = true;
             return false;
