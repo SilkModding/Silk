@@ -159,6 +159,13 @@ namespace Silk
             Log($"[ERROR] {message}");
             Console.ResetColor();
         }
+
+        // Inside Logger methods (example)
+        public static void LogDebug(string message)
+        {
+            bool debugEnabled = Config.GetConfigValue("EnableDebugLogging")?.ToLower() == "true";
+            if (debugEnabled) LogInfo($"[DEBUG] {message}");
+        }
     }
 }
 

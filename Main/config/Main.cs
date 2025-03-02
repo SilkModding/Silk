@@ -116,6 +116,7 @@ namespace Silk
             if (config.ContainsKey(key))
             {
                 config[key] = value;
+                SaveConfig();
             }
             else
             {
@@ -138,5 +139,6 @@ namespace Silk
         }
     }
 }
+
 
 
