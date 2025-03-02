@@ -91,7 +91,8 @@ namespace Silk
                                 var modInstance = Activator.CreateInstance(modClass) as SilkMod;
                                 modInstance?.Initialize();
 
-                                Mods.Manager.AddMod(modInstance);
+                                // Add the mod
+                                Mods.Manager.AddMod(modInstance); // This is fine that it can be null, dont belive the compiler
                                 Logger.LogInfo($"Added mod: {modName}");
 
                                 Logger.LogInfo($"Initialized mod: {modName}");

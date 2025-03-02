@@ -5,6 +5,9 @@ using LogType = UnityEngine.LogType;
 namespace Silk {
     public static class UnityLogSniper {
 
+        /// <summary>
+        /// Initializes the UnityLogSniper by attaching a log message received listener that redirects Unity logs to the Silk logging system.
+        /// </summary>
         public static void Initialize() {
             Logger.LogInfo("Initializing UnityLogSniper...");
             Application.logMessageReceived += RedirectUnityLogs;

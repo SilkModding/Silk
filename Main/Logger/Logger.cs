@@ -75,6 +75,8 @@ namespace Silk
         
         /// <summary>
         /// Re-attaches the console to the process and sets the output to the console.
+        /// This is necessary because Unity spawns a console by default, but if it exists, Unity takes control of it.
+        /// We want the console to be used by Silk instead, so we have to take it back.
         /// </summary>
         public static void StealConsoleBack() {
             // Re-attach the console to the process

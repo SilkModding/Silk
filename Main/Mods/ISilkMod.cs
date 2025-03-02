@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Silk
 {
     /// <summary>
-    /// The base class for all mods.
+    /// The base class for all silk mods.
     /// </summary>
     public abstract class SilkMod : MonoBehaviour
     {

@@ -42,6 +42,20 @@ namespace Silk
             }
             return false;
         }
+
+        /// <summary>
+        /// Checks if the current version is the same as the specified version.
+        /// </summary>
+        /// <param name="version">The version to compare against.</param>
+        /// <returns>True if the current version is the same, otherwise false.</returns>
+        public static bool IsSameAs(string version)
+        {
+            if (Version.TryParse(version, out Version otherVersion))
+            {
+                return _version.CompareTo(otherVersion) == 0;
+            }
+            return false;
+        }
     }
 }
 

@@ -8,7 +8,7 @@ namespace Silk {
         public static void Patch() {
             try {
                 Logger.LogInfo("Patching Silk...");
-                harmony.PatchAll(typeof(Patches));
+                harmony.PatchAll();
 
                 Logger.LogInfo("Patching Silk API...");
                 harmony.PatchAll(typeof(API.Weapons));
@@ -19,14 +19,14 @@ namespace Silk {
                 Logger.LogError(e.StackTrace);
             }
         }
-        [HarmonyPatch(typeof(CustomTiersScreen), nameof(CustomTiersScreen.Start))]
-        public static class AddModMenu {
-            [HarmonyPostfix]
-            public static void Postfix() {
-                Updater.CheckForUpdates();
-                ModsUI.Initialize();
-            }
+    }
+
+    [HarmonyPatch(typeof(CustomTiersScreen), "Start")]
+    public static class AddModMenu {
+        [HarmonyPostfix]
+        public static void Postfix() {
+            Updater.CheckForUpdates();
+            ModsUI.Initialize();
         }
     }
 }
-

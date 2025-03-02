@@ -100,25 +100,57 @@ namespace Silk {
             return modAttribute != null;
         }
 
+        /// <summary>
+        /// Announces a message in the game with the specified text and color.
+        /// </summary>
+        /// <param name="text">The message to announce.</param>
+        /// <param name="colorR">The red component of the color.</param>
+        /// <param name="colorG">The green component of the color.</param>
+        /// <param name="colorB">The blue component of the color.</param>
+        /// <param name="gameTypeRef">A reference type related to the game context.</param>
         public static void Announce(string text, int colorR, int colorG, int colorB, Type gameTypeRef) {
             var color = new UnityEngine.Color(colorR, colorG, colorB);
             Announcer.instance.Announce(text, color, true);
         }
 
+        /// <summary>
+        /// Returns a relative path from the given absolute path.
+        /// For example, if the absolute path is C:\Foo\Bar\Baz.txt and the current directory is C:\Foo,
+        /// the relative path returned would be "Bar\Baz.txt".
+        /// </summary>
+        /// <param name="path">The absolute path to get the relative path from</param>
+        /// <returns>The relative path</returns>
         public static string GetRelativePath(string path) {
             return path.Substring(Directory.GetCurrentDirectory().Length + 1);
         }
 
+        /// <summary>
+        /// Replaces all backslashes with forward slashes and all spaces with underscores in the given path.
+        /// </summary>
+        /// <param name="path">The path to sanitize</param>
+        /// <returns>The sanitized path</returns>
         public static string GetPathSafe(string path) {
             return path.Replace('\\', '/').Replace(" ", "_");
         }
 
+        /// <summary>
+        /// Deletes the specified directory and all its contents.
+        /// </summary>
+        /// <param name="path">The path of the directory to delete</param>
         public static void DeleteDirectory(string path) {
             if (Directory.Exists(path)) {
                 Directory.Delete(path, true);
             }
         }
 
+        /// <summary>
+        /// Copies the contents of a source directory to a destination directory.
+        /// If the destination directory does not exist, it is created.
+        /// All files in the source directory are copied to the destination directory.
+        /// All subdirectories of the source directory are copied recursively.
+        /// </summary>
+        /// <param name="source">The source directory to copy from</param>
+        /// <param name="destination">The destination directory to copy to</param>
         public static void CopyDirectory(string source, string destination) {
             if (!Directory.Exists(destination)) {
                 Directory.CreateDirectory(destination);
@@ -135,10 +167,19 @@ namespace Silk {
             }
         }
 
+        /// <summary>
+        /// Gets the path of the config folder.
+        /// </summary>
+        /// <returns>The path of the config folder</returns>
         public static string GetConfigPath() {
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Silk", "Config");
         }
 
+        /// <summary>
+        /// Gets the path of a config file.
+        /// </summary>
+        /// <param name="fileName">The name of the config file.</param>
+        /// <returns>The path of the config file.</returns>
         public static string GetConfigFile(string fileName) {
             return Path.Combine(GetConfigPath(), fileName);
         }

@@ -105,24 +105,48 @@ namespace Silk
             }
         }
 
+        /// <summary>
+        /// Downloads the latest version string from the web.
+        /// </summary>
+        /// <returns>A task that resolves to the latest version string.</returns>
+        /// <remarks>
+        /// This is a blocking call that will block until the download is complete.
+        /// </remarks>
         private static Task<string> GetLatestVersion()
         {
             Logger.LogInfo("Checking for latest version...");
+
+            // Download the latest version
             using WebClient client = new();
-            var resp = client.DownloadString(LatestVersionUrl);
-            return Task.FromResult(resp.Trim());
+
+            // Get the latest version
+            var Response = client.DownloadString(LatestVersionUrl);
+
+            // Return the latest version
+            return Task.FromResult(Response.Trim());
         }
 
+        /// <summary>
+        /// Downloads and installs the given update.
+        /// </summary>
+        /// <param name="downloadUrl">The URL to download the update from.</param>
+        /// <remarks>
+        /// This method will download the update to the temporary download path and then run the update extractor.
+        /// </remarks>
         private static void DownloadAndInstallUpdate(string downloadUrl)
         {
             Logger.LogInfo("Starting download...");
-            Logger.Log(TempDownloadPath);
-            Logger.Log(downloadUrl);
+
+            // Path logging
+            Logger.Log("Temp download path: " + TempDownloadPath);
+            Logger.Log("Download URL: " + downloadUrl);
+
+            // Download the update
             using (WebClient client = new())
             {
                 client.DownloadFile(new Uri(downloadUrl), TempDownloadPath);
             }
-            Logger.LogInfo($"downloaded to {TempDownloadPath}");
+            Logger.LogInfo($"Downloaded to {TempDownloadPath}");
 
             RunUpdateExtractor();
         }
