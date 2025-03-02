@@ -9,9 +9,13 @@ class SilkUpdateRestarter
     {
         try
         {
+            Console.WriteLine("Starting update process...");
+            Console.WriteLine($"Arguments: {string.Join(", ", args)}");
+
             // Kill the SpiderHeck process if it exists
             if (args.Length > 0 && int.TryParse(args[args.Length - 1], out int pid) && IsProcessRunning(pid))
             {
+                Console.WriteLine($"Killing SpiderHeck process with ID {pid}...");
                 Process.GetProcessById(pid).Kill();
             }
 
@@ -49,3 +53,4 @@ class SilkUpdateRestarter
         }
     }
 }
+

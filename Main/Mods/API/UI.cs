@@ -27,7 +27,7 @@ namespace Silk.API {
         public GameObject CreatePanel()
         {
             // Create the panel
-            GameObject panel = new GameObject("Panel", typeof(RectTransform), typeof(Image));
+            GameObject panel = new("Panel", typeof(RectTransform), typeof(Image));
             RectTransform rect = panel.GetComponent<RectTransform>();
 
             // Set default properties
@@ -56,7 +56,7 @@ namespace Silk.API {
         public TMP_Text CreateText(string text, GameObject parent, int fontSize = 20, TextAlignmentOptions alignment = TextAlignmentOptions.Center, Color? color = null)
         {   
             // Create the text
-            GameObject textObj = new GameObject("Text", typeof(RectTransform), typeof(TMP_Text));
+            GameObject textObj = new("Text", typeof(RectTransform), typeof(TMP_Text));
             RectTransform rect = textObj.GetComponent<RectTransform>();
 
             // Set default properties

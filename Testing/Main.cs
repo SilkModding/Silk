@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 
 namespace SilkTestMod
 {
-    [SilkMod("Silk Example Mod", new[] { "Abstractmelon", "Wackymoder" }, "1.0.0", "1.6a", "silk-example-mod")]
+    [SilkMod("Silk Example Mod", new[] { "Abstractmelon", "Wackymoder" }, "1.0.0", "0.5.0", "silk-example-mod")]
     public class TestMod : SilkMod
     {
         private float timer = 0;
@@ -16,7 +16,7 @@ namespace SilkTestMod
         // This is called when unity loads
         public override void Initialize()
         {
-            Logger.LogInfo("Initializing Silk Example Mod...");
+            Logger.LogInfo("Initializing the Silk Example Mod...");
 
             CustomWeapon longSwordWeapon = new CustomWeapon("Long Sword", Weapons.WeaponType.ParticleBlade);
             Weapons.AddNewWeapon(longSwordWeapon);
@@ -80,6 +80,7 @@ namespace SilkTestMod
             }
         }
 
+
         private void KillEnemies()
         {
             EnemyHealthSystem[] array = FindObjectsOfType<EnemyHealthSystem>();
@@ -90,11 +91,22 @@ namespace SilkTestMod
             Logger.LogInfo($"Killed {array.Length} enemies.");
         }
 
+        /// <summary>
+        /// Unloads the Silk Example Mod.
+        /// </summary>
+        /// <remarks>
+        /// This method is called by Silk when the mod is unloaded.
+        /// </remarks>
         public override void Unload()
         {
             Logger.LogInfo("Unloading Silk Example Mod...");
         }
 
+        /// <summary>
+        /// Loads a texture from a file.
+        /// </summary>
+        /// <param name="filePath">The path to the file.</param>
+        /// <returns>The loaded texture.</returns>
         private Texture2D LoadTextureFromFile(string filePath)
         {
             byte[] fileData = System.IO.File.ReadAllBytes(filePath);

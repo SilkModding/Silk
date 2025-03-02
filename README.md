@@ -27,9 +27,11 @@ library, which is a library for patching .NET assemblies at runtime.
 
 Silk currently has the following features:
 
--   It can load mods from the `Mods` directory.
--   It can patch the Spiderheck executable at runtime.
--   It can steal the console back from Unity.
+- **Mod loading**: Silk can load mods.
+- **Runtime patching**: Silk can patch the Spiderheck executable at runtime.
+- **Harmony patches**: Silk uses the [Harmony](https://github.com/pardeike/Harmony) library to patch .NET assemblies at runtime.
+- **Mod dependencies**: Silk can detect and load mods that depend on other mods.
+- **Mod versioning**: Silk can detect and load mods with different versions.
 
 ## Installation
 

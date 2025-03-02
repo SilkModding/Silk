@@ -39,3 +39,4 @@ xdg-open steam://launch/1329500
 dotnet build ./Main/Silk.csproj -c Debug && \
 cp ./Main/bin/Debug/net472/Silk.dll ./Testing/lib/
 
+
