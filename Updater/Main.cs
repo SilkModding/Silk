@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 
-class SilkUpdateRestarter
+class Updater
 {
     static void Main(string[] args)
     {

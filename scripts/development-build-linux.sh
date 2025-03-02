@@ -8,7 +8,7 @@ rm -rf ./Build
 # Build Projects
 dotnet build ./Main/Silk.csproj -c Debug && \
 dotnet build ./Testing/SilkTestMod.csproj -c Debug && \
-dotnet build ./SilkUpdateRestarter/SilkUpdateRestarter.csproj -c Debug
+dotnet build ./Updater/Updater.csproj -c Debug
 
 # Create Build Directories
 mkdir -p ./Build/Silk/Library && \
@@ -29,7 +29,7 @@ cp ./Build/Silk/Library/Silk.dll ./Testing/lib/
 cp -r ./doorstop/development/* ./Build/
 
 # Copy Updater
-cp -r ./SilkUpdateRestarter/bin/Debug/net6.0/* ./Build/Silk/Updater/
+cp -r ./Updater/bin/Debug/net6.0/* ./Build/Silk/Updater/
 
 # Move files are start Spiderheck
 cp -r ./Build/* /run/media/kyles/Storage/SteamLibrary/steamapps/common/SpiderHeck/ && \

@@ -13,6 +13,7 @@
 - Changed the Mod format.
 - Changed the ModsUI screen
 - Added a bunch of null checks
+- Renamed `SilkUpdateRestarter` to `Updater`
 
 ### Fixed
 

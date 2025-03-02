@@ -27,7 +27,7 @@ namespace Silk
             Logger.LogInfo("Restarting game after update...");
             await Task.Delay(5000);
 
-            var exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Silk", "SilkUpdateRestarter.exe");
+            var exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Silk", "Updater.exe");
             var startInfo = new ProcessStartInfo(exePath, Process.GetCurrentProcess().Id.ToString())
             {
                 UseShellExecute = true,
@@ -52,7 +52,7 @@ namespace Silk
             }
             Directory.Delete(updateDir);
 
-            var path = Path.Combine(updaterDir, "SilkUpdateRestarter.exe");
+            var path = Path.Combine(updaterDir, "Updater.exe");
             var currentProcessId = Process.GetCurrentProcess().Id;
 
             var startInfo = new ProcessStartInfo(path, currentProcessId.ToString())
