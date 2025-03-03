@@ -8,13 +8,13 @@
 
 # Silk Mod Loader
 
-A modding tool for Spiderheck. Silk is a mod loader for Spiderheck that allows you to easily install and manage mods for the game. It's designed to be easy to use, and it's designed to be as compatible as possible with other modding tools.
+Silk is a mod loader for Spiderheck that allows you to easily install and manage mods for the game. It's designed to be easy to use, and it's designed to be as compatible as possible with other modding tools.
 
 ## Why Silk?
 
 In order to load mods, you need a mod loader. This one was made beacause Modweaver is a great tool for
 modding Spiderheck, but it's not without its issues. Modweaver is a bit of a black box, and it can be difficult
-to get it to work. Additionally, Modweaver is outdated, and it can lead to mods that are not very
+to get it to work. Additionally, Modweaver is "outdated", and it can lead to mods that are not very
 compatible with each other. Silk is a more lightweight alternative to Modweaver. It's designed to be easy to use,
 and it's designed to be as compatible as possible with other mods.
 
