@@ -44,15 +44,21 @@ namespace Silk
             // Create mods menu
             foreach (var mod in modList)
             {
-                ModsMenu.instance.CreateButton(mod.title, () => {
-                    var ui = Announcer.ModsPopup(mod.title);
-                    ui.CreateDivider();
-                    ui.CreateParagraph($"Authors: {string.Join(", ", mod.authors)}");
-                    ui.CreateParagraph($"Version: {mod.version}");
-                    ui.CreateParagraph($"Designed for SpiderHeck version: {mod.gameVersion}");
-                    ui.CreateParagraph($"ID: {mod.id}");
-                });
+                ModsMenu.instance.CreateButton(mod.title, () => { ModsMenuPopup ui = MakePopup(mod); });
             }
+        }
+
+        private static ModsMenuPopup MakePopup((string title, string[] authors, string version, string gameVersion, string id) mod)
+        {
+            Logger.LogInfo("testing");
+            var ui = Announcer.ModsPopup(mod.title);
+            ui.CreateDivider();
+            ui.CreateParagraph($"Authors: {string.Join(", ", mod.authors)}");
+            ui.CreateParagraph($"Version: {mod.version}");
+            ui.CreateParagraph($"Designed for SpiderHeck version: {mod.gameVersion}");
+            ui.CreateParagraph($"ID: {mod.id}");
+            ui.CreateDivider();
+            return ui;
         }
     }
 }
