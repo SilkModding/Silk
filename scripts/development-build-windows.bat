@@ -11,6 +11,7 @@ dotnet build ..\Updater\Updater.csproj -c Debug
 :: Create Build Directories
 mkdir ..\Build\Silk\Library
 mkdir ..\Build\Silk\Mods
+mkdir ..\Build\Silk\Updater
 mkdir ..\Testing\lib
 
 :: Copy DLLs to Library
@@ -26,7 +27,7 @@ copy ..\Build\Silk\Library\Silk.dll ..\Testing\lib\
 xcopy /e /i ..\doorstop\development\* ..\Build\
 
 :: Copy updater
-xcopy /e /i ..\Updater\bin\Debug\net6.0\* ..\Build\
+xcopy /e /i ..\Updater\bin\Debug\net6.0\* ..\Build\Silk\Updater
 
 :: Move files and start Spiderheck
 xcopy /e /i ..\Build\* "C:\Program Files (x86)\Steam\steamapps\common\SpiderHeck"
