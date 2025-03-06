@@ -44,11 +44,11 @@ namespace Silk
             // Create mods menu
             foreach (var mod in modList)
             {
-                ModsMenu.instance.CreateButton(mod.title, () => { ModsMenuPopup ui = MakeAnnouncer(mod); });
+                ModsMenu.instance.CreateButton(mod.title, () => { ModsMenuPopup ui = MakePopup(mod); });
             }
         }
 
-        private static ModsMenuPopup MakeAnnouncer((string title, string[] authors, string version, string gameVersion, string id) mod)
+        private static ModsMenuPopup MakePopup((string title, string[] authors, string version, string gameVersion, string id) mod)
         {
             Logger.LogInfo("testing");
             var ui = Announcer.ModsPopup(mod.title);
