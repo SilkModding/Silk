@@ -57,6 +57,7 @@ namespace Silk
             ui.CreateParagraph($"Version: {mod.version}");
             ui.CreateParagraph($"Designed for SpiderHeck version: {mod.gameVersion}");
             ui.CreateParagraph($"ID: {mod.id}");
+            ui.CreateDivider();
             return ui;
         }
     }
