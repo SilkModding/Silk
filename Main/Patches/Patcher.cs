@@ -29,4 +29,16 @@ namespace Silk {
             ModsUI.Initialize();
         }
     }
+
+    [HarmonyPatch(typeof(SteamLeaderboards), "UpdateScore")]
+    internal class DisableLeaderboard {
+        public static bool Prefix(int score) {
+            if (Utils.onlineMods) {
+                Logger.LogInfo("Leaderboard update disabled.");
+                Utils.Announce("Mods effecting the gameplay have been detected. Leaderboard scores for this current session have been disabled.", 255, 0, 0);
+                return false;
+            }
+            return true;
+        }
+    }
 }

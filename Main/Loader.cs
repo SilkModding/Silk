@@ -142,13 +142,34 @@ namespace Silk
                 foreach (var failedMod in FailedMods)
                 {
                     Logger.LogInfo($"  {failedMod.ModName} by {string.Join(", ", failedMod.ModAuthors)}");
-                    Utils.Announce($"Failed to load mod: {failedMod.ModName}", 255, 0, 0, typeof(Loader));
+                    Utils.Announce($"Failed to load mod: {failedMod.ModName}", 255, 0, 0);
                 }
             }
         }
 
+        /// <summary>
+        /// Loads BepInEx.Preloader.dll, which is used to initialize BepInEx.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This method sets the <c>DOORSTOP_INVOKE_DLL_PATH</c> environment variable to the path of
+        /// <c>BepInEx.Preloader.dll</c> before calling the entry point method of the assembly. This is
+        /// necessary because the preloader assembly looks for other BepInEx assemblies in the same directory
+        /// as the value of <c>DOORSTOP_INVOKE_DLL_PATH</c>.
+        /// </para>
+        /// <para>
+        /// If an exception occurs while loading the preloader assembly or calling the entry point method,
+        /// the exception is logged to the console and the method returns without doing anything else.
+        /// </para>
+        /// <para>
+        /// After loading the preloader assembly and calling the entry point method, the
+        /// <c>DOORSTOP_INVOKE_DLL_PATH</c> environment variable is reset to its original value.
+        /// </para>
+        /// </remarks>
         public static void LoadBepInEx()
         {
+            // Load BepInEx
+            Logger.LogInfo("Loading BepInEx.Preloader.dll...");
             string path = Path.Combine("BepInEx", "core", "BepInEx.Preloader.dll");
 
             if (!File.Exists(path))

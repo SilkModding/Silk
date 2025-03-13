@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 using UnityEngine;
 
 namespace Silk
@@ -11,66 +11,28 @@ namespace Silk
     public class Config
     {
         private static Dictionary<string, string> config = new Dictionary<string, string>();
-        
+
         // Config path (uses utils)
         public static string ConfigPath => Utils.GetConfigPath();
 
         // Config File (uses utils)
-        public static string ConfigFile => Utils.GetConfigFile("silk.cfg");
+        public static string ConfigFile => Utils.GetConfigFile("silk.yaml");
 
         public static void LoadConfig()
         {
-            // Log starting
             Logger.LogInfo("Loading config...");
 
-            // Log Paths
-            // Logger.LogInfo($"Config file: {ConfigFile}");
-            // Logger.LogInfo($"Config path: {ConfigPath}");
-    
-            // Check if config file exists
             if (!File.Exists(ConfigFile))
-            {   
-                // If not, create it
+            {
                 Logger.LogInfo("Config file not found, creating it");
                 CreateConfigFile(ConfigFile, ConfigPath);
             }
 
-            // Load config
-            string[] lines = File.ReadAllLines(ConfigFile);
+            var deserializer = new DeserializerBuilder()
+                .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                .Build();
 
-            // Parse config
-            foreach (string line in lines)
-            {
-                // Skip comments
-                if (line.StartsWith("#"))
-                {
-                    continue;
-                }
-                
-                Logger.LogInfo($"Parsing config line: {line}");
-                string[] split = line.Split('=');
-
-                // Check if split is valid
-                if (split.Length != 2)
-                {
-                    Logger.LogError($"Invalid config line: {line}");
-                    continue;
-                }
-
-                // Get key and value
-                string key = split[0].Trim();
-                string value = split[1].Trim();
-
-                // Check if key already exists
-                if (config.ContainsKey(key))
-                {
-                    Logger.LogError($"Config key {key} already exists, skipping");
-                    continue;
-                }
-
-                // Add key and value to config
-                config.Add(key, value);
-            }
+            config = deserializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(ConfigFile));
         }
 
         public static void CreateConfigFile(string ConfigFile, string ConfigPath)
@@ -80,13 +42,14 @@ namespace Silk
                 Directory.CreateDirectory(ConfigPath);
             }
 
-            // Make sure the file exists
             if (!File.Exists(ConfigFile))
             {
                 File.Create(ConfigFile).Dispose();
             }
 
             StringBuilder sb = new StringBuilder();
+            sb.AppendLine("# Silk configuration file");
+            sb.AppendLine("# Add your configuration key-value pairs below");
 
             FieldInfo[] fields = typeof(Config).GetFields(BindingFlags.Static | BindingFlags.Public);
 
@@ -94,8 +57,7 @@ namespace Silk
             {
                 string key = field.Name;
                 string defaultValue = field.GetValue(null).ToString();
-
-                sb.AppendLine($"{key}={defaultValue}");
+                sb.AppendLine($"{key}: {defaultValue}");
             }
 
             File.WriteAllText(ConfigFile, sb.ToString());
@@ -103,12 +65,8 @@ namespace Silk
 
         public static string? GetConfigValue(string key)
         {
-            if (config.ContainsKey(key))
-            {
-                return config[key];
-            }
-
-            return null;
+            config.TryGetValue(key, out var value);
+            return value;
         }
 
         public static void SetConfigValue(string key, string value)
@@ -126,19 +84,24 @@ namespace Silk
 
         public static void SaveConfig()
         {
-            string configPath = ConfigFile;
+            var yaml = new SerializerBuilder()
+                .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                .Build()
+                .Serialize(config);
 
-            StringBuilder sb = new StringBuilder();
+            File.WriteAllText(ConfigFile, yaml);
+        }
 
-            foreach (KeyValuePair<string, string> pair in config)
+        public static bool CheckAndAddConfig(string key, string defaultValue)
+        {
+            if (!config.ContainsKey(key))
             {
-                sb.AppendLine($"{pair.Key}={pair.Value}");
+                config[key] = defaultValue;
+                SaveConfig();
+                return true;
             }
 
-            File.WriteAllText(configPath, sb.ToString());
+            return false;
         }
     }
 }
-
-
-

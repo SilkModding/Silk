@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace Silk {
     public static class Utils {
+        public static bool onlineMods = false;
 
         // Check if the OS is Windows
         public static bool IsWindows() => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
@@ -108,7 +109,7 @@ namespace Silk {
         /// <param name="colorG">The green component of the color.</param>
         /// <param name="colorB">The blue component of the color.</param>
         /// <param name="gameTypeRef">A reference type related to the game context.</param>
-        public static void Announce(string text, int colorR, int colorG, int colorB, Type gameTypeRef) {
+        public static void Announce(string text, int colorR, int colorG, int colorB) {
             var color = new UnityEngine.Color(colorR, colorG, colorB);
             Announcer.instance.Announce(text, color, true);
         }
