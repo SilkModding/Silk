@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 :: Define the version for the release 
-set VERSION=1.0.0  
+set VERSION=0.4.0  
 
 :: Clean Build Folder
 echo Cleaning up previous build...
@@ -14,11 +14,14 @@ dotnet build .\Main\Silk.csproj -c Release
 if %errorlevel% neq 0 exit /b %errorlevel%
 dotnet build .\Testing\SilkTestMod.csproj -c Release
 if %errorlevel% neq 0 exit /b %errorlevel%
+dotnet build .\Updater\Updater.csproj -c Release
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 :: Create Build Directories
 echo Creating build directories...
 mkdir .\Build\Silk\Library
 mkdir .\Build\Silk\Mods
+mkdir .\Build\Silk\Updater
 mkdir .\Testing\lib
 
 :: Copy DLLs to Library
@@ -37,6 +40,10 @@ xcopy .\Build\Silk\Library\Silk.dll .\Testing\lib\ /Y /S
 echo Copying Doorstop files...
 xcopy .\doorstop\release\* .\Build\ /Y /S
 
+:: Copy Updater
+echo Copying updater files...
+xcopy /e /i .\Updater\bin\Release\net6.0\* .\Build\Silk\Updater
+
 :: Copy Changelog and README
 echo Copying README and CHANGELOG files...
 copy .\README.md .\Build\
@@ -47,6 +54,10 @@ echo Creating versioned zip archive...
 cd .\Build
 powershell -command "Compress-Archive -Path * -DestinationPath Silk-v%VERSION%.zip"
 cd ..
+
+:: Move the zip file to a distribution folder
+mkdir .\Releases
+move .\Build\Silk-v%VERSION%.zip .\Releases\
 
 :: Finished
 echo Release build completed: Silk-v%VERSION%.zip
