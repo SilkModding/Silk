@@ -7,6 +7,13 @@ namespace Silk.API {
     /// </summary>
     public static class Player {
         /// <summary>
+        /// Gets the local player GameObject.
+        /// </summary>
+        public static GameObject GetLocalPlayer() {
+            return NetworkManager.Singleton.LocalClient?.PlayerObject?.gameObject;
+        }
+
+        /// <summary>
         /// Checks if the local player is spawned.
         /// </summary>
         public static bool IsLocalPlayer() {

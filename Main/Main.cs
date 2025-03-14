@@ -6,6 +6,7 @@ namespace Silk
 {
     public static class Main
     {
+        // Detect if bepinex is present
         public static bool BepInExPresent { get { return Directory.Exists(@"BepInEx\core\"); } }
 
         // Flag to make sure we only hook into the scene loading once
@@ -52,6 +53,10 @@ namespace Silk
             }
         }
 
+        /// <summary>
+        /// Hooks into Unity's scene loading process by attaching a scene loaded listener to the SceneManager.
+        /// This is necessary because we need to wait until Unity has finished loading before we can load mods.
+        /// </summary>
         private static void HookIntoSceneLoading()
         {
             if (!hooked)

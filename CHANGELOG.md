@@ -1,28 +1,35 @@
 # Changelog
 
-## [0.5.0] - 3/2/25
+## [0.5.0] - 03/13/25
 
 ### Added
 
 - Added `SilkModAttribute` for marking mod classes.
 - Added `ModManager` class for managing mods.
-- Added a bunch of documentation
+- Added extensive documentation.
+- Added a leaderboard patch to prevent cheating while modding.
+- Added Nuget support
 
 ### Changed
 
-- Changed the Mod format.
-- Changed the ModsUI screen
-- Added a bunch of null checks
-- Renamed `SilkUpdateRestarter` to `Updater`
+- Modified the mod format.
+- Updated the ModsUI screen.
+- Implemented numerous null checks.
+- Renamed `SilkUpdateRestarter` to `Updater`.
+- Changed the configuration to follow a YAML structure.
+- Enhanced the doorstop for improved user experience.
+- Moved the updater to a new directory.
 
 ### Fixed
 
-- Resolved issues with mod compatibility when using outdated modding tools.
-- Issue with harmony not loading sometimes
+- Resolved compatibility issues with outdated modding tools.
+- Addressed an issue where Harmony would not load sometimes.
+- Fixed Windows build to support the updater.
 
 ### Removed
 
-- Removed old updater code
+- Removed obsolete updater code.
+- Removed outdated elements.
 
 ## [0.4.0] - 01/30/25
 

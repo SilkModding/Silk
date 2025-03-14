@@ -5,6 +5,16 @@ using System.IO.Compression;
 
 class Updater
 {
+    /// <summary>
+    /// The entry point of the updater executable.
+    /// 
+    /// This program is launched by the Updater class in the main mod loader assembly.
+    /// It takes one or more arguments, the last of which should be the process ID of the SpiderHeck process
+    /// that launched the updater.
+    /// 
+    /// The program will kill the SpiderHeck process, extract the contents of the "SilkUpdate.zip" file to the
+    /// parent directory of the directory that it is running in, and then exit.
+    /// </summary>
     static void Main(string[] args)
     {
         try
@@ -40,6 +50,11 @@ class Updater
         }
     }
 
+    /// <summary>
+    /// Checks if a process with the specified process ID is currently running.
+    /// </summary>
+    /// <param name="pid">The process ID to check.</param>
+    /// <returns>True if the process is running, otherwise false.</returns>
     static bool IsProcessRunning(int pid)
     {
         try
