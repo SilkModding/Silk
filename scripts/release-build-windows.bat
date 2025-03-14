@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 :: Define the version for the release 
-set VERSION=0.4.0  
+set VERSION=0.5.0  
 
 :: Clean Build Folder
 echo Cleaning up previous build...

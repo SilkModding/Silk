@@ -9,6 +9,8 @@
 - Added extensive documentation.
 - Added a leaderboard patch to prevent cheating while modding.
 - Added Nuget support
+- Added networking attribute
+- Added leaderboard cheating prevention
 
 ### Changed
 
@@ -19,12 +21,14 @@
 - Changed the configuration to follow a YAML structure.
 - Enhanced the doorstop for improved user experience.
 - Moved the updater to a new directory.
+- Documented the code more
 
 ### Fixed
 
 - Resolved compatibility issues with outdated modding tools.
 - Addressed an issue where Harmony would not load sometimes.
 - Fixed Windows build to support the updater.
+- Fixed build script to update the test build before building the test mod
 
 ### Removed
 
