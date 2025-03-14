@@ -30,15 +30,15 @@ namespace Silk
             }
 
             // Create mods list
-            var modList = new List<(string title, string[] authors, string version, string gameVersion, string id)>
+            var modList = new List<(string title, string[] authors, string version, string gameVersion, string id, NetworkingType networkingType)>
             {
-                ("Silk", new[] {"Abstractmelon"}, "1.0.0", "0.5.0", "silk"), // Add silk as an always loaded mod (This mod is silk so if this menu is here and silk isnt, something has gone horribly wrong)
+                ("Silk", new[] {"Abstractmelon"}, "1.0.0", "0.5.0", "silk", NetworkingType.None), // Add silk as an always loaded mod (This mod is silk so if this menu is here and silk isnt, something has gone horribly wrong)
             };
 
             // Add loaded mods
             foreach (var mod in Loader.LoadedMods)
             {
-                modList.Add((mod.ModName, mod.ModAuthors, mod.ModVersion, mod.ModSilkVersion, mod.ModId));
+                modList.Add((mod.ModName, mod.ModAuthors, mod.ModVersion, mod.ModSilkVersion, mod.ModId, mod.ModNetworkingType));
             }
 
             // Create mods menu
@@ -51,6 +51,7 @@ namespace Silk
                     ui.CreateParagraph($"Version: {mod.version}");
                     ui.CreateParagraph($"Designed for SpiderHeck version: {mod.gameVersion}");
                     ui.CreateParagraph($"ID: {mod.id}");
+                    ui.CreateParagraph($"Networking Type: {mod.networkingType}");
                 });
             }
         }

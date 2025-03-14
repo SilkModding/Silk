@@ -63,16 +63,23 @@ namespace Silk
                             var modVersion = silkModAttribute.ConstructorArguments[2].Value?.ToString() ?? "Unknown";
                             var modSilkVersion = silkModAttribute.ConstructorArguments[3].Value?.ToString() ?? "Unknown";
                             var modId = silkModAttribute.ConstructorArguments[4].Value?.ToString() ?? modName;
-                            var modEntryPoint = silkModAttribute.ConstructorArguments.Count > 5
-                                ? silkModAttribute.ConstructorArguments[5].Value?.ToString() ?? "Initialize"
+                            var modEntryPoint = silkModAttribute.Properties.Count > 5
+                                ? silkModAttribute.Properties[5].Argument.Value?.ToString() ?? "Initialize"
                                 : "Initialize";
-                            
+                            var modNetworkingType = (NetworkingType)silkModAttribute.ConstructorArguments[5].Value;
+
                             // Print mod info
                             Logger.LogInfo($"Found Mod: {modName} by {string.Join(", ", authors)}");
                             Logger.LogInfo($"Mod Version: {modVersion}");
                             Logger.LogInfo($"Mod Silk Version: {modSilkVersion}");
                             Logger.LogInfo($"Mod Id: {modId}");
                             Logger.LogInfo($"Mod EntryPoint: {modEntryPoint}");
+                            Logger.LogInfo($"Mod NetworkingType: {modNetworkingType}");
+
+                            if (modNetworkingType == NetworkingType.Server || modNetworkingType == NetworkingType.Both)
+                            {
+                                Utils.onlineMods = true;
+                            }
 
                             // Load the actual mod
                             var assembly = Assembly.LoadFrom(modFile);
@@ -81,7 +88,7 @@ namespace Silk
                             if (modClass == null)
                             {
                                 Logger.LogError($"Failed to load type: {type.FullName}");
-                                FailedMods.Add(new SilkModData(modName, authors, modVersion, modSilkVersion, modId));
+                                FailedMods.Add(new SilkModData(modName, authors, modVersion, modSilkVersion, modId, modNetworkingType));
                                 modsFailed++;
                                 continue;
                             }
@@ -108,13 +115,13 @@ namespace Silk
                                 else
                                 {
                                     Logger.LogError($"Entry point method {modEntryPoint} not found in {modClass.FullName}");
-                                    FailedMods.Add(new SilkModData(modName, authors, modVersion, modSilkVersion, modId));
+                                    FailedMods.Add(new SilkModData(modName, authors, modVersion, modSilkVersion, modId, modNetworkingType));
                                     modsFailed++;
                                     continue;
                                 }
                             }
 
-                            LoadedMods.Add(new SilkModData(modName, authors, modVersion, modSilkVersion, modId));
+                            LoadedMods.Add(new SilkModData(modName, authors, modVersion, modSilkVersion, modId, modNetworkingType));
                             modsLoaded++;
                         }
                     }
@@ -124,7 +131,7 @@ namespace Silk
                     Logger.LogError($"Failed to load mod {Path.GetFileName(modFile)}: {ex.Message}");
                     Logger.LogError(ex.StackTrace);
                     var modName = Path.GetFileNameWithoutExtension(modFile);
-                    FailedMods.Add(new SilkModData(modName, Array.Empty<string>(), "Unknown", "Unknown", modName));
+                    FailedMods.Add(new SilkModData(modName, Array.Empty<string>(), "Unknown", "Unknown", modName, NetworkingType.None));
                     modsFailed++;
                 }
             }
@@ -209,14 +216,16 @@ namespace Silk
         public string ModVersion { get; }
         public string ModSilkVersion { get; }
         public string ModId { get; }
+        public NetworkingType ModNetworkingType { get; }
 
-        public SilkModData(string modName, string[] modAuthors, string modVersion, string modSilkVersion, string modId)
+        public SilkModData(string modName, string[] modAuthors, string modVersion, string modSilkVersion, string modId, NetworkingType modNetworkingType)
         {
             ModName = modName;
             ModAuthors = modAuthors;
             ModVersion = modVersion;
             ModSilkVersion = modSilkVersion;
             ModId = modId;
+            ModNetworkingType = modNetworkingType;
         }
     }
 }

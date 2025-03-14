@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 
 namespace SilkTestMod
 {
-    [SilkMod("Silk Example Mod", new[] { "Abstractmelon", "Wackymoder" }, "1.0.0", "0.5.0", "silk-example-mod")]
+    [SilkMod("Silk Example Mod", new[] { "Abstractmelon", "Wackymoder" }, "1.0.0", "0.5.0", "silk-example-mod", 1)]
     public class TestMod : SilkMod
     {
         private float timer = 0;
@@ -27,7 +27,7 @@ namespace SilkTestMod
             };
         }
 
-        // This is called when unity is ready
+        // This is called when unity is readys
         public void Awake()
         {
             // This is called when unity is ready
@@ -42,6 +42,8 @@ namespace SilkTestMod
 
             // Apply Harmony patches
             Logger.LogInfo("Harmony patches applied.");
+
+
         }
 
         private bool timerStarted = false;
