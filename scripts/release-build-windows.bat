@@ -56,8 +56,8 @@ powershell -command "Compress-Archive -Path * -DestinationPath Silk-v%VERSION%.z
 cd ..
 
 :: Move the zip file to a distribution folder
-mkdir .\Releases
-move .\Build\Silk-v%VERSION%.zip .\Releases\
+mkdir .\release
+move .\Build\Silk-v%VERSION%.zip .\release\
 
 :: Finished
 echo Release build completed: Silk-v%VERSION%.zip

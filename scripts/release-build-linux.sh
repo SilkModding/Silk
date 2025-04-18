@@ -52,8 +52,8 @@ echo "Creating versioned zip archive..."
 cd ./Build && zip -r "Silk-v${VERSION}.zip" * && cd ..
 
 # Move the zip file to a distribution folder
-mkdir -p ./Releases
-mv ./Build/Silk-v${VERSION}.zip ./Releases/
+mkdir -p ./release
+mv ./Build/Silk-v${VERSION}.zip ./release/
 
 # Finished
 echo "Release build completed: Silk-v${VERSION}.zip"

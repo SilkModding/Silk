@@ -396,3 +396,6 @@ FodyWeavers.xsd
 
 # Testing libraries
 /Testing/Lib
+
+# Releases foldder
+/release
