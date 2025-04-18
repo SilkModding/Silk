@@ -8,7 +8,7 @@ echo "Cleaned build folder"
 
 # Build Projects
 dotnet build ./src/Silk.csproj -c Debug && \
-dotnet build ./Updater/Updater.csproj -c Debug
+dotnet build ./updater/Updater.csproj -c Debug
 echo "Built projects"
 
 # Update Test Mod
@@ -43,7 +43,7 @@ cp -r ./doorstop/development/* ./build/
 echo "Copied doorstop files"
 
 # Copy Updater
-cp -r ./Updater/bin/Debug/net6.0/* ./build/Silk/Updater/
+cp -r ./updater/bin/Debug/net6.0/* ./build/Silk/Updater/
 echo "Copied updater"
 
 # Move files are start Spiderheck

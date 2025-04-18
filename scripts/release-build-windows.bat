@@ -14,7 +14,7 @@ dotnet build .\src\Silk.csproj -c Release
 if %errorlevel% neq 0 exit /b %errorlevel%
 dotnet build .\testing\SilkTestMod.csproj -c Release
 if %errorlevel% neq 0 exit /b %errorlevel%
-dotnet build .\Updater\Updater.csproj -c Release
+dotnet build .\updater\Updater.csproj -c Release
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 :: Create Build Directories
@@ -42,7 +42,7 @@ xcopy .\doorstop\release\* .\build\ /Y /S
 
 :: Copy Updater
 echo Copying updater files...
-xcopy /e /i .\Updater\bin\Release\net6.0\* .\build\Silk\Updater
+xcopy /e /i .\updater\bin\Release\net6.0\* .\build\Silk\Updater
 
 :: Copy Changelog and README
 echo Copying README and CHANGELOG files...

@@ -13,7 +13,7 @@ rm -rf ./build
 echo "Building projects in Release mode..."
 dotnet build ./src/Silk.csproj -c Release && \
 dotnet build ./testing/SilkTestMod.csproj -c Release && \
-dotnet build ./Updater/Updater.csproj -c Release
+dotnet build ./updater/Updater.csproj -c Release
 
 # Create Build Directories
 echo "Creating build directories..."
@@ -40,7 +40,7 @@ cp -r ./doorstop/release/* ./build/
 
 # Copy Updater
 echo "Copying updater files..."
-cp -r ./Updater/bin/Release/net6.0/* ./build/Silk/Updater/
+cp -r ./updater/bin/Release/net6.0/* ./build/Silk/Updater/
 
 # Copy Changelog and README
 echo "Copying README and CHANGELOG files..."
