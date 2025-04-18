@@ -399,3 +399,6 @@ FodyWeavers.xsd
 
 # Releases foldder
 /release
+
+# Library folder
+**/lib
