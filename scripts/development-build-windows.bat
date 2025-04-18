@@ -4,7 +4,7 @@
 rmdir /s /q ..\Build
 
 :: Build Projects
-dotnet build ..\Main\Silk.csproj -c Debug && ^
+dotnet build ..\src\Silk.csproj -c Debug && ^
 dotnet build ..\Testing\SilkTestMod.csproj -c Debug && ^
 dotnet build ..\Updater\Updater.csproj -c Debug
 
@@ -15,7 +15,7 @@ mkdir ..\Build\Silk\Updater
 mkdir ..\Testing\lib
 
 :: Copy DLLs to Library
-copy ..\Main\bin\Debug\net472\*.dll ..\Build\Silk\Library\
+copy ..\src\bin\Debug\net472\*.dll ..\Build\Silk\Library\
 
 :: Copy SilkTestMod.dll to Mods
 copy ..\Testing\bin\Debug\net472\SilkTestMod.dll ..\Build\Silk\Mods\
@@ -35,5 +35,5 @@ pause
 start steam://launch/1329500
 
 :: Update Test Mod
-dotnet build ..\Main\Silk.csproj -c Debug && ^
-copy ..\Main\bin\Debug\net472\Silk.dll ..\Testing\lib\
+dotnet build ..\src\Silk.csproj -c Debug && ^
+copy ..\src\bin\Debug\net472\Silk.dll ..\Testing\lib\

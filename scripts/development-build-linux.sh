@@ -7,12 +7,12 @@ rm -rf ./Build
 echo "Cleaned build folder"
 
 # Build Projects
-dotnet build ./Main/Silk.csproj -c Debug && \
+dotnet build ./src/Silk.csproj -c Debug && \
 dotnet build ./Updater/Updater.csproj -c Debug
 echo "Built projects"
 
 # Update Test Mod
-cp ./Main/bin/Debug/net472/Silk.dll ./Testing/lib/
+cp ./src/bin/Debug/net472/Silk.dll ./Testing/lib/
 echo "Updated test mod"
 
 # Build Test Mod
@@ -27,7 +27,7 @@ mkdir -p ./Testing/lib
 echo "Created build directories"
 
 # Copy DLLs to Library
-cp ./Main/bin/Debug/net472/*.dll ./Build/Silk/Library/
+cp ./src/bin/Debug/net472/*.dll ./Build/Silk/Library/
 echo "Copied DLLs to library"
 
 # Copy SilkTestMod.dll to Mods

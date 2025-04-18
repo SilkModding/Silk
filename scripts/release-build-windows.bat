@@ -10,7 +10,7 @@ rmdir /s /q .\Build
 
 :: Build Projects in Release Mode
 echo Building projects in Release mode...
-dotnet build .\Main\Silk.csproj -c Release
+dotnet build .\src\Silk.csproj -c Release
 if %errorlevel% neq 0 exit /b %errorlevel%
 dotnet build .\Testing\SilkTestMod.csproj -c Release
 if %errorlevel% neq 0 exit /b %errorlevel%
@@ -26,7 +26,7 @@ mkdir .\Testing\lib
 
 :: Copy DLLs to Library
 echo Copying main DLLs to Library...
-xcopy .\Main\bin\Release\net472\*.dll .\Build\Silk\Library\ /Y /S
+xcopy .\src\bin\Release\net472\*.dll .\Build\Silk\Library\ /Y /S
 
 :: Copy SilkTestMod.dll to Mods
 echo Copying test mod DLL to Mods...

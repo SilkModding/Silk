@@ -11,7 +11,7 @@ rm -rf ./Build
 
 # Build Projects in Release Mode
 echo "Building projects in Release mode..."
-dotnet build ./Main/Silk.csproj -c Release && \
+dotnet build ./src/Silk.csproj -c Release && \
 dotnet build ./Testing/SilkTestMod.csproj -c Release && \
 dotnet build ./Updater/Updater.csproj -c Release
 
@@ -24,7 +24,7 @@ mkdir -p ./Testing/lib
 
 # Copy DLLs to Library
 echo "Copying main DLLs to Library..."
-cp ./Main/bin/Release/net472/*.dll ./Build/Silk/Library/
+cp ./src/bin/Release/net472/*.dll ./Build/Silk/Library/
 
 # Copy SilkTestMod.dll to Mods
 echo "Copying test mod DLL to Mods..."
