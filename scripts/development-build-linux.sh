@@ -12,18 +12,18 @@ dotnet build ./Updater/Updater.csproj -c Debug
 echo "Built projects"
 
 # Update Test Mod
-cp ./src/bin/Debug/net472/Silk.dll ./Testing/lib/
+cp ./src/bin/Debug/net472/Silk.dll ./testing/lib/
 echo "Updated test mod"
 
 # Build Test Mod
-dotnet build ./Testing/SilkTestMod.csproj -c Debug
+dotnet build ./testing/SilkTestMod.csproj -c Debug
 echo "Built test mod"
 
 # Create Build Directories
 mkdir -p ./build/Silk/Library && \
 mkdir -p ./build/Silk/Mods && \
 mkdir -p ./build/Silk/Updater && \
-mkdir -p ./Testing/lib
+mkdir -p ./testing/lib
 echo "Created build directories"
 
 # Copy DLLs to Library
@@ -31,11 +31,11 @@ cp ./src/bin/Debug/net472/*.dll ./build/Silk/Library/
 echo "Copied DLLs to library"
 
 # Copy SilkTestMod.dll to Mods
-cp ./Testing/bin/Debug/net472/SilkTestMod.dll ./build/Silk/Mods/
+cp ./testing/bin/Debug/net472/SilkTestMod.dll ./build/Silk/Mods/
 echo "Copied SilkTestMod.dll to mods"
 
 # Copy Silk.dll to Testing/lib
-cp ./build/Silk/Library/Silk.dll ./Testing/lib/
+cp ./build/Silk/Library/Silk.dll ./testing/lib/
 echo "Copied Silk.dll to testing lib"
 
 # Copy Doorstop Files

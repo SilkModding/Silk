@@ -395,7 +395,7 @@ FodyWeavers.xsd
 !doorstop/release
 
 # Testing libraries
-/Testing/Lib
+/testing/Lib
 
 # Releases foldder
 /release

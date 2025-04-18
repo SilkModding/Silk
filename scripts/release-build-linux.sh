@@ -12,7 +12,7 @@ rm -rf ./build
 # Build Projects in Release Mode
 echo "Building projects in Release mode..."
 dotnet build ./src/Silk.csproj -c Release && \
-dotnet build ./Testing/SilkTestMod.csproj -c Release && \
+dotnet build ./testing/SilkTestMod.csproj -c Release && \
 dotnet build ./Updater/Updater.csproj -c Release
 
 # Create Build Directories
@@ -20,7 +20,7 @@ echo "Creating build directories..."
 mkdir -p ./build/Silk/Library && \
 mkdir -p ./build/Silk/Mods && \
 mkdir -p ./build/Silk/Updater && \
-mkdir -p ./Testing/lib
+mkdir -p ./testing/lib
 
 # Copy DLLs to Library
 echo "Copying main DLLs to Library..."
@@ -28,11 +28,11 @@ cp ./src/bin/Release/net472/*.dll ./build/Silk/Library/
 
 # Copy SilkTestMod.dll to Mods
 echo "Copying test mod DLL to Mods..."
-cp ./Testing/bin/Release/net472/SilkTestMod.dll ./build/Silk/Mods/
+cp ./testing/bin/Release/net472/SilkTestMod.dll ./build/Silk/Mods/
 
 # Copy Silk.dll to Testing/lib
-echo "Copying Silk.dll to Testing/lib..."
-cp ./build/Silk/Library/Silk.dll ./Testing/lib/
+echo "Copying Silk.dll to testing/lib..."
+cp ./build/Silk/Library/Silk.dll ./testing/lib/
 
 # Copy Doorstop Files
 echo "Copying Doorstop files..."
