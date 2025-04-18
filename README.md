@@ -37,7 +37,8 @@ Silk currently has the following features:
 
 To install Silk, follow these steps:
 
-1. Download the latest release from the repository.
-2. Extract the contents of the release to a directory of your choice.
-3. Start Spiderheck.
-4. Place your mods in the `Silk/Mods` directory to load them.
+1. **Find the game directory**: To find the game directory, right click on SpiderHeck in your Steam library and select "Properties". Then, click on the "Local Files" tab and click on the "Browse Local Files" button. This will open the game directory in your file explorer.
+2. **Download Silk**: Go to the [Silk releases page](https://github.com/SilkModding/Silk/releases) and download the latest version of Silk.
+3. **Extract Silk**: Extract the downloaded zip archive to a folder on your computer.
+4. **Move Silk files to the game directory**: Move the following files from the extracted folder to the same directory as the `SpiderHeckApp.exe` in the spiderheck directory.
+5. **Run the game**: Run the game as you normally would.
