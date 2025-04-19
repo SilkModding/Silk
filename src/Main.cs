@@ -7,7 +7,7 @@ namespace Silk
     public static class Main
     {
         // Detect if bepinex is present
-        public static bool BepInExPresent { get { return Directory.Exists(@"BepInEx\core\"); } }
+        public static bool BepInExPresent => Directory.Exists(@"BepInEx\core\");
 
         // Flag to make sure we only hook into the scene loading once
         private static bool hooked = false;
@@ -25,10 +25,7 @@ namespace Silk
             HookIntoSceneLoading();
 
             // Test logging
-            Logger.Log("This is a log message");
-            Logger.LogInfo("This is an info message");
-            Logger.LogWarning("This is a warning message");
-            Logger.LogError("This is an error message");
+            TestLogging();
 
             // Configuration
             Config.LoadConfig();
@@ -60,7 +57,8 @@ namespace Silk
         private static void HookIntoSceneLoading()
         {
             if (!hooked)
-            {
+            {   
+                // Hook into Unity's scene loading process, calls OnSceneLoaded when unity brodcasts that a scene has been loaded
                 SceneManager.sceneLoaded += OnSceneLoaded;
                 hooked = true;
             }
@@ -83,9 +81,6 @@ namespace Silk
             // Call the mod loader after Unity finishes its scene loading process
             Load();
 
-            // Steal logs
-            UnityLogSniper.Initialize();
-
             // Unsubscribe from the event to prevent it from firing again
             SceneManager.sceneLoaded -= OnSceneLoaded;
             hooked = false; // Reset the hook flag to avoid re-entry
@@ -105,13 +100,25 @@ namespace Silk
             Logger.LogInfo("Initializing the mod loader...");
             Loader.Initialize();
 
-            // Start the patches
+            // Start the harmony patches
             Logger.LogInfo("Starting Patches... ");
             Patches.Patch();
 
+            // Steal logger back from unity
+            UnityLogSniper.Initialize();
+
             Logger.LogInfo("Silk initialization complete.");
+        }
+
+        private static void TestLogging()
+        {
+            Logger.Log("This is a log message");
+            Logger.LogInfo("This is an info message");
+            Logger.LogWarning("This is a warning message");
+            Logger.LogError("This is an error message");
         }
     }
 }
+
 
 
