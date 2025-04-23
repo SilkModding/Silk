@@ -1,4 +1,4 @@
-[Logo](./banner.png)
+[![Logo](./banner.png)](https://github.com/SilkModding/Silk/)
 
 [![GitHub stars](https://img.shields.io/github/stars/SilkModding/Silk?style=flat)](https://github.com/SilkModding/Silk/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/SilkModding/Silk)](https://github.com/SilkModding/Silk/issues)
