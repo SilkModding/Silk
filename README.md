@@ -1,4 +1,4 @@
-[![Logo](./assets/banner.png)](https://silkmodding.com)
+[![Logo](./banner.png)](https://github.com/SilkModding/Silk/)
 
 [![GitHub stars](https://img.shields.io/github/stars/SilkModding/Silk?style=flat)](https://github.com/SilkModding/Silk/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/SilkModding/Silk)](https://github.com/SilkModding/Silk/issues)
@@ -8,15 +8,7 @@
 
 # Silk Mod Loader
 
-Silk is a mod loader for Spiderheck that allows you to easily install and manage mods for the game. It's designed to be easy to use, and it's designed to be as compatible as possible with other modding tools.
-
-## Why Silk?
-
-In order to load mods, you need a mod loader. This one was made beacause Modweaver is a great tool for
-modding Spiderheck, but it's not without its issues. Modweaver is a bit of a black box, and it can be difficult
-to get it to work. Additionally, Modweaver is "outdated", and it can lead to mods that are not very
-compatible with each other. Silk is a more lightweight alternative to Modweaver. It's designed to be easy to use,
-and it's designed to be as compatible as possible with other mods.
+Silk is a mod loader for Spiderheck that allows you to easily install and manage mods for the game.
 
 ## How it works
 
@@ -29,9 +21,7 @@ Silk currently has the following features:
 
 - **Mod loading**: Silk can load mods.
 - **Runtime patching**: Silk can patch the Spiderheck executable at runtime.
-- **Harmony patches**: Silk uses the [Harmony](https://github.com/pardeike/Harmony) library to patch .NET assemblies at runtime.
 - **Mod dependencies**: Silk can detect and load mods that depend on other mods.
-- **Mod versioning**: Silk can detect and load mods with different versions.
 
 ## Installation
 
