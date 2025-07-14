@@ -33,9 +33,6 @@ namespace Silk
             var modList = new List<SilkModData> { SilkModData.GetSilkModData() };
             modList.AddRange(Loader.LoadedMods);
 
-            // Add silk as an always loaded mod (This mod is silk so if this menu is here and silk is not, something has gone horribly wrong)
-            modList.Insert(0, new SilkModData("Silk", new[] {"Abstractmelon"}, "1.0.0", "0.5.0", "silk", NetworkingType.None));
-
             foreach (var mod in modList)
             {
                 ModsMenu.instance.CreateButton(mod.ModName, () => {

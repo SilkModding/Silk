@@ -131,14 +131,15 @@ namespace Silk
                     return false;
                 }
 
-                var entryPoint = modClass.GetMethod(entryPointName, BindingFlags.Public | BindingFlags.Static);
+                var entryPoint = modClass.GetMethod(entryPointName, BindingFlags.Public | BindingFlags.Instance);
                 if (entryPoint == null)
                 {
                     Logger.LogError($"Entry point '{entryPointName}' not found in {modClass.FullName}");
                     return false;
                 }
 
-                entryPoint.Invoke(null, null);
+                var modInstance = Activator.CreateInstance(modClass);
+                entryPoint.Invoke(modInstance, null);
                 return true;
             }
             catch (Exception ex)

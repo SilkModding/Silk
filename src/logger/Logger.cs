@@ -12,6 +12,10 @@ namespace Silk
         [DllImport("kernel32.dll")]
         private static extern bool AllocConsole();
 
+        // Import AttachConsole function from kernel32.dll for Windows
+        [DllImport("kernel32.dll")]
+        private static extern bool AttachConsole(int dwProcessId);
+
         private static readonly string LogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Silk", "Logs", "mod_manager.log");
         private static readonly bool DebugEnabled = Config.GetConfigValue("EnableDebugLogging")?.ToLower() == "true";
 
@@ -54,7 +58,7 @@ namespace Silk
         /// </summary>
         public static void StealConsoleBack() {
             // Re-attach the console to the process
-            AttachConsole((uint)Process.GetCurrentProcess().Id);
+            AttachConsole(Process.GetCurrentProcess().Id);
 
             // Set the output to the console
             StreamWriter streamWriter = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true };
@@ -116,3 +120,4 @@ namespace Silk
         }
     }
 }
+

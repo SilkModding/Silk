@@ -66,7 +66,7 @@ namespace Silk
         }
 
         // updater entrypoint
-        public static async void CheckForUpdates()
+        public static async Task CheckForUpdates()
         {
             Logger.LogInfo("Checking for updates...");
             var latestVersion = await GetLatestVersion();
