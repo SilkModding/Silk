@@ -54,7 +54,8 @@ namespace Silk
 
         private static string[] DiscoverModFiles()
         {
-            return Directory.GetFiles(ModsFolder, "*.dll", SearchOption.AllDirectories)
+            var searchPattern = Config.GetConfigValue<string>("loader.modFilePattern");
+            return Directory.GetFiles(ModsFolder, searchPattern, SearchOption.AllDirectories)
                 .Where(file => !file.Contains("Disabled", StringComparison.OrdinalIgnoreCase))
                 .ToArray();
         }

@@ -9,6 +9,7 @@ namespace Silk {
         /// Initializes the UnityLogSniper by attaching a log message received listener that redirects Unity logs to the Silk logging system.
         /// </summary>
         public static void Initialize() {
+            if (!Config.GetConfigValue<bool>("logger.redirectUnityLogs")) return;
             Logger.LogInfo("Initializing UnityLogSniper...");
             Application.logMessageReceived += RedirectUnityLogs;
             Logger.LogInfo("UnityLogSniper initialized and listening for logs.");

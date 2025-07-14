@@ -25,10 +25,10 @@ namespace Silk
             HookIntoSceneLoading();
 
             // Test logging
-            TestLogging();
-
-            // Configuration
-            Config.LoadConfig();
+            if (Config.GetConfigValue<bool>("debug.testLogging"))
+            {
+                TestLogging();
+            }
 
             if (BepInExPresent)
             {

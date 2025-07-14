@@ -39,6 +39,42 @@ namespace Doorstop
 
             File.AppendAllText(logFile, logMessage + Environment.NewLine);
 
+            // Load config
+            var defaultConfig = new System.Collections.Generic.Dictionary<string, object>
+            {
+                { "debug", new System.Collections.Generic.Dictionary<string, object>
+                    {
+                        { "enableDebugLogging", true },
+                        { "testLogging", true }
+                    }
+                },
+                { "updater", new System.Collections.Generic.Dictionary<string, object>
+                    {
+                        { "checkForUpdates", true },
+                        { "latestVersionUrl", "https://raw.githubusercontent.com/SilkModding/Silk/master/version" },
+                        { "downloadUrl", "https://github.com/SilkModding/Silk/releases/download/v{0}/Silk-v{0}.zip" }
+                    }
+                },
+                { "loader", new System.Collections.Generic.Dictionary<string, object>
+                    {
+                        { "modFilePattern", "*.dll" }
+                    }
+                },
+                { "patcher", new System.Collections.Generic.Dictionary<string, object>
+                    {
+                        { "enable", true },
+                        { "disableLeaderboardWithOnlineMods", true }
+                    }
+                },
+                { "logger", new System.Collections.Generic.Dictionary<string, object>
+                    {
+                        { "redirectUnityLogs", true }
+                    }
+                }
+            };
+
+            Silk.Config.LoadConfig(defaultConfig);
+
             // Call the mod manager
             Silk.Main.Run();
         }

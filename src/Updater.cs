@@ -13,8 +13,8 @@ namespace Silk
 {
     public static class Updater
     {
-        private const string LatestVersionUrl = "https://raw.githubusercontent.com/SilkModding/Silk/master/version";
-        private const string DownloadUrl = "https://github.com/SilkModding/Silk/releases/download/v{0}/Silk-v{0}.zip"; 
+        private static string LatestVersionUrl => Config.GetConfigValue<string>("updater.latestVersionUrl");
+        private static string DownloadUrl => Config.GetConfigValue<string>("updater.downloadUrl");
         private const string TempDownloadPath = "SilkUpdate.zip";
 
         [DllImport("kernel32.dll")]
@@ -68,6 +68,7 @@ namespace Silk
         // updater entrypoint
         public static async Task CheckForUpdates()
         {
+            if (!Config.GetConfigValue<bool>("updater.checkForUpdates")) return;
             Logger.LogInfo("Checking for updates...");
             var latestVersion = await GetLatestVersion();
             Logger.LogInfo($"Latest version: {latestVersion}");

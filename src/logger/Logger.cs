@@ -17,7 +17,7 @@ namespace Silk
         private static extern bool AttachConsole(int dwProcessId);
 
         private static readonly string LogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Silk", "Logs", "mod_manager.log");
-        private static readonly bool DebugEnabled = Config.GetConfigValue("EnableDebugLogging")?.ToLower() == "true";
+        private static bool DebugEnabled => Config.GetConfigValue<bool>("debug.enableDebugLogging");
 
         static Logger()
         {
@@ -57,6 +57,7 @@ namespace Silk
         /// We want the console to be used by Silk instead, so we have to take it back.
         /// </summary>
         public static void StealConsoleBack() {
+
             // Re-attach the console to the process
             AttachConsole(Process.GetCurrentProcess().Id);
 
@@ -120,4 +121,3 @@ namespace Silk
         }
     }
 }
-

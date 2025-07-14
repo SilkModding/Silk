@@ -8,91 +8,119 @@ using UnityEngine;
 
 namespace Silk
 {
-    public class Config
+    public static class Config
     {
-        private static Dictionary<string, string> config = new Dictionary<string, string>();
+        private static Dictionary<string, object> _config = new Dictionary<string, object>();
+        private static Dictionary<string, object> _defaultConfig = new Dictionary<string, object>();
 
-        // Config path (uses utils)
-        public static string ConfigPath => Utils.GetConfigPath();
+        public static string ConfigPath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Silk", "Config");
+        public static string ConfigFile => Path.Combine(ConfigPath, "silk.yaml");
 
-        // Config File (uses utils)
-        public static string ConfigFile => Utils.GetConfigFile("silk.yaml");
-
-        public static void LoadConfig()
+        public static void LoadConfig(Dictionary<string, object> defaultConfig)
         {
+            _defaultConfig = defaultConfig;
             Logger.LogInfo("Loading config...");
 
             if (!File.Exists(ConfigFile))
             {
-                Logger.LogInfo("Config file not found, creating it");
-                CreateConfigFile();
+                Logger.LogInfo("Config file not found, creating it with default values.");
+                _config = _defaultConfig;
+                SaveConfig();
             }
+            else
+            {
+                var deserializer = new DeserializerBuilder()
+                    .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                    .Build();
 
-            var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                .Build();
-
-            config = deserializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(ConfigFile));
+                var userConfig = deserializer.Deserialize<Dictionary<string, object>>(File.ReadAllText(ConfigFile)) ?? new Dictionary<string, object>();
+                _config = MergeConfigs(_defaultConfig, userConfig);
+                SaveConfig(); // Save to add new default values to the user's file
+            }
         }
 
-        public static void CreateConfigFile()
+        private static Dictionary<string, object> MergeConfigs(Dictionary<string, object> defaultConfig, Dictionary<string, object> userConfig)
+        {
+            var mergedConfig = new Dictionary<string, object>(defaultConfig);
+
+            foreach (var item in userConfig)
+            {
+                if (mergedConfig.TryGetValue(item.Key, out var defaultValue) && defaultValue is Dictionary<string, object> defaultDict && item.Value is Dictionary<string, object> userDict)
+                {
+                    mergedConfig[item.Key] = MergeConfigs(defaultDict, userDict);
+                }
+                else
+                {
+                    mergedConfig[item.Key] = item.Value;
+                }
+            }
+
+            return mergedConfig;
+        }
+
+        public static T GetConfigValue<T>(string key, T defaultValue = default)
+        {
+            try
+            {
+                var keys = key.Split('.');
+                object currentNode = _config;
+
+                foreach (var k in keys)
+                {
+                    if (currentNode is Dictionary<string, object> dict && dict.TryGetValue(k, out var value))
+                    {
+                        currentNode = value;
+                    }
+                    else
+                    {
+                        return defaultValue;
+                    }
+                }
+
+                return (T)Convert.ChangeType(currentNode, typeof(T));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError($"Error getting config value for key '{key}': {ex.Message}");
+                return defaultValue;
+            }
+        }
+
+        public static void SetConfigValue(string key, object value)
+        {
+            var keys = key.Split('.');
+            Dictionary<string, object> currentNode = _config;
+
+            for (int i = 0; i < keys.Length - 1; i++)
+            {
+                var k = keys[i];
+                if (!currentNode.TryGetValue(k, out var nextNode) || !(nextNode is Dictionary<string, object>))
+                {
+                    nextNode = new Dictionary<string, object>();
+                    currentNode[k] = nextNode;
+                }
+                currentNode = (Dictionary<string, object>)nextNode;
+            }
+
+            currentNode[keys.Last()] = value;
+            SaveConfig();
+        }
+
+        public static void SaveConfig()
         {
             if (!Directory.Exists(ConfigPath))
             {
                 Directory.CreateDirectory(ConfigPath);
             }
 
-            if (!File.Exists(ConfigFile))
-            {
-                File.Create(ConfigFile).Dispose();
-            }
-
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("# Silk configuration file");
-            sb.AppendLine("# Add your configuration key-value pairs below");
-
-            File.WriteAllText(ConfigFile, sb.ToString());
-        }
-
-        public static string? GetConfigValue(string key)
-        {
-            config.TryGetValue(key, out var value);
-            return value;
-        }
-
-        public static void SetConfigValue(string key, string value)
-        {
-            if (config.ContainsKey(key))
-            {
-                config[key] = value;
-                SaveConfig();
-            }
-            else
-            {
-                Logger.LogError($"Config key {key} does not exist, skipping");
-            }
-        }
-
-        public static void SaveConfig()
-        {
-            var yaml = new SerializerBuilder()
+            var serializer = new SerializerBuilder()
                 .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                .Build()
-                .Serialize(config);
+                .Build();
 
+            var yaml = serializer.Serialize(_config);
             File.WriteAllText(ConfigFile, yaml);
         }
 
-        public static bool CheckAndAddConfig(string key, string defaultValue)
-        {
-            if (!config.ContainsKey(key))
-            {
-                config[key] = defaultValue;
-                SaveConfig();
-                return true;
-            }
 
-            return false;
-        }
     }
 }
