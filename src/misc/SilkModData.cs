@@ -17,6 +17,7 @@ namespace Silk
             ModVersion = modVersion;
             ModSilkVersion = modSilkVersion;
             ModId = modId;
+            ModEntryPoint = string.Empty;
             ModNetworkingType = modNetworkingType;
         }
 

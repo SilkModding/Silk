@@ -31,7 +31,7 @@ namespace Silk
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogError("Failed to create mods folder!", ex);
+                    Logger.LogError("Failed to create mods folder!" + Environment.NewLine + ex.ToString());
                 }
             }
 
@@ -51,7 +51,7 @@ namespace Silk
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogError($"Error loading mod: {Path.GetFileName(modFile)}", ex);
+                    Logger.LogError($"Error loading mod: {Path.GetFileName(modFile)} {ex}");
                 }
             }
 
@@ -76,7 +76,7 @@ namespace Silk
             }
             catch (Exception ex)
             {
-                Logger.LogError("Failed to find mods!", ex);
+                Logger.LogError("Failed to find mods! Check your mods folder." + Environment.NewLine + ex.ToString());
                 return Array.Empty<string>();
             }
         }

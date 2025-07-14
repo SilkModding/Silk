@@ -58,7 +58,7 @@ namespace Silk
             return mergedConfig;
         }
 
-        public static T GetConfigValue<T>(string key, T defaultValue = default)
+        public static T GetConfigValue<T>(string key, T? defaultValue = default)
         {
             try
             {

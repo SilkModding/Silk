@@ -8,7 +8,7 @@ namespace Silk
         public string ModSilkVersion { get; set; }
         public string ModId { get; }
         public NetworkingType ModNetworkingType { get; }
-        public string ModEntryPoint { get; set; }
+        public string ModEntryPoint { get; set; } = string.Empty;
 
         public ModData(string modName, string[] modAuthors, string modVersion, string modSilkVersion, string modId, NetworkingType modNetworkingType)
         {
@@ -26,3 +26,4 @@ namespace Silk
         }
     }
 }
+

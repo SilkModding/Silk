@@ -5,47 +5,51 @@ namespace Silk.API
 {
     public class Cosmetic
     {
+        private static SpiderCustomizer GetCustomizer()
+        {
+            GameObject player = Player.GetLocalPlayer() 
+                ?? throw new InvalidOperationException("Local player not available.");
+            
+            SpiderCustomizer customizer = player.GetComponent<SpiderCustomizer>();
+            if (customizer == null)
+                throw new InvalidOperationException("SpiderCustomizer component not found on local player.");
+
+            return customizer;
+        }
+
         public static void SetSpiderColor(Color primary, Color secondary, bool save = true)
         {
-            SpiderCustomizer spiderCustomizer = Player.GetLocalPlayer().GetComponent<SpiderCustomizer>();
-            spiderCustomizer.SetSpiderColor(primary, secondary, save);
+            GetCustomizer().SetSpiderColor(primary, secondary, save);
         }
 
         public static void SetSpiderHatDefaultConfig()
         {
-            SpiderCustomizer spiderCustomizer = Player.GetLocalPlayer().GetComponent<SpiderCustomizer>();
-            spiderCustomizer.SetSpiderHatDefaultConfig();
+            GetCustomizer().SetSpiderHatDefaultConfig();
         }
 
         public static void SetSpiderHat(HatConfig hatConfig, bool save = true)
         {
-            SpiderCustomizer spiderCustomizer = Player.GetLocalPlayer().GetComponent<SpiderCustomizer>();
-            spiderCustomizer.SetSpiderHat(hatConfig, save);
+            GetCustomizer().SetSpiderHat(hatConfig, save);
         }
 
         public static void DestroyHat()
         {
-            SpiderCustomizer spiderCustomizer = Player.GetLocalPlayer().GetComponent<SpiderCustomizer>();
-            spiderCustomizer.DestroyHat();
+            GetCustomizer().DestroyHat();
         }
 
         public static Color GetPrimaryColor()
         {
-            SpiderCustomizer spiderCustomizer = Player.GetLocalPlayer().GetComponent<SpiderCustomizer>();
-            return spiderCustomizer.GetPrimaryColor();
+            return GetCustomizer().GetPrimaryColor();
         }
 
         public static Color GetSecondaryColor()
         {
-            SpiderCustomizer spiderCustomizer = Player.GetLocalPlayer().GetComponent<SpiderCustomizer>();
-            return spiderCustomizer.GetSecondaryColor();
+            return GetCustomizer().GetSecondaryColor();
         }
 
         public static HatConfig GetHat()
         {
-            SpiderCustomizer spiderCustomizer = Player.GetLocalPlayer().GetComponent<SpiderCustomizer>();
-            return spiderCustomizer.GetHat();
+            return GetCustomizer().GetHat();
         }
     }
 }
-

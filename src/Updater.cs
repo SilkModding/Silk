@@ -13,8 +13,8 @@ namespace Silk
 {
     public static class Updater
     {
-        private static string LatestVersionUrl => Config.GetConfigValue<string>("updater.latestVersionUrl");
-        private static string DownloadUrl => Config.GetConfigValue<string>("updater.downloadUrl");
+        private static string LatestVersionUrl => Config.GetConfigValue<string>("updater.latestVersionUrl") ?? "https://raw.githubusercontent.com/SilkModding/Silk/master/version";
+        private static string DownloadUrl => Config.GetConfigValue<string>("updater.downloadUrl") ?? "https://github.com/SilkModding/Silk/releases/download/v{0}/Silk-v{0}.zip";
         private const string TempDownloadPath = "SilkUpdate.zip";
 
         [DllImport("kernel32.dll")]
@@ -153,3 +153,4 @@ namespace Silk
         }
     }
 }
+

@@ -6,11 +6,11 @@ namespace Silk {
     public static class Patches {
         static Harmony harmony = new Harmony("com.Silk.Patcher");
         public static void Patch() {
-            if (!Config.GetConfigValue<bool>("patcher.enable"))
-            {
-                Logger.LogInfo("Patcher is disabled in config, skipping.");
-                return;
-            }
+            // if (!Config.GetConfigValue<bool>("patcher.enable"))
+            // {
+            //     Logger.LogInfo("Patcher is disabled in config, skipping.");
+            //     return;
+            // }
             try {
                 Logger.LogInfo("Patching Silk...");
                 harmony.PatchAll();
