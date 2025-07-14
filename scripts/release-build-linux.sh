@@ -30,10 +30,6 @@ cp ./src/bin/Release/net472/*.dll ./build/Silk/Library/
 echo "Copying test mod DLL to Mods..."
 cp ./testing/bin/Release/net472/SilkTestMod.dll ./build/Silk/Mods/
 
-# Copy Silk.dll to Testing/lib
-echo "Copying Silk.dll to testing/lib..."
-cp ./build/Silk/Library/Silk.dll ./testing/lib/
-
 # Copy Doorstop Files
 echo "Copying Doorstop files..."
 cp -r ./doorstop/release/* ./build/

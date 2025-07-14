@@ -32,10 +32,6 @@ xcopy .\src\bin\Release\net472\*.dll .\build\Silk\Library\ /Y /S
 echo Copying test mod DLL to Mods...
 xcopy .\testing\bin\Release\net472\SilkTestMod.dll .\build\Silk\Mods\ /Y /S
 
-:: Copy Silk.dll to Testing/lib
-echo Copying Silk.dll to testing\lib...
-xcopy .\build\Silk\Library\Silk.dll .\testing\lib\ /Y /S
-
 :: Copy Doorstop Files
 echo Copying Doorstop files...
 xcopy .\doorstop\release\* .\build\ /Y /S

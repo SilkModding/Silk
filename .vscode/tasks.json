@@ -44,28 +44,6 @@
                 "kind": "build",
                 "isDefault": true
             }
-        },
-        {
-            "label": "Update Test Mod - Linux",
-            "type": "shell",
-            "command": "./scripts/update-test-mod-linux.sh",
-            "problemMatcher": [],
-            "dependsOn": ["Full Build"],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "Update Test Mod - Windows",
-            "type": "shell",
-            "command": "./scripts/update-test-mod-windows.bat",
-            "problemMatcher": [],
-            "dependsOn": ["Full Build"],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
         }
     ]
 }

@@ -34,10 +34,6 @@ echo "Copied DLLs to library"
 cp ./testing/bin/Debug/net472/SilkTestMod.dll ./build/Silk/Mods/
 echo "Copied SilkTestMod.dll to mods"
 
-# Copy Silk.dll to Testing/lib
-cp ./build/Silk/Library/Silk.dll ./testing/lib/
-echo "Copied Silk.dll to testing lib"
-
 # Copy Doorstop Files
 cp -r ./doorstop/development/* ./build/
 echo "Copied doorstop files"

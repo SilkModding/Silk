@@ -20,9 +20,6 @@ copy ..\src\bin\Debug\net472\*.dll ..\build\Silk\Library\
 :: Copy SilkTestMod.dll to Mods
 copy ..\testing\bin\Debug\net472\SilkTestMod.dll ..\build\Silk\Mods\
 
-:: Copy Silk.dll to Testing\lib
-copy ..\build\Silk\Library\Silk.dll ..\testing\lib\
-
 :: Copy Doorstop Files
 xcopy /e /i ..\doorstop\development\* ..\build\
 
