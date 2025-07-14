@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Silk;
 using Logger = Silk.Logger;
 using HarmonyLib;
@@ -11,12 +12,26 @@ namespace SilkTestMod
     [SilkMod("Silk Example Mod", new[] { "Abstractmelon", "Wackymoder" }, "1.0.0", "0.5.0", "silk-example-mod", 1)]
     public class TestMod : SilkMod
     {
-        private float timer = 0;
+        public const string ModId = "silk-example-mod";
 
         // This is called when unity loads
         public override void Initialize()
         {
             Logger.LogInfo("Initializing the Silk Example Mod...");
+            
+            // Initialize mod config with default values
+            var defaultConfig = new Dictionary<string, object>
+            {
+                { "enableChristmas", true },
+                { "autoKill", new Dictionary<string, object>
+                    {
+                        { "enabled", false },
+                        { "interval", 0.3f }
+                    }
+                }
+            };
+            
+            Config.LoadModConfig(ModId, defaultConfig);
 
             CustomWeapon longSwordWeapon = new CustomWeapon("Long Sword", Weapons.WeaponType.ParticleBlade);
             Weapons.AddNewWeapon(longSwordWeapon);
@@ -42,27 +57,25 @@ namespace SilkTestMod
 
             // Apply Harmony patches
             Logger.LogInfo("Harmony patches applied.");
-
-
         }
 
-        private bool timerStarted = false;
-        private bool autoKillEnabled = false;
+        private bool _timerStarted = false;
+        private float _timer = 0f;
 
         // This is called every frame
         public void Update()
         {
-            if (Keyboard.current.xKey.wasPressedThisFrame && !timerStarted)
+            if (Keyboard.current.xKey.wasPressedThisFrame && !_timerStarted)
             {
+                _timerStarted = true;
+                Config.SetModConfigValue(ModId, "autoKill.enabled", true);
                 Logger.LogInfo("Auto-kill enabled.");
-                timerStarted = true;
-                autoKillEnabled = true;
             }
 
-            if (Keyboard.current.zKey.wasPressedThisFrame)
+            if (Keyboard.current.zKey.wasPressedThisFrame && _timerStarted)
             {
-                autoKillEnabled = false;
-                timerStarted = false;
+                _timerStarted = false;
+                Config.SetModConfigValue(ModId, "autoKill.enabled", false);
                 Logger.LogInfo("Auto-kill disabled.");
             }
 
@@ -71,12 +84,13 @@ namespace SilkTestMod
                 KillEnemies();
             }
 
-            if (timerStarted && autoKillEnabled)
+            if (_timerStarted && Config.GetModConfigValue<bool>(ModId, "autoKill.enabled", false))
             {
-                timer += Time.deltaTime;
-                if (timer > 0.3)
+                _timer += Time.deltaTime;
+                float interval = Config.GetModConfigValue<float>(ModId, "autoKill.interval", 0.3f);
+                if (_timer > interval)
                 {
-                    timer = 0;
+                    _timer = 0;
                     KillEnemies();
                 }
             }
@@ -125,7 +139,7 @@ namespace SilkTestMod
         [HarmonyPrefix]
         public static bool MakeItChristmas(ref bool __result)
         {
-            __result = true;
+            __result = Config.GetModConfigValue(TestMod.ModId, "enableChristmas", true);
             return false;
         }
     }
