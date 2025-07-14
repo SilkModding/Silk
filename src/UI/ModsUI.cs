@@ -15,7 +15,7 @@ namespace Silk
         {
             // Create mods UI
             Logger.LogInfo("Loading mods UI...");
-            
+
             // Check if UI is already enabled to prevent redundant calls
             if (HudController.instance != null && !HudController.instance.modsButton.activeSelf)
             {
@@ -30,28 +30,22 @@ namespace Silk
             }
 
             // Create mods list
-            var modList = new List<(string title, string[] authors, string version, string gameVersion, string id, NetworkingType networkingType)>
-            {
-                ("Silk", new[] {"Abstractmelon"}, "1.0.0", "0.5.0", "silk", NetworkingType.None), // Add silk as an always loaded mod (This mod is silk so if this menu is here and silk isnt, something has gone horribly wrong)
-            };
+            var modList = new List<SilkModData> { SilkModData.GetSilkModData() };
+            modList.AddRange(Loader.LoadedMods);
 
-            // Add loaded mods
-            foreach (var mod in Loader.LoadedMods)
-            {
-                modList.Add((mod.ModName, mod.ModAuthors, mod.ModVersion, mod.ModSilkVersion, mod.ModId, mod.ModNetworkingType));
-            }
+            // Add silk as an always loaded mod (This mod is silk so if this menu is here and silk is not, something has gone horribly wrong)
+            modList.Insert(0, new SilkModData("Silk", new[] {"Abstractmelon"}, "1.0.0", "0.5.0", "silk", NetworkingType.None));
 
-            // Create mods menu
             foreach (var mod in modList)
             {
-                ModsMenu.instance.CreateButton(mod.title, () => {
-                    var ui = Announcer.ModsPopup(mod.title);
+                ModsMenu.instance.CreateButton(mod.ModName, () => {
+                    var ui = Announcer.ModsPopup(mod.ModName);
                     ui.CreateDivider();
-                    ui.CreateParagraph($"Authors: {string.Join(", ", mod.authors)}");
-                    ui.CreateParagraph($"Version: {mod.version}");
-                    ui.CreateParagraph($"Designed for SpiderHeck version: {mod.gameVersion}");
-                    ui.CreateParagraph($"ID: {mod.id}");
-                    ui.CreateParagraph($"Networking Type: {mod.networkingType}");
+                    ui.CreateParagraph($"Authors: {string.Join(", ", mod.ModAuthors)}");
+                    ui.CreateParagraph($"Version: {mod.ModVersion}");
+                    ui.CreateParagraph($"Designed for SpiderHeck version: {mod.ModSilkVersion}");
+                    ui.CreateParagraph($"ID: {mod.ModId}");
+                    ui.CreateParagraph($"Networking Type: {mod.ModNetworkingType}");
                 });
             }
         }

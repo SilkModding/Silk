@@ -24,8 +24,9 @@ namespace Silk {
     [HarmonyPatch(typeof(CustomTiersScreen), "Start")]
     public static class AddModMenu {
         [HarmonyPostfix]
-        public static void Postfix() {
-            Updater.CheckForUpdates();
+        public static async void Postfix()
+        {
+            await Updater.CheckForUpdates();
             ModsUI.Initialize();
         }
     }

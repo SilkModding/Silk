@@ -3,7 +3,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Threading;
-using Epic.OnlineServices.Stats;
 
 namespace Silk
 {
@@ -11,49 +10,21 @@ namespace Silk
     {
         // Import AllocConsole function from kernel32.dll for Windows
         [DllImport("kernel32.dll")]
-        private static extern bool AttachConsole(uint dwProcessId);
+        private static extern bool AllocConsole();
 
         private static readonly string LogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Silk", "Logs", "mod_manager.log");
+        private static readonly bool DebugEnabled = Config.GetConfigValue("EnableDebugLogging")?.ToLower() == "true";
 
-        /// <summary>
-        /// Static constructor for Logger class.
-        /// 
-        /// This class is a utility for logging messages to a file.
-        /// It creates a new process with a console window and redirects the standard output and error streams to the console window.
-        /// It also deletes the previous log file if it exists.
-        /// </summary>
         static Logger()
         {
-            // Ensure the log directory exists
+            AllocConsole();
+            
             var logDirectory = Path.GetDirectoryName(LogFile);
             if (!Directory.Exists(logDirectory))
+            {
                 Directory.CreateDirectory(logDirectory);
+            }
 
-            // Create a new process
-            Process process = new Process();
-
-            // Set the process start info
-            process.StartInfo.FileName = "cmd.exe";
-
-            // Redirect the standard input, output, and error streams
-            process.StartInfo.RedirectStandardInput = true;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.UseShellExecute = false;
-
-            // Start the process
-            process.Start();
-
-            // It breaks if this isn't here
-            Thread.Sleep(1000);
-
-            // Connects the console window to spiderheck
-            AttachConsole((uint)process.Id);
-
-            // Sets the output to the console window thing
-            StreamWriter streamWriter = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true };
-            Console.SetOut(streamWriter);
-
-            // Delete the previous log file
             if (File.Exists(LogFile))
             {
                 try
@@ -66,13 +37,16 @@ namespace Silk
                 }
             }
 
-            // Improve the console appearance
             Console.Title = "Silk Mod Manager";
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
+
+            // Redirect standard output to the new console
+            var writer = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true };
+            Console.SetOut(writer);
         }
-        
+
         /// <summary>
         /// Re-attaches the console to the process and sets the output to the console.
         /// This is necessary because Unity spawns a console by default, but if it exists, Unity takes control of it.
@@ -94,79 +68,51 @@ namespace Silk
         /// <param name="message">The message to log.</param>
         public static void Log(string message)
         {
-            var logMessage = $"[{DateTime.Now:HH:mm:ss}] [{Utils.GetCallingStack()}] {message}";
-            Console.WriteLine(logMessage); // Write to console (works for both Windows and Linux)
-            File.AppendAllText(LogFile, logMessage + Environment.NewLine); // Write to file
+            WriteLog(message, Console.ForegroundColor);
         }
 
-        // General log method
-        /// <summary>
-        /// Logs a message with the current timestamp and the caller class.
-        /// </summary>
-        /// <param name="message">The message to log.</param>
         public static void UnityLog(string message, string logType = "None")
         {
-            switch (logType)
+            ConsoleColor color = logType switch
             {
-                case "Error":
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    break;
-                case "Warning":
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    break;
-                case "Info":
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                    break;
-                default:
-                    Console.ResetColor();
-                    break;
-            }
-
-            Console.WriteLine(message); // Write to console (works for both Windows and Linux)
-            File.AppendAllText(LogFile, message + Environment.NewLine); // Write to file
-            Console.ResetColor();
+                "Error" => ConsoleColor.Red,
+                "Warning" => ConsoleColor.Yellow,
+                "Info" => ConsoleColor.Cyan,
+                _ => Console.ForegroundColor
+            };
+            WriteLog(message, color, false);
         }
 
-        /// <summary>
-        /// Logs an informational message with cyan color.
-        /// </summary>
-        /// <param name="message">The message to log.</param>
         public static void LogInfo(string message)
         {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Log($"[INFO] {message}");
-            Console.ResetColor();
+            WriteLog($"[INFO] {message}", ConsoleColor.Cyan);
         }
 
-        /// <summary>
-        /// Logs a warning message with yellow color.
-        /// </summary>
-        /// <param name="message">The message to log.</param>
         public static void LogWarning(string message)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Log($"[WARNING] {message}");
-            Console.ResetColor();
+            WriteLog($"[WARNING] {message}", ConsoleColor.Yellow);
         }
 
-        /// <summary>
-        /// Logs an error message with red color.
-        /// </summary>
-        /// <param name="message">The message to log.</param>
         public static void LogError(string message)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Log($"[ERROR] {message}");
-            Console.ResetColor();
+        { 
+            WriteLog($"[ERROR] {message}", ConsoleColor.Red);
         }
 
-        // Inside Logger methods (example)
         public static void LogDebug(string message)
         {
-            bool debugEnabled = Config.GetConfigValue("EnableDebugLogging")?.ToLower() == "true";
-            if (debugEnabled) LogInfo($"[DEBUG] {message}");
+            if (DebugEnabled) WriteLog($"[DEBUG] {message}", ConsoleColor.Gray);
+        }
+
+        private static void WriteLog(string message, ConsoleColor color, bool includeMetadata = true)
+        {
+            var logMessage = includeMetadata ? $"[{DateTime.Now:HH:mm:ss}] [{Utils.GetCallingStack()}] {message}" : message;
+            
+            var originalColor = Console.ForegroundColor;
+            Console.ForegroundColor = color;
+            Console.WriteLine(logMessage);
+            Console.ForegroundColor = originalColor;
+
+            File.AppendAllText(LogFile, logMessage + Environment.NewLine);
         }
     }
 }
-
-

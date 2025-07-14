@@ -119,6 +119,3 @@ namespace Silk
         }
     }
 }
-
-
-

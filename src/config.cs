@@ -25,7 +25,7 @@ namespace Silk
             if (!File.Exists(ConfigFile))
             {
                 Logger.LogInfo("Config file not found, creating it");
-                CreateConfigFile(ConfigFile, ConfigPath);
+                CreateConfigFile();
             }
 
             var deserializer = new DeserializerBuilder()
@@ -35,7 +35,7 @@ namespace Silk
             config = deserializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(ConfigFile));
         }
 
-        public static void CreateConfigFile(string ConfigFile, string ConfigPath)
+        public static void CreateConfigFile()
         {
             if (!Directory.Exists(ConfigPath))
             {
@@ -50,15 +50,6 @@ namespace Silk
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("# Silk configuration file");
             sb.AppendLine("# Add your configuration key-value pairs below");
-
-            FieldInfo[] fields = typeof(Config).GetFields(BindingFlags.Static | BindingFlags.Public);
-
-            foreach (FieldInfo field in fields)
-            {
-                string key = field.Name;
-                string defaultValue = field.GetValue(null).ToString();
-                sb.AppendLine($"{key}: {defaultValue}");
-            }
 
             File.WriteAllText(ConfigFile, sb.ToString());
         }
