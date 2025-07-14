@@ -25,7 +25,14 @@ namespace Silk
             if (!Directory.Exists(ModsFolder))
             {
                 Logger.LogInfo("Mods folder does not exist, creating it");
-                Directory.CreateDirectory(ModsFolder);
+                try
+                {
+                    Directory.CreateDirectory(ModsFolder);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError("Failed to create mods folder!", ex);
+                }
             }
 
             LoadMods();
@@ -38,7 +45,14 @@ namespace Silk
 
             foreach (var modFile in modFiles)
             {
-                ProcessModFile(modFile);
+                try
+                {
+                    ProcessModFile(modFile);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError($"Error loading mod: {Path.GetFileName(modFile)}", ex);
+                }
             }
 
             LogSummary();
@@ -54,10 +68,17 @@ namespace Silk
 
         private static string[] DiscoverModFiles()
         {
-            var searchPattern = Config.GetConfigValue<string>("loader.modFilePattern");
-            return Directory.GetFiles(ModsFolder, searchPattern, SearchOption.AllDirectories)
-                .Where(file => !file.Contains("Disabled", StringComparison.OrdinalIgnoreCase))
-                .ToArray();
+            try
+            {
+                return Directory.GetFiles(ModsFolder, "*.dll", SearchOption.AllDirectories)
+                    .Where(file => !file.Contains("Disabled", StringComparison.OrdinalIgnoreCase))
+                    .ToArray();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Failed to find mods!", ex);
+                return Array.Empty<string>();
+            }
         }
 
         private static void ProcessModFile(string modFile)

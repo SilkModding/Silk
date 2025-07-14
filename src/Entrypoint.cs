@@ -57,7 +57,7 @@ namespace Doorstop
                 },
                 { "loader", new System.Collections.Generic.Dictionary<string, object>
                     {
-                        { "modFilePattern", "*.dll" }
+                        // { "modFilePattern", "*.dll" }
                     }
                 },
                 { "patcher", new System.Collections.Generic.Dictionary<string, object>
