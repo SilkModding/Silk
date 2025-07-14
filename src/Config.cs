@@ -33,7 +33,8 @@ namespace Silk
                     .WithNamingConvention(CamelCaseNamingConvention.Instance)
                     .Build();
 
-                var userConfig = deserializer.Deserialize<Dictionary<string, object>>(File.ReadAllText(ConfigFile)) ?? new Dictionary<string, object>();
+                var raw = deserializer.Deserialize<object>(File.ReadAllText(ConfigFile));
+                var userConfig = NormalizeYamlObjects(raw) as Dictionary<string, object> ?? new Dictionary<string, object>();
                 _config = MergeConfigs(_defaultConfig, userConfig);
                 SaveConfig(); // Save to add new default values to the user's file
             }
@@ -73,7 +74,7 @@ namespace Silk
                     }
                     else
                     {
-                        return defaultValue;
+                        return defaultValue ?? throw new InvalidOperationException($"Failed to get config value for key '{key}'");
                     }
                 }
 
@@ -82,7 +83,7 @@ namespace Silk
             catch (Exception ex)
             {
                 Logger.LogError($"Error getting config value for key '{key}': {ex.Message}");
-                return defaultValue;
+                return defaultValue ?? throw new InvalidOperationException($"Failed to get config value for key '{key}'");
             }
         }
 
@@ -121,6 +122,16 @@ namespace Silk
             File.WriteAllText(ConfigFile, yaml);
         }
 
-
+        private static object NormalizeYamlObjects(object obj)
+        {
+            if (obj is IDictionary<object, object> dict)
+                return dict.ToDictionary(
+                    kv => kv.Key.ToString(),
+                    kv => NormalizeYamlObjects(kv.Value)
+                );
+            if (obj is IList<object> list)
+                return list.Select(NormalizeYamlObjects).ToList();
+            return obj;
+        }
     }
 }

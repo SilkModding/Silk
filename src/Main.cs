@@ -25,9 +25,7 @@ namespace Silk
             HookIntoSceneLoading();
 
             // Test logging
-            var testLogging = Config.GetConfigValue<bool>("debug.testLogging");
-            Logger.LogInfo($"Config: debug.testLogging = {testLogging}");
-            if (testLogging)
+            if (Config.GetConfigValue<bool>("debug.testLogging"))
             {
                 TestLogging();
             }
