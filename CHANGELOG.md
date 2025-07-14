@@ -1,5 +1,36 @@
 # Changelog
 
+## [0.6.0] - 07/14/25
+
+### Added
+
+* Introduced a full configuration system with structured YAML-based config files.
+* Added configuration options:
+
+  * `debug.enableDebugLogging`: enables internal debug logging.
+  * `debug.testLogging`: toggles example/test log output.
+  * `updater.checkForUpdates`: controls whether Silk checks for updates on launch.
+  * `updater.latestVersionUrl`: remote URL to fetch the latest version string.
+  * `updater.downloadUrl`: URL template for downloading updates.
+  * `loader.modFilePattern`: glob pattern for matching mod DLL files.
+  * `patcher.enable`: enables or disables the Harmony patching system.
+  * `patcher.disableLeaderboardWithOnlineMods`: disables leaderboard functionality when online mods are loaded.
+  * `logger.redirectUnityLogs`: redirects Unity logs through the Silk logger.
+
+### Changed
+
+* Refactored the `Logger` system for cleaner output, better structure, and config-driven control.
+* Moved `SilkModData` to its own dedicated location to separate data structures from runtime logic.
+
+### Fixed
+
+* Resolved compatibility issues between Harmony and HarmonyX by unifying internal patching logic.
+* Fixed mod entrypoint resolution issues that could cause mod loading to fail silently.
+
+### Removed
+
+* Removed the legacy `SilkModAttribute` entrypoint specification in favor of a cleaner, explicit loading approach.
+
 ## [0.5.0] - 03/13/25
 
 ### Added

@@ -58,7 +58,7 @@ namespace Silk
         {
             if (!hooked)
             {   
-                // Hook into Unity's scene loading process, calls OnSceneLoaded when unity brodcasts that a scene has been loaded
+                // Hook into Unity's scene loading process, calls OnSceneLoaded when unity broadcasts that a scene has been loaded
                 SceneManager.sceneLoaded += OnSceneLoaded;
                 hooked = true;
             }
@@ -75,15 +75,15 @@ namespace Silk
             // If we haven't hooked into Unity's scene loading process yet, don't do anything
             if (!hooked) return;
 
+            // Unsubscribe from the event to prevent it from firing multiple times
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            hooked = false; // Reset the hook flag to avoid re-entry
+
             // Only execute mod loading code once the scene is fully loaded
             Logger.LogInfo("Unity scene loaded. Starting mod initialization...");
 
             // Call the mod loader after Unity finishes its scene loading process
             Load();
-
-            // Unsubscribe from the event to prevent it from firing again
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-            hooked = false; // Reset the hook flag to avoid re-entry
         }
 
         /// <summary>
@@ -94,7 +94,6 @@ namespace Silk
             // Steal the console back
             Logger.LogInfo("Stealing the console back...");
             Logger.StealConsoleBack();
-
 
             // Initialize the mod loader
             Logger.LogInfo("Initializing the mod loader...");
