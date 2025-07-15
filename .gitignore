@@ -397,8 +397,8 @@ FodyWeavers.xsd
 # Testing libraries
 /testing/Lib
 
-# Releases foldder
-/release
-
 # Library folder
 **/lib
+
+# Nuget
+.nupass
