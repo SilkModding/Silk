@@ -162,6 +162,17 @@ namespace Silk
                 }
 
                 var modInstance = Activator.CreateInstance(modClass);
+                
+                // Register with manager
+                if (modInstance is SilkMod silkMod)
+                {
+                    Mods.Manager.AddMod(silkMod);
+                }
+                else
+                {
+                    Logger.LogWarning($"Mod {modClass.FullName} is not a SilkMod instance. Skipping registration.");
+                }
+
                 entryPoint.Invoke(modInstance, null);
                 return true;
             }
