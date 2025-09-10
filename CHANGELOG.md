@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.1] - 07/14/25
+
+### Fixed
+
+- Added mods to the manager
+
 ## [0.6.0] - 07/14/25
 
 ### Added

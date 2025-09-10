@@ -22,7 +22,7 @@ namespace Silk
 
         public static ModData GetSilkModData()
         {
-            return new ModData("Silk", new[] { "Abstractmelon" }, "1.0.0", "0.6.0", "silk", NetworkingType.None);
+            return new ModData("Silk", new[] { "Abstractmelon" }, "1.0.0", "0.6.1", "silk", NetworkingType.None);
         }
     }
 }

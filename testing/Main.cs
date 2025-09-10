@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 
 namespace SilkTestMod
 {
-    [SilkMod("Silk Example Mod", new[] { "Abstractmelon", "Wackymoder" }, "1.0.0", "0.6.0", "silk-example-mod", 1)]
+    [SilkMod("Silk Example Mod", new[] { "Abstractmelon", "Wackymoder" }, "1.0.0", "0.6.1", "silk-example-mod", 1)]
     public class TestMod : SilkMod
     {
         public const string ModId = "silk-example-mod";
