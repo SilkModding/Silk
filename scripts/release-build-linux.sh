@@ -24,11 +24,11 @@ mkdir -p ./testing/lib
 
 # Copy DLLs to Library
 echo "Copying main DLLs to Library..."
-cp ./src/bin/Release/net472/*.dll ./build/Silk/Library/
+cp ./src/bin/Release/netstandard2.0/*.dll ./build/Silk/Library/
 
 # Copy SilkTestMod.dll to Mods
 echo "Copying test mod DLL to Mods..."
-cp ./testing/bin/Release/net472/SilkTestMod.dll ./build/Silk/Mods/
+cp ./testing/bin/Release/netstandard2.0/SilkTestMod.dll ./build/Silk/Mods/
 
 # Copy Doorstop Files
 echo "Copying Doorstop files..."

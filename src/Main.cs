@@ -109,6 +109,9 @@ namespace Silk
             Logger.LogInfo("Silk initialization complete.");
         }
 
+        /// <summary>
+        /// Tests the logging system by writing different log messages to the console.
+        /// </summary>
         private static void TestLogging()
         {
             Logger.Log("This is a log message");

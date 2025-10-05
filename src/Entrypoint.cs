@@ -62,8 +62,7 @@ namespace Doorstop
                 },
                 { "patcher", new System.Collections.Generic.Dictionary<string, object>
                     {
-                        { "enable", true },
-                        { "disableLeaderboardWithOnlineMods", true }
+                        { "enable", true }
                     }
                 },
                 { "logger", new System.Collections.Generic.Dictionary<string, object>

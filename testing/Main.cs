@@ -142,5 +142,13 @@ namespace SilkTestMod
             __result = Config.GetModConfigValue(TestMod.ModId, "enableChristmas", true);
             return false;
         }
+
+        [HarmonyPatch(typeof(DeathZone), "Start")]
+        [HarmonyPrefix]
+        public static bool DisableLava()
+        {
+            GameObject.FindObjectOfType<DeathZone>().gameObject.SetActive(false);
+            return false;
+        }
     }
 }

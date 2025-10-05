@@ -39,7 +39,7 @@ namespace Silk {
     [HarmonyPatch(typeof(SteamLeaderboards), "UpdateScore")]
     internal class DisableLeaderboard {
         public static bool Prefix(int score) {
-            if (Config.GetConfigValue<bool>("patcher.disableLeaderboardWithOnlineMods") && Utils.onlineMods)
+            if (Utils.onlineMods)
             {
                 Logger.LogInfo("Leaderboard update disabled.");
                 Utils.Announce("Mods effecting the gameplay have been detected. Leaderboard scores for this current session have been disabled.", 255, 0, 0);

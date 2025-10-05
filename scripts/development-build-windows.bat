@@ -15,10 +15,10 @@ mkdir ..\build\Silk\Updater
 mkdir ..\testing\lib
 
 :: Copy DLLs to Library
-copy ..\src\bin\Debug\net472\*.dll ..\build\Silk\Library\
+copy ..\src\bin\Debug\netstandard2.0\*.dll ..\build\Silk\Library\
 
 :: Copy SilkTestMod.dll to Mods
-copy ..\testing\bin\Debug\net472\SilkTestMod.dll ..\build\Silk\Mods\
+copy ..\testing\bin\Debug\netstandard2.0\SilkTestMod.dll ..\build\Silk\Mods\
 
 :: Copy Doorstop Files
 xcopy /e /i ..\doorstop\development\* ..\build\
@@ -33,4 +33,4 @@ start steam://launch/1329500
 
 :: Update Test Mod
 dotnet build ..\src\Silk.csproj -c Debug && ^
-copy ..\src\bin\Debug\net472\Silk.dll ..\testing\lib\
+copy ..\src\bin\Debug\netstandard2.0\Silk.dll ..\testing\lib\
