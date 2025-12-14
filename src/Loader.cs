@@ -72,7 +72,7 @@ namespace Silk
             {
                 var searchPattern = Config.GetConfigValue<string>("loader.modFilePattern");
                 return Directory.GetFiles(ModsFolder, searchPattern, SearchOption.AllDirectories)
-                    .Where(file => !file.Contains("Disabled", StringComparison.OrdinalIgnoreCase))
+                    .Where(file => file.IndexOf("Disabled", StringComparison.OrdinalIgnoreCase) < 0)
                     .ToArray();
             }
             catch (Exception ex)

@@ -4,7 +4,10 @@ set -e
 
 # Clean Build Folder
 rm -rf ./build
-echo "Cleaned build folder"
+rm -rf ./src/bin
+rm -rf ./updater/bin
+rm -rf ./testing/bin
+echo "Cleaned build folders"
 
 # Build Projects
 dotnet build ./src/Silk.csproj -c Debug && \
@@ -39,7 +42,7 @@ cp -r ./doorstop/development/* ./build/
 echo "Copied doorstop files"
 
 # Copy Updater
-cp -r ./updater/bin/Debug/net6.0/* ./build/Silk/Updater/
+cp -r ./updater/bin/Debug/net8.0/* ./build/Silk/Updater/
 echo "Copied updater"
 
 # Move files are start Spiderheck
