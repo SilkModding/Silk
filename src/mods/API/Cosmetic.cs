@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Silk.API
 {
-    public class Cosmetic
+    public class Cosmetics
     {
         private static SpiderCustomizer GetCustomizer()
         {
