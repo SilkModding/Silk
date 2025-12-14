@@ -10,9 +10,9 @@ namespace Silk {
         /// </summary>
         public static void Initialize() {
             if (!Config.GetConfigValue<bool>("logger.redirectUnityLogs")) return;
-            Logger.LogInfo("Initializing UnityLogSniper...");
+            Logger.LogInfo("Initializing the UnityLogSniper...");
             Application.logMessageReceived += RedirectUnityLogs;
-            Logger.LogInfo("UnityLogSniper initialized and listening for logs.");
+            Logger.LogInfo("UnityLogSniper has been initialized and is now listening for logs.");
         }
 
         public static void RedirectUnityLogs(string logMessage, string stackTrace, LogType type)

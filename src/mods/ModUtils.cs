@@ -34,17 +34,17 @@ namespace Silk.Mods
         /// <summary>
         /// Checks if a specific mod scene is loaded.
         /// </summary>
-        /// <param name="modSceneName">The name of the mod scene to check.</param>
-        /// <returns>True if the mod scene is loaded, false otherwise.</returns>
-        public static bool IsModSceneLoaded(string modSceneName)
+        /// <param name="sceneName">The name of the scene to check.</param>
+        /// <returns>True if the scene is loaded, false otherwise.</returns>
+        public static bool IsSceneLoaded(string sceneName)
         {
-            // Loop through all loaded scenes and check if any matches the mod scene name
+            // Loop through all loaded scenes and check if any matches the scene name
             for (int i = 0; i < SceneManager.sceneCount; i++)
             {
                 Scene scene = SceneManager.GetSceneAt(i);
-                if (scene.name == modSceneName)
+                if (scene.name == sceneName)
                 {
-                    Logger.LogInfo($"Mod scene {modSceneName} is loaded.");
+                    Logger.LogInfo($"Mod scene {sceneName} is loaded.");
                     return true;
                 }
             }
