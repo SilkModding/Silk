@@ -62,7 +62,7 @@ namespace Silk
             AttachConsole(Process.GetCurrentProcess().Id);
 
             // Set the output to the console
-            StreamWriter streamWriter = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true };
+            StreamWriter streamWriter = new(Console.OpenStandardOutput()) { AutoFlush = true };
             Console.SetOut(streamWriter);
         }
 

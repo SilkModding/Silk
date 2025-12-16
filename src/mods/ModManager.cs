@@ -8,7 +8,7 @@ namespace Silk.Mods
 {
     public static class Manager
     {
-        public static List<SilkMod> Mods = new List<SilkMod>();
+        public static List<SilkMod> Mods = new();
 
         /// <summary>
         /// Sets up the mods by creating a parent GameObject and adding each mod as a component.
@@ -44,7 +44,7 @@ namespace Silk.Mods
                 Logger.LogInfo($"Initializing mod: {mod.GetType().Name}");
 
                 // Create a GameObject for the mod
-                GameObject modGameObject = new GameObject(mod.GetType().Name);
+                GameObject modGameObject = new(mod.GetType().Name);
 
                 // Add the mod as a component
                 modGameObject.transform.SetParent(modsParent.transform);

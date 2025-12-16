@@ -24,7 +24,7 @@ namespace Silk {
         public static string? GetCallingClass()
         {
             // Basically its meant for errors but it also logs every function that is called!
-            StackTrace stackTrace = new StackTrace();
+            StackTrace stackTrace = new();
             if (stackTrace.FrameCount >= 3)
             {
                 Type callingClass = stackTrace.GetFrame(2).GetMethod().DeclaringType;
@@ -62,7 +62,7 @@ namespace Silk {
         /// <returns>The path of the assembly of the calling class</returns>
         public static string? GetCallingAssemblyPath()
         {
-            StackFrame stackFrame = new StackFrame(2, false);
+            StackFrame stackFrame = new(2, false);
             Assembly callingAssembly = Assembly.GetAssembly(stackFrame.GetMethod().DeclaringType);
             return callingAssembly?.Location;
         }

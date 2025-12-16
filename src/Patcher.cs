@@ -4,7 +4,7 @@ using HarmonyLib;
 
 namespace Silk {
     public static class Patches {
-        static Harmony harmony = new Harmony("com.Silk.Patcher");
+        static Harmony harmony = new("com.Silk.Patcher");
         public static void Patch() {
             if (!Config.GetConfigValue<bool>("patcher.enable"))
             {

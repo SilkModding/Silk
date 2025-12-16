@@ -10,8 +10,8 @@ namespace Silk
 {
     public static class Config
     {
-        private static Dictionary<string, object> _config = new Dictionary<string, object>();
-        private static Dictionary<string, object> _defaultConfig = new Dictionary<string, object>();
+        private static Dictionary<string, object> _config = new();
+        private static Dictionary<string, object> _defaultConfig = new();
         private static readonly Dictionary<string, Dictionary<string, object>> _modConfigs = new();
         private static readonly Dictionary<string, Dictionary<string, object>> _defaultModConfigs = new();
 

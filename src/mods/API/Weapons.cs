@@ -12,8 +12,8 @@ namespace Silk.API {
     public static class Weapons {
         // 
         private static uint prefabHandlerId = 7777; // TODO: This can cause possible collission
-        public static List<Weapon> newWeapons = new List<Weapon>();
-        private static List<CustomWeapon> newUserWeapons = new List<CustomWeapon>();
+        public static List<Weapon> newWeapons = new();
+        private static List<CustomWeapon> newUserWeapons = new();
         private static bool weaponsAdded = false;
 
         // Events
@@ -87,7 +87,7 @@ namespace Silk.API {
             ElementLists list = tmp[0];
             SerializationWeaponName maxName = (SerializationWeaponName)Enum.GetValues(typeof(SerializationWeaponName)).Cast<int>().Max();
             newWeapons.AddRange(list.allWeapons);
-            List<Weapon> tmpList = new List<Weapon>();
+            List<Weapon> tmpList = new();
 
             foreach (var weapon in newUserWeapons) {
                 Weapon newWeapon = newWeapons[(int)weapon.Type];
