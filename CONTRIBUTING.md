@@ -1,4 +1,4 @@
-[![Logo](./assets/banner.png)](https://silkmodding.com)
+[![Logo](./assets/banner.png)](https://silk.abstractmelon.net)
 
 # Contributing to Silk
 

@@ -5,7 +5,7 @@
     <version>0.6.1</version>
     <authors>Abstractmelon, Wackymoder</authors>
     <description>Mod loader for the game spiderheck.</description>
-    <repository type="git" url="https://github.com/SilkModding/Slk" />
+    <repository type="git" url="https://github.com/SilkModding/Silk" />
     <license type="expression">MIT</license>
     <readme>README.md</readme>
     <dependencies>

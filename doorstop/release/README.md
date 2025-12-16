@@ -1,4 +1,4 @@
-[![Logo](./assets/banner.png)](https://silkmodding.com)
+[![Logo](./assets/banner.png)](https://silk.abstractmelon.net)
 
 [![Build Status](https://travis-ci.org/SilkModding/Silk.svg?branch=master)](https://travis-ci.org/SilkModding/Silk)
 ![Discord](https://img.shields.io/discord/1314422173082845204?label=Join%20the%20discord!&link=https%3A%2F%2Fdiscord.gg%2FGGv92crcx3)
