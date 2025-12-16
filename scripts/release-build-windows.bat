@@ -26,11 +26,11 @@ mkdir .\testing\lib
 
 :: Copy DLLs to Library
 echo Copying main DLLs to Library...
-xcopy .\src\bin\Release\netstandard2.0\*.dll .\build\Silk\Library\ /Y /S
+xcopy .\src\bin\Release\net472\*.dll .\build\Silk\Library\ /Y /S
 
 :: Copy SilkTestMod.dll to Mods
 echo Copying test mod DLL to Mods...
-xcopy .\testing\bin\Release\netstandard2.0\SilkTestMod.dll .\build\Silk\Mods\ /Y /S
+xcopy .\testing\bin\Release\net472\SilkTestMod.dll .\build\Silk\Mods\ /Y /S
 
 :: Copy Doorstop Files
 echo Copying Doorstop files...

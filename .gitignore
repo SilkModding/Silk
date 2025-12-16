@@ -405,3 +405,6 @@ FodyWeavers.xsd
 
 # Reference code
 /reference/
+
+# IDE settings
+.vscode/
