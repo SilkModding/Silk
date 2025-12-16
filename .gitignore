@@ -402,3 +402,6 @@ FodyWeavers.xsd
 
 # Nuget
 .nupass
+
+# Reference code
+/reference/
