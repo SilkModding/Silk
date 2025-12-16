@@ -40,32 +40,32 @@ namespace Doorstop
             File.AppendAllText(logFile, logMessage + Environment.NewLine);
 
             // Load config
-            var defaultConfig = new System.Collections.Generic.Dictionary<string, object>
+            var defaultConfig = new Dictionary<string, object>
             {
-                { "debug", new System.Collections.Generic.Dictionary<string, object>
+                { "debug", new Dictionary<string, object>
                     {
                         { "enableDebugLogging", true },
                         { "testLogging", true }
                     }
                 },
-                { "updater", new System.Collections.Generic.Dictionary<string, object>
+                { "updater", new Dictionary<string, object>
                     {
                         { "checkForUpdates", true },
                         { "latestVersionUrl", "https://raw.githubusercontent.com/SilkModding/Silk/master/version" },
                         { "downloadUrl", "https://github.com/SilkModding/Silk/releases/download/v{0}/Silk-v{0}.zip" }
                     }
                 },
-                { "loader", new System.Collections.Generic.Dictionary<string, object>
+                { "loader", new Dictionary<string, object>
                     {
                         { "modFilePattern", "*.dll" }
                     }
                 },
-                { "patcher", new System.Collections.Generic.Dictionary<string, object>
+                { "patcher", new Dictionary<string, object>
                     {
                         { "enable", true }
                     }
                 },
-                { "logger", new System.Collections.Generic.Dictionary<string, object>
+                { "logger", new Dictionary<string, object>
                     {
                         { "redirectUnityLogs", true }
                     }
