@@ -247,8 +247,8 @@ namespace Silk
             try
             {
                 Assembly bepInExPreloader = Assembly.LoadFrom(path);
-                var entryPointMethod = bepInExPreloader.GetType("BepInEx.Preloader.Entrypoint", true)
-                    ?.GetMethod("Main");
+                var entryPointMethod = bepInExPreloader.GetType("Doorstop.Entrypoint", true)
+                    ?.GetMethod("Start");
 
                 entryPointMethod?.Invoke(null, null);
                 Logger.LogInfo("Successfully loaded BepInEx.Preloader.dll");
