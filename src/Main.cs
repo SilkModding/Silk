@@ -18,18 +18,9 @@ namespace Silk
         /// </summary>
         public static void Run()
         {
-            // Initialize - This also starts the logger
             Logger.LogInfo("Starting Silk...");
 
-            // Hook into Unity's scene loading process after Unity has loaded -- https://harmony.pardeike.net/articles/patching-edgecases.html#patching-too-early-missingmethodexception-in-unity
-            HookIntoSceneLoading();
-
-            // Test logging
-            if (Config.GetConfigValue<bool>("debug.testLogging"))
-            {
-                TestLogging();
-            }
-
+            // Load BepInEx FIRST, before touching ANY Unity types
             if (BepInExPresent)
             {
                 Logger.LogInfo("BepInEx was found, attempting to load it...");
@@ -48,13 +39,25 @@ namespace Silk
             {
                 Logger.LogWarning("BepInEx was not found, skipping...");
             }
+
+            // Use reflection to avoid loading Unity assemblies until now
+            typeof(Main).Assembly.GetType("Silk.UnityLoader")
+                .GetMethod("Initialize")
+                .Invoke(null, null);
+
+            // Test logging
+            if (Config.GetConfigValue<bool>("debug.testLogging"))
+            {
+                TestLogging();
+            }
         }
 
         /// <summary>
         /// Hooks into Unity's scene loading process by attaching a scene loaded listener to the SceneManager.
         /// This is necessary because we need to wait until Unity has finished loading before we can load mods.
+        /// https://harmony.pardeike.net/articles/patching-edgecases.html#patching-too-early-missingmethodexception-in-unity
         /// </summary>
-        private static void HookIntoSceneLoading()
+        public static void HookIntoSceneLoading()
         {
             if (!hooked)
             {   
