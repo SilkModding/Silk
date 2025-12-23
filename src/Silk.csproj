@@ -5,10 +5,10 @@
     <LangVersion>10.0</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.6.1</Version>
-    <AssemblyVersion>0.6.1</AssemblyVersion>
-    <FileVersion>0.6.1</FileVersion>
-    <InformationalVersion>0.6.1</InformationalVersion>
+    <Version>0.7.0</Version>
+    <AssemblyVersion>0.7.0</AssemblyVersion>
+    <FileVersion>0.7.0</FileVersion>
+    <InformationalVersion>0.7.0</InformationalVersion>
   </PropertyGroup>
 
   <ItemGroup>
