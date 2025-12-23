@@ -42,12 +42,9 @@ namespace SilkTestMod
             };
         }
 
-        // This is called when unity is readys
+        // This is called when unity is ready
         public void Awake()
         {
-            // This is called when unity is ready
-            Logger.LogInfo("Awake called.");
-
             // Apply Harmony patches
             Logger.LogInfo("Applying Harmony patches...");
 
@@ -96,7 +93,6 @@ namespace SilkTestMod
             }
         }
 
-
         private void KillEnemies()
         {
             EnemyHealthSystem[] array = FindObjectsOfType<EnemyHealthSystem>();
@@ -105,17 +101,6 @@ namespace SilkTestMod
                 array[i].Disintegrate();
             }
             Logger.LogInfo($"Killed {array.Length} enemies.");
-        }
-
-        /// <summary>
-        /// Unloads the Silk Example Mod.
-        /// </summary>
-        /// <remarks>
-        /// This method is called by Silk when the mod is unloaded.
-        /// </remarks>
-        public override void Unload()
-        {
-            Logger.LogInfo("Unloading Silk Example Mod...");
         }
 
         /// <summary>

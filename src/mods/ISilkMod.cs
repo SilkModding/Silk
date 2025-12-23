@@ -13,9 +13,12 @@ namespace Silk
         public abstract void Initialize();
 
         /// <summary>
-        /// Unloads the mod.
+        /// Unloads the mod. Override this method if your mod needs cleanup logic.
         /// </summary>
-        public abstract void Unload();
+        public virtual void Unload()
+        {
+            // Default implementation does nothing - mods can override if needed
+        }
     }
 }
 

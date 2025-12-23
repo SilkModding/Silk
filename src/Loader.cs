@@ -57,7 +57,7 @@ namespace Silk
 
             LogSummary();
 
-            Logger.LogInfo("Setting up mods...");
+            // Create the mods Gameobject and setup mods
             Mods.Manager.SetupMods();
 
             if (FailedMods.Any())
@@ -111,6 +111,30 @@ namespace Silk
             var modData = ExtractModData(silkModAttribute, type.Name);
 
             LogModInfo(modData);
+
+            // Check version compatibility
+            var currentSilkVersion = Main.GetSilkVersion();
+            var ignoreVersionMismatch = Config.GetConfigValue<bool>("loader.ignoreVersionMismatch");
+            
+            if (currentSilkVersion == null)
+            {
+                Logger.LogWarning($"Unable to determine current Silk version. Cannot verify compatibility for mod '{modData.ModName}'.");
+            }
+            else if (!VersionsMatch(modData.ModSilkVersion, currentSilkVersion))
+            {
+                Logger.LogWarning($"Version mismatch: Mod '{modData.ModName}' targets Silk v{modData.ModSilkVersion}, but current version is v{currentSilkVersion}");
+                
+                if (!ignoreVersionMismatch)
+                {
+                    Logger.LogWarning($"Skipping mod '{modData.ModName}' due to version mismatch. Set 'loader.ignoreVersionMismatch' to true in config to load anyway.");
+                    FailedMods.Add(modData);
+                    return;
+                }
+                else
+                {
+                    Logger.LogWarning($"Attempting to load mod '{modData.ModName}' despite version mismatch...");
+                }
+            }
 
             if (modData.ModNetworkingType == NetworkingType.Server || modData.ModNetworkingType == NetworkingType.Both)
             {
@@ -185,12 +209,28 @@ namespace Silk
 
         private static void LogModInfo(SilkModData modData)
         {
-            Logger.LogInfo($"Found Mod: {modData.ModName} by {string.Join(", ", modData.ModAuthors)}");
-            Logger.LogInfo($"  Version: {modData.ModVersion}");
-            Logger.LogInfo($"  Silk Version: {modData.ModSilkVersion}");
-            Logger.LogInfo($"  ID: {modData.ModId}");
-            Logger.LogInfo($"  EntryPoint: {modData.ModEntryPoint}");
-            Logger.LogInfo($"  Networking: {modData.ModNetworkingType}");
+            var authors = string.Join(", ", modData.ModAuthors);
+            Logger.LogInfo($"━━━ {modData.ModName} v{modData.ModVersion} by {authors} ━━━");
+            Logger.LogInfo($"Silk Version: {modData.ModSilkVersion}");
+            Logger.LogInfo($"ID: {modData.ModId}");
+            
+            // Only log networking type if it's not None
+            if (modData.ModNetworkingType != NetworkingType.None)
+            {
+                Logger.LogInfo($"Networking: {modData.ModNetworkingType}");
+            }
+        }
+
+        /// <summary>
+        /// Compares two version strings, ignoring build metadata (everything after '+').
+        /// </summary>
+        private static bool VersionsMatch(string version1, string version2)
+        {
+            // Strip build metadata (everything after '+') from both versions
+            var v1 = version1?.Split('+')[0] ?? string.Empty;
+            var v2 = version2?.Split('+')[0] ?? string.Empty;
+            
+            return v1.Equals(v2, StringComparison.OrdinalIgnoreCase);
         }
 
         private static void LogSummary()

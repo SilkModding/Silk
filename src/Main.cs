@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Reflection;
 using UnityEngine.SceneManagement;
 
 namespace Silk
@@ -11,6 +12,40 @@ namespace Silk
 
         // Flag to make sure we only hook into the scene loading once
         private static bool hooked = false;
+
+        private static string? _cachedVersion = null;
+
+        /// <summary>
+        /// Gets the current Silk version from the assembly's informational version attribute.
+        /// </summary>
+        public static string? GetSilkVersion()
+        {
+            if (_cachedVersion != null)
+                return _cachedVersion;
+
+            try
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                var versionAttribute = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+                
+                if (versionAttribute != null)
+                {
+                    _cachedVersion = versionAttribute.InformationalVersion;
+                }
+                else
+                {
+                    // Fallback to assembly version
+                    _cachedVersion = assembly.GetName().Version?.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError($"Failed to get Silk version: {ex.Message}");
+                _cachedVersion = null;
+            }
+
+            return _cachedVersion;
+        }
 
         /// <summary>
         /// The main entry point of the mod loader.

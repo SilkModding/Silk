@@ -34,7 +34,6 @@ namespace Silk.Mods
             }
 
             // Some logging
-            Logger.LogInfo("Initializing mods...");
             Logger.LogInfo($"Found {Mods.Count} mods");
             Logger.LogInfo(string.Join(", ", Mods.Select(m => m.GetType().Name)));
 

@@ -57,7 +57,8 @@ namespace Doorstop
                 },
                 { "loader", new Dictionary<string, object>
                     {
-                        { "modFilePattern", "*.dll" }
+                        { "modFilePattern", "*.dll" },
+                        { "ignoreVersionMismatch", false }
                     }
                 },
                 { "patcher", new Dictionary<string, object>
